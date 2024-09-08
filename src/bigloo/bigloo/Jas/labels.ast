@@ -1,0 +1,816 @@
+;; =========================================================
+;; The AST (Reduction)
+;; Bigloo (2.5d)
+;; Inria -- Sophia Antipolis        Thu Dec 19 15:24:26 CET 2002 
+;; =========================================================
+
+;; module-initialization
+;; long x string -> obj
+;; [export  side-effect: #t  occ: 0  rm: now  loc: #f  user?: #t]
+(define
+  (module-initialization checksum from)
+  (if (obj->bool require-initialization)
+      (begin (set! require-initialization (bool->bbool #f))
+             #unspecified
+             (library-modules-init)
+             (tvector2218-init)
+             (cnst-init)
+             (imported-modules-init)
+             (method-init)
+             (toplevel-init)
+             #unspecified)
+      #unspecified))
+;; library-modules-init
+;;  -> obj
+;; [static  side-effect: #t  occ: 1  rm: cgen  loc: #{location ./Jas/labels.scm 1 1}  user?: #f]
+(define
+  (library-modules-init)
+  (begin ((@ module-initialization __r4_numbers_6_5)
+          0
+          "jas_labels")
+         ((@ module-initialization
+             __r4_pairs_and_lists_6_3)
+          0
+          "jas_labels")
+         ((@ module-initialization __tvector)
+          0
+          "jas_labels")
+         ((@ module-initialization __reader)
+          0
+          "jas_labels")
+         ((@ module-initialization __r4_equivalence_6_2)
+          0
+          "jas_labels")
+         ((@ module-initialization __r4_numbers_6_5_fixnum)
+          0
+          "jas_labels")
+         ((@ module-initialization __r4_symbols_6_4)
+          0
+          "jas_labels")
+         #unspecified))
+;; cnst-init
+;;  -> obj
+;; [static  side-effect: #t  occ: 1  rm: cgen  loc: #{location ./Jas/labels.scm 1 1}  user?: #f]
+(define
+  (cnst-init)
+  (begin (let ((cport (c-open-input-string string2362)))
+              (labels
+                ((loop (i)
+                       (if (c-=fx i -1)
+                           #unspecified
+                           (begin (cnst-table-set!
+                                    (long->int i)
+                                    (read (c-cons cport '())))
+                                  (loop (int->long (long->int (c--fx i 1))))))))
+                (loop 4)))
+         (tvector-descr-set!
+           tvec2356
+           (get-tvector-descriptor
+             (cnst-table-ref (long->int 0))))))
+;; toplevel-init
+;;  -> obj
+;; [static  side-effect: #t  occ: 1  rm: cgen  loc: #{location ./Jas/labels.scm 1 1}  user?: #t]
+(define
+  (toplevel-init)
+  (begin (set! resolve-labels proc2355)
+         (set! *opcode-size* tvec2356)))
+;; <anonymous:1432>
+;; procedure x obj x obj -> obj
+;; [static  side-effect: #t  occ: 1  rm: now  loc: #{location ./Jas/labels.scm 108 8}  user?: #t]
+(define
+  (<anonymous:1432> env classfile l)
+  (labels
+    ((<anonymous:1432>
+       (classfile l)
+       (begin (begin (labels
+                       ((fixpoint
+                          ()
+                          (if (obj->bool (wide-conditionals classfile l))
+                              (cnst-table-ref 1)
+                              (fixpoint))))
+                       (fixpoint))
+                     (resolve-definitive-labels classfile l)))))
+    (<anonymous:1432> classfile l)))
+;; wide-conditionals
+;; obj x obj -> obj
+;; [static  side-effect: #t  occ: 1  rm: now  loc: #{location ./Jas/labels.scm 295 18}  user?: #t]
+(define
+  (wide-conditionals classfile l)
+  (let ((env (resolve-pc classfile l)))
+       (labels
+         ((rev (cop)
+               (if (c-<=fx (bint->long cop) 166)
+                   (c-+fx (bint->long cop)
+                          (c--fx (c-*fx 2 (c-remainder (bint->long cop) 2))
+                                 1))
+                   (if (c-=fx (bint->long cop) 198) 199 198)))
+          (walk1 (l ins pc r)
+                 (let ((aux1414 (c-car ins)))
+                      (if (c-fixnum? aux1414)
+                          (case (bint->long aux1414)
+                                ((153
+                                  154
+                                  155
+                                  156
+                                  157
+                                  158
+                                  159
+                                  160
+                                  161
+                                  162
+                                  163
+                                  164
+                                  165
+                                  166
+                                  198
+                                  199)
+                                 (let ((test1474
+                                         (let ((arg1666
+                                                 (let ((arg1672
+                                                         (let ((arg1677
+                                                                 (get-target'
+                                                                   classfile
+                                                                   env
+                                                                   (c-car (c-cdr ins)))))
+                                                              (c--fx (bint->long
+                                                                       arg1677)
+                                                                     pc))))
+                                                      (if (c-<fx arg1672 0)
+                                                          (c-negfx arg1672)
+                                                          arg1672))))
+                                              (c->fx arg1666 32752))))
+                                      (if test1474
+                                          (let ((lab (funcall
+                                                       gensym
+                                                       gensym
+                                                       string2357
+                                                       __eoa__)))
+                                               (begin (let ((arg1476
+                                                              (let ((arg1479
+                                                                      (rev (c-car ins)))
+                                                                    (arg1481
+                                                                      (c-cons
+                                                                        lab
+                                                                        '())))
+                                                                   (c-cons
+                                                                     (long->bint
+                                                                       arg1479)
+                                                                     arg1481))))
+                                                           (c-set-car!
+                                                             l
+                                                             arg1476))
+                                                      (c-set-cdr!
+                                                        l
+                                                        (c-cons
+                                                          (c-cons
+                                                            (long->bint 200)
+                                                            (c-cons
+                                                              (c-car (c-cdr ins))
+                                                              '()))
+                                                          (c-cons
+                                                            lab
+                                                            (eappend-2
+                                                              (c-cdr l)
+                                                              '()))))
+                                                      bfalse))
+                                          r)))
+                                ((167 168)
+                                 (let ((test1525
+                                         (let ((arg1666
+                                                 (let ((arg1672
+                                                         (let ((arg1677
+                                                                 (get-target'
+                                                                   classfile
+                                                                   env
+                                                                   (c-car (c-cdr ins)))))
+                                                              (c--fx (bint->long
+                                                                       arg1677)
+                                                                     pc))))
+                                                      (if (c-<fx arg1672 0)
+                                                          (c-negfx arg1672)
+                                                          arg1672))))
+                                              (c->fx arg1666 32752))))
+                                      (if test1525
+                                          (begin (c-set-car!
+                                                   ins
+                                                   (long->bint
+                                                     (c-+fx 200
+                                                            (c--fx (bint->long
+                                                                     (c-car ins))
+                                                                   167))))
+                                                 bfalse)
+                                          r)))
+                                ((202)
+                                 (let ((E-102 (c-cdr ins)))
+                                      (if (c-pair? E-102)
+                                          (let ((CDR-112 (c-cdr E-102)))
+                                               (if (c-pair? CDR-112)
+                                                   (let ((CDR-118
+                                                           (c-cdr CDR-112)))
+                                                        (if (c-pair? CDR-118)
+                                                            (let ((CDR-123
+                                                                    (c-cdr CDR-118)))
+                                                                 (if (c-pair?
+                                                                       CDR-123)
+                                                                     (if (equal?
+                                                                           (c-cdr CDR-123)
+                                                                           '())
+                                                                         (let ((arg1553
+                                                                                 (c-car CDR-118)))
+                                                                              (let ((test1575
+                                                                                      (let ((test1577
+                                                                                              (let ((arg1586
+                                                                                                      (get-target'
+                                                                                                        classfile
+                                                                                                        env
+                                                                                                        (c-car CDR-112))))
+                                                                                                   (c->=fx
+                                                                                                     (bint->long
+                                                                                                       arg1586)
+                                                                                                     65536))))
+                                                                                           (if test1577
+                                                                                               #t
+                                                                                               (let ((arg1579
+                                                                                                       (get-target'
+                                                                                                         classfile
+                                                                                                         env
+                                                                                                         arg1553)))
+                                                                                                    (c->=fx
+                                                                                                      (bint->long
+                                                                                                        arg1579)
+                                                                                                      65536))))))
+                                                                                   (if test1575
+                                                                                       (jas-error
+                                                                                         (cast::classfile
+                                                                                           classfile)
+                                                                                         string2358
+                                                                                         ins)
+                                                                                       r)))
+                                                                         bfalse)
+                                                                     bfalse))
+                                                            bfalse))
+                                                   bfalse))
+                                          bfalse)))
+                                ((205)
+                                 (let ((E-130 (c-cdr ins)))
+                                      (if (c-pair? E-130)
+                                          (let ((CDR-142 (c-cdr E-130)))
+                                               (if (c-pair? CDR-142)
+                                                   (let ((CDR-149
+                                                           (c-cdr CDR-142)))
+                                                        (if (c-pair? CDR-149)
+                                                            (let ((CDR-155
+                                                                    (c-cdr CDR-149)))
+                                                                 (if (c-pair?
+                                                                       CDR-155)
+                                                                     (let ((CDR-160
+                                                                             (c-cdr CDR-155)))
+                                                                          (if (c-pair?
+                                                                                CDR-160)
+                                                                              (if (equal?
+                                                                                    (c-cdr CDR-160)
+                                                                                    '())
+                                                                                  (let ((arg1601
+                                                                                          (c-car CDR-142)))
+                                                                                       (let ((test1628
+                                                                                               (let ((test1630
+                                                                                                       (let ((arg1637
+                                                                                                               (get-target'
+                                                                                                                 classfile
+                                                                                                                 env
+                                                                                                                 (c-car E-130))))
+                                                                                                            (c->=fx
+                                                                                                              (bint->long
+                                                                                                                arg1637)
+                                                                                                              65536))))
+                                                                                                    (if test1630
+                                                                                                        #t
+                                                                                                        (let ((arg1632
+                                                                                                                (get-target'
+                                                                                                                  classfile
+                                                                                                                  env
+                                                                                                                  arg1601)))
+                                                                                                             (c->=fx
+                                                                                                               (bint->long
+                                                                                                                 arg1632)
+                                                                                                               65536))))))
+                                                                                            (if test1628
+                                                                                                (jas-error
+                                                                                                  (cast::classfile
+                                                                                                    classfile)
+                                                                                                  string2359
+                                                                                                  ins)
+                                                                                                r)))
+                                                                                  bfalse)
+                                                                              bfalse))
+                                                                     bfalse))
+                                                            bfalse))
+                                                   bfalse))
+                                          bfalse)))
+                                (else r))
+                          r))))
+         (labels
+           ((walk (l pc r)
+                  (if (c-null? l)
+                      (begin r)
+                      (if (c-symbol? (c-car l))
+                          (begin (walk (c-cdr l) pc r))
+                          (begin (let ((arg1450 (c-cdr l))
+                                       (arg1451
+                                         (let ((arg1457
+                                                 (size-ins
+                                                   (c-car l)
+                                                   (long->bint pc))))
+                                              (c-+fx pc (bint->long arg1457))))
+                                       (arg1452 (walk1 l (c-car l) pc r)))
+                                      (walk arg1450 arg1451 arg1452)))))))
+           (walk l 0 btrue)))))
+;; get-target'
+;; obj x obj x obj -> obj
+;; [static  side-effect: #t  occ: 6  rm: now  loc: #{location ./Jas/labels.scm 488 22}  user?: #t]
+(define
+  (get-target' classfile env label)
+  (let ((arg1682
+          (let ((_ortest_1412 (assq label env)))
+               (if (obj->bool _ortest_1412)
+                   _ortest_1412
+                   (jas-error
+                     (cast::classfile classfile)
+                     string2360
+                     label)))))
+       (c-cdr arg1682)))
+;; resolve-definitive-labels
+;; obj x obj -> pair-nil
+;; [static  side-effect: #t  occ: 1  rm: now  loc: #{location ./Jas/labels.scm 1886 73}  user?: #t]
+(define
+  (resolve-definitive-labels classfile l)
+  (let ((env (resolve-pc classfile l)))
+       (labels
+         ((resolve-label
+            (ins pc)
+            (begin (let ((aux1417 (c-car ins)))
+                        (if (c-fixnum? aux1417)
+                            (case (bint->long aux1417)
+                                  ((153
+                                    154
+                                    155
+                                    156
+                                    157
+                                    158
+                                    159
+                                    160
+                                    161
+                                    162
+                                    163
+                                    164
+                                    165
+                                    166
+                                    167
+                                    168
+                                    198
+                                    199)
+                                   (let ((arg1728
+                                           (let ((arg1733 (c-car (c-cdr ins))))
+                                                (let ((d (2- (get-target
+                                                               classfile
+                                                               env
+                                                               arg1733)
+                                                             pc)))
+                                                     (if (2> (abs d)
+                                                             (long->bint 32752))
+                                                         (jas-error
+                                                           (cast::classfile
+                                                             classfile)
+                                                           string2361
+                                                           arg1733)
+                                                         (u2 (bint->int d)))))))
+                                        (c-cons aux1417 arg1728)))
+                                  ((200 201)
+                                   (let ((arg1739
+                                           (let ((arg2009
+                                                   (2- (get-target
+                                                         classfile
+                                                         env
+                                                         (c-car (c-cdr ins)))
+                                                       pc)))
+                                                (u4 (bint->int arg2009)))))
+                                        (c-cons aux1417 arg1739)))
+                                  ((170)
+                                   (let ((arg1751
+                                           (let ((arg1754
+                                                   (case (modulo
+                                                           (bint->long pc)
+                                                           4)
+                                                         ((0)
+                                                          (cnst-table-ref 2))
+                                                         ((1)
+                                                          (cnst-table-ref 3))
+                                                         ((2)
+                                                          (cnst-table-ref 4))
+                                                         (else '())))
+                                                 (arg1755
+                                                   (let ((arg1759
+                                                           (let ((arg2009
+                                                                   (2- (get-target
+                                                                         classfile
+                                                                         env
+                                                                         (c-car (c-cdr ins)))
+                                                                       pc)))
+                                                                (u4 (bint->int
+                                                                      arg2009))))
+                                                         (arg1760
+                                                           (let ((arg1768
+                                                                   (u4 (bint->int
+                                                                         (c-car (c-cdr (c-cdr ins))))))
+                                                                 (arg1770
+                                                                   (let ((arg1778
+                                                                           (u4 (bint->int
+                                                                                 (2- (2+ (c-car (c-cdr (c-cdr ins)))
+                                                                                         (long->bint
+                                                                                           (length
+                                                                                             (c-cdr (c-cdr (c-cdr ins))))))
+                                                                                     (long->bint
+                                                                                       1)))))
+                                                                         (arg1779
+                                                                           (let ((arg1800
+                                                                                   (let ((runner1843
+                                                                                           (let ((l1418 (c-cdr (c-cdr (c-cdr ins)))))
+                                                                                                (if (c-null?
+                                                                                                      l1418)
+                                                                                                    '()
+                                                                                                    (let ((head1420
+                                                                                                            (let ((arg1834
+                                                                                                                    (let ((arg2009
+                                                                                                                            (2- (get-target
+                                                                                                                                  classfile
+                                                                                                                                  env
+                                                                                                                                  (c-car l1418))
+                                                                                                                                pc)))
+                                                                                                                         (u4 (bint->int
+                                                                                                                               arg2009)))))
+                                                                                                                 (c-cons
+                                                                                                                   arg1834
+                                                                                                                   '()))))
+                                                                                                         (labels
+                                                                                                           ((lname1419
+                                                                                                              (l1418 tail1421)
+                                                                                                              (if (c-null?
+                                                                                                                    l1418)
+                                                                                                                  head1420
+                                                                                                                  (let ((newtail1422
+                                                                                                                          (let ((arg1825
+                                                                                                                                  (let ((arg2009
+                                                                                                                                          (2- (get-target
+                                                                                                                                                classfile
+                                                                                                                                                env
+                                                                                                                                                (c-car l1418))
+                                                                                                                                              pc)))
+                                                                                                                                       (u4 (bint->int
+                                                                                                                                             arg2009)))))
+                                                                                                                               (c-cons
+                                                                                                                                 arg1825
+                                                                                                                                 '()))))
+                                                                                                                       (begin (c-set-cdr!
+                                                                                                                                tail1421
+                                                                                                                                newtail1422)
+                                                                                                                              (lname1419
+                                                                                                                                (c-cdr l1418)
+                                                                                                                                newtail1422))))))
+                                                                                                           (lname1419
+                                                                                                             (c-cdr l1418)
+                                                                                                             head1420)))))))
+                                                                                        (append
+                                                                                          runner1843))))
+                                                                                (eappend-2
+                                                                                  arg1800
+                                                                                  '()))))
+                                                                        (eappend-2
+                                                                          arg1778
+                                                                          arg1779))))
+                                                                (eappend-2
+                                                                  arg1768
+                                                                  arg1770))))
+                                                        (eappend-2
+                                                          arg1759
+                                                          arg1760))))
+                                                (eappend-2 arg1754 arg1755))))
+                                        (c-cons (long->bint 170) arg1751)))
+                                  ((171)
+                                   (let ((arg1846
+                                           (let ((arg1849
+                                                   (case (modulo
+                                                           (bint->long pc)
+                                                           4)
+                                                         ((0)
+                                                          (cnst-table-ref 2))
+                                                         ((1)
+                                                          (cnst-table-ref 3))
+                                                         ((2)
+                                                          (cnst-table-ref 4))
+                                                         (else '())))
+                                                 (arg1850
+                                                   (let ((arg1854
+                                                           (let ((arg2009
+                                                                   (2- (get-target
+                                                                         classfile
+                                                                         env
+                                                                         (c-car (c-cdr ins)))
+                                                                       pc)))
+                                                                (u4 (bint->int
+                                                                      arg2009))))
+                                                         (arg1856
+                                                           (let ((arg1863
+                                                                   (u4 (long->int
+                                                                         (length
+                                                                           (c-cdr (c-cdr ins))))))
+                                                                 (arg1864
+                                                                   (let ((arg1875
+                                                                           (let ((runner1921
+                                                                                   (let ((l1423 (c-cdr (c-cdr ins))))
+                                                                                        (if (c-null?
+                                                                                              l1423)
+                                                                                            '()
+                                                                                            (let ((head1425
+                                                                                                    (c-cons
+                                                                                                      '()
+                                                                                                      '())))
+                                                                                                 (labels
+                                                                                                   ((lname1424
+                                                                                                      (l1423 tail1426)
+                                                                                                      (if (c-null?
+                                                                                                            l1423)
+                                                                                                          (c-cdr head1425)
+                                                                                                          (let ((newtail1427
+                                                                                                                  (let ((arg1893
+                                                                                                                          (let ((x (c-car l1423)))
+                                                                                                                               (let ((arg1901
+                                                                                                                                       (u4 (bint->int
+                                                                                                                                             (c-car x))))
+                                                                                                                                     (arg1902
+                                                                                                                                       (let ((arg2009
+                                                                                                                                               (2- (get-target
+                                                                                                                                                     classfile
+                                                                                                                                                     env
+                                                                                                                                                     (c-cdr x))
+                                                                                                                                                   pc)))
+                                                                                                                                            (u4 (bint->int
+                                                                                                                                                  arg2009)))))
+                                                                                                                                    (append-2
+                                                                                                                                      arg1901
+                                                                                                                                      arg1902)))))
+                                                                                                                       (c-cons
+                                                                                                                         arg1893
+                                                                                                                         '()))))
+                                                                                                               (begin (c-set-cdr!
+                                                                                                                        tail1426
+                                                                                                                        newtail1427)
+                                                                                                                      (lname1424
+                                                                                                                        (c-cdr l1423)
+                                                                                                                        newtail1427))))))
+                                                                                                   (lname1424
+                                                                                                     l1423
+                                                                                                     head1425)))))))
+                                                                                (append
+                                                                                  runner1921))))
+                                                                        (eappend-2
+                                                                          arg1875
+                                                                          '()))))
+                                                                (eappend-2
+                                                                  arg1863
+                                                                  arg1864))))
+                                                        (eappend-2
+                                                          arg1854
+                                                          arg1856))))
+                                                (eappend-2 arg1849 arg1850))))
+                                        (c-cons (long->bint 171) arg1846)))
+                                  ((202)
+                                   (let ((E-167 (c-cdr ins)))
+                                        (if (c-pair? E-167)
+                                            (let ((CDR-177 (c-cdr E-167)))
+                                                 (if (c-pair? CDR-177)
+                                                     (let ((CDR-183
+                                                             (c-cdr CDR-177)))
+                                                          (if (c-pair? CDR-183)
+                                                              (let ((CDR-188
+                                                                      (c-cdr CDR-183)))
+                                                                   (if (c-pair?
+                                                                         CDR-188)
+                                                                       (if (equal?
+                                                                             (c-cdr CDR-188)
+                                                                             '())
+                                                                           (let ((arg1934
+                                                                                   (c-car CDR-188)))
+                                                                                (let ((arg1955
+                                                                                        (get-target
+                                                                                          classfile
+                                                                                          env
+                                                                                          (c-car E-167)))
+                                                                                      (arg1956
+                                                                                        (get-target
+                                                                                          classfile
+                                                                                          env
+                                                                                          (c-car CDR-177)))
+                                                                                      (arg1957
+                                                                                        (get-target
+                                                                                          classfile
+                                                                                          env
+                                                                                          (c-car CDR-183))))
+                                                                                     (c-cons
+                                                                                       (long->bint
+                                                                                         202)
+                                                                                       (c-cons
+                                                                                         arg1955
+                                                                                         (c-cons
+                                                                                           arg1956
+                                                                                           (c-cons
+                                                                                             arg1957
+                                                                                             (c-cons
+                                                                                               arg1934
+                                                                                               '())))))))
+                                                                           bfalse)
+                                                                       bfalse))
+                                                              bfalse))
+                                                     bfalse))
+                                            bfalse)))
+                                  ((205)
+                                   (let ((E-195 (c-cdr ins)))
+                                        (if (c-pair? E-195)
+                                            (let ((CDR-203 (c-cdr E-195)))
+                                                 (if (c-pair? CDR-203)
+                                                     (let ((arg1981
+                                                             (c-cdr CDR-203)))
+                                                          (let ((b (get-target
+                                                                     classfile
+                                                                     env
+                                                                     (c-car E-195)))
+                                                                (e (get-target
+                                                                     classfile
+                                                                     env
+                                                                     (c-car CDR-203))))
+                                                               (c-cons
+                                                                 (long->bint
+                                                                   205)
+                                                                 (c-cons
+                                                                   b
+                                                                   (c-cons
+                                                                     (long->bint
+                                                                       (c--fx (bint->long
+                                                                                e)
+                                                                              (bint->long
+                                                                                b)))
+                                                                     arg1981)))))
+                                                     bfalse))
+                                            bfalse)))
+                                  (else ins))
+                            ins)))))
+         (labels
+           ((walk (l pc done)
+                  (if (c-null? l)
+                      (begin (reverse! done))
+                      (if (c-symbol? (c-car l))
+                          (begin (walk (c-cdr l) pc done))
+                          (begin (walk (c-cdr l)
+                                       (2+ pc (size-ins (c-car l) pc))
+                                       (c-cons
+                                         (resolve-label (c-car l) pc)
+                                         done)))))))
+           (walk l (long->bint 0) '())))))
+;; get-target
+;; obj x obj x obj -> obj
+;; [static  side-effect: #t  occ: 12  rm: now  loc: #{location ./Jas/labels.scm 2126 78}  user?: #t]
+(define
+  (get-target classfile env label)
+  (let ((arg2032
+          (let ((_ortest_1415 (assq label env)))
+               (if (obj->bool _ortest_1415)
+                   _ortest_1415
+                   (jas-error
+                     (cast::classfile classfile)
+                     string2360
+                     label)))))
+       (c-cdr arg2032)))
+;; size-ins
+;; obj x obj -> obj
+;; [static  side-effect: #t  occ: 3  rm: now  loc: #{location ./Jas/labels.scm 4514 150}  user?: #t]
+(define
+  (size-ins ins pc)
+  (let ((size (vref *opcode-size* (bint->int (c-car ins)))))
+       (if (c-=fx size 0)
+           (let ((aux1431 (c-car ins)))
+                (if (c-fixnum? aux1431)
+                    (case (bint->long aux1431)
+                          ((170)
+                           (long->bint
+                             (let ((z2 (let ((z1 (length
+                                                   (case (modulo
+                                                           (bint->long pc)
+                                                           4)
+                                                         ((0)
+                                                          (cnst-table-ref 2))
+                                                         ((1)
+                                                          (cnst-table-ref 3))
+                                                         ((2)
+                                                          (cnst-table-ref 4))
+                                                         (else '()))))
+                                             (z2 (c-*fx 4 (length ins))))
+                                            (c-+fx z1 z2))))
+                                  (c-+fx 1 z2))))
+                          ((171)
+                           (long->bint
+                             (let ((z2 (let ((z1 (length
+                                                   (case (modulo
+                                                           (bint->long pc)
+                                                           4)
+                                                         ((0)
+                                                          (cnst-table-ref 2))
+                                                         ((1)
+                                                          (cnst-table-ref 3))
+                                                         ((2)
+                                                          (cnst-table-ref 4))
+                                                         (else '()))))
+                                             (z2 (c-+fx 8
+                                                        (c-*fx 8
+                                                               (length
+                                                                 (c-cdr (c-cdr ins)))))))
+                                            (c-+fx z1 z2))))
+                                  (c-+fx 1 z2))))
+                          ((196)
+                           (if (2= (c-car (c-cdr ins)) (long->bint 132))
+                               (long->bint 6)
+                               (long->bint 4)))
+                          ((202) (long->bint 0))
+                          ((203) (long->bint 0))
+                          ((204) (long->bint 0))
+                          ((205) (long->bint 0))
+                          (else #unspecified))
+                    #unspecified))
+           (long->bint size))))
+;; resolve-pc
+;; obj x obj -> obj
+;; [static  side-effect: #t  occ: 2  rm: now  loc: #{location ./Jas/labels.scm 5023 172}  user?: #t]
+(define
+  (resolve-pc classfile code)
+  (begin (labels
+           ((analyse-pc
+              (l env pc)
+              (if (c-null? l)
+                  (begin env)
+                  (if (c-symbol? (c-car l))
+                      (begin (analyse-pc
+                               (c-cdr l)
+                               (c-cons (c-cons (c-car l) pc) env)
+                               pc))
+                      (begin (analyse-pc
+                               (c-cdr l)
+                               env
+                               (2+ pc (size-ins (c-car l) pc))))))))
+           (analyse-pc code '() (long->bint 0)))))
+;; method-init
+;;  -> obj
+;; [static  side-effect: #f  occ: 1  rm: cgen  loc: #{location ./Jas/labels.scm 1 1}  user?: #f]
+(define (method-init) #unspecified)
+;; imported-modules-init
+;;  -> obj
+;; [static  side-effect: #t  occ: 1  rm: cgen  loc: #{location ./Jas/labels.scm 1 1}  user?: #f]
+(define
+  (imported-modules-init)
+  (begin ((@ module-initialization jas_lib)
+          63632
+          "jas_labels")
+         ((@ module-initialization jas_classfile)
+          47971
+          "jas_labels")))
+;; tvector2218-init
+;;  -> obj
+;; [static  side-effect: #t  occ: 1  rm: cgen  loc: #{location ./Jas/labels.scm 1 1}  user?: #f]
+(define
+  (tvector2218-init)
+  (set! tv-of-long-descriptor
+        (declare-tvector!
+          "tv-of-long"
+          allocate-tv-of-long-env
+          tv-of-long-ref-env
+          tv-of-long-set!-env)))
+;; _allocate-tv-of-long
+;; procedure x obj -> obj
+;; [static  side-effect: #t  occ: 1  rm: now  loc: #f  user?: #t]
+(define
+  (_allocate-tv-of-long env len)
+  (let ((res2386
+          (let ((len (bint->int len)))
+               (let ((o (vnew len)))
+                    (begin (tvector-descr-set! o tv-of-long-descriptor)
+                           o)))))
+       res2386))
+;; _tv-of-long-set!
+;; procedure x obj x obj x obj -> obj
+;; [static  side-effect: #t  occ: 1  rm: now  loc: #f  user?: #t]
+(define
+  (_tv-of-long-set! env tv o v)
+  (vset! tv (bint->int o) (bint->long v)))
+;; _tv-of-long-ref
+;; procedure x obj x obj -> obj
+;; [static  side-effect: #t  occ: 1  rm: now  loc: #f  user?: #t]
+(define
+  (_tv-of-long-ref env tv o)
+  (long->bint (vref tv (bint->int o))))

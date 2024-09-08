@@ -1,0 +1,228 @@
+#*--- init ------------------------------------------------------------*/
+INIT_FILE_NOMAIN= parse-args setrc extend
+INIT_FILE	= $(INIT_FILE_NOMAIN) main
+
+INIT_OBJ_NOMAIN	= $(INIT_FILE_NOMAIN:%=Init/%.o)
+INIT_OBJ	= $(INIT_FILE:%=Init/%.o)
+
+#*--- tools -----------------------------------------------------------*/
+TOOLS_FILE	= args location progn trace speek error shape misc date \
+                  dsssl license
+
+TOOLS_OBJ	= $(TOOLS_FILE:%=Tools/%.o)
+
+#*--- engine ----------------------------------------------------------*/
+ENGINE_FILE	= compiler engine param interp link signals pass \
+                  configure
+
+ENGINE_OBJ	= $(ENGINE_FILE:%=Engine/%.o)
+
+#*--- heap ------------------------------------------------------------*/
+HEAP_FILE	= restore make
+
+HEAP_OBJ	= $(HEAP_FILE:%=Heap/%.o)
+
+#*--- write -----------------------------------------------------------*/
+WRITE_FILE	= version expanded scheme ast
+
+WRITE_OBJ	= $(WRITE_FILE:%=Write/%.o)
+
+#*--- read ------------------------------------------------------------*/
+READ_FILE	= access include src inline load reader jvm
+
+READ_OBJ	= $(READ_FILE:%=Read/%.o)
+
+#*--- module ----------------------------------------------------------*/
+MODULE_FILE	= foreign impuse main prototype with class include \
+                  module statexp eval load pragma type library checksum \
+                  option alibrary java
+
+MODULE_OBJ	= $(MODULE_FILE:%=Module/%.o)
+
+#*--- ast -------------------------------------------------------------*/
+AST_FILE	= build venv glo-decl node unit dump glo-def pragma \
+                  var find-gdefs ident remove local sexp labels let \
+                  exit substitute alphatize occur app apply lvtype \
+                  hrtype shrinkify check-init private check-sharing init
+
+AST_OBJ		= $(AST_FILE:%=Ast/%.o)
+
+#*--- cc --------------------------------------------------------------*/
+CC_FILE		= exec indent cc ld
+
+CC_OBJ		= $(CC_FILE:%=Cc/%.o)
+
+#*--- foreign ---------------------------------------------------------*/
+FOREIGN_FILE	= access cenum cptr ctype calias cfun cstruct copaque \
+                  library jtype
+ 
+FOREIGN_OBJ	= $(FOREIGN_FILE:%=Foreign/%.o)
+
+#*--- Type ------------------------------------------------------------*/
+TYPE_FILE	= cache tenv type coercion tools typeof pptype misc
+
+TYPE_OBJ	= $(TYPE_FILE:%=Type/%.o)
+
+#*--- expand ----------------------------------------------------------*/
+EXPAND_FILE	= eps assert case define expander garith iarith farith \
+                  if initial lambda let map struct exit object \
+                  srfi-0
+
+EXPAND_OBJ	= $(EXPAND_FILE:%=Expand/%.o)
+
+#*--- inline ----------------------------------------------------------*/
+INLINE_FILE	= walk inline app size simple recursion variant loop
+
+
+INLINE_OBJ	= $(INLINE_FILE:%=Inline/%.o)
+
+#*--- coerce ----------------------------------------------------------*/
+COERCE_FILE	= walk pproto coerce app funcall apply convert
+
+COERCE_OBJ	= $(COERCE_FILE:%=Coerce/%.o)
+
+#*--- globalize -------------------------------------------------------*/
+GLOBALIZE_FILE	= walk ginfo escape gn node free kapture integration \
+                  new-body loc2glo gloclo clocto globalize
+
+GLOBALIZE_OBJ	= $(GLOBALIZE_FILE:%=Globalize/%.o)
+
+#*--- cnst ------------------------------------------------------------*/
+CNST_FILE	= walk cache alloc node initialize
+
+CNST_OBJ	= $(CNST_FILE:%=Cnst/%.o)
+
+#*--- cfa -------------------------------------------------------------*/
+CFA_FILE	= app cinfo iterate set approx collect loose show walk \
+                  setup vector cfa funcall procedure struct type \
+                  closure tvector box specialize cinfo2 cinfo3 \
+                  arithmetic ltype
+
+CFA_OBJ		= $(CFA_FILE:%=Cfa/%.o)
+
+#*--- Integrate -------------------------------------------------------*/
+INTEGRATE_FILE	= walk definition iinfo a kk u g ctn cto kaptured \
+                  let-fun loc2glo node free
+
+INTEGRATE_OBJ	= $(INTEGRATE_FILE:%=Integrate/%.o)
+
+#*--- Tailc -------------------------------------------------------*/
+TAILC_FILE	= walk
+
+TAILC_OBJ	= $(TAILC_FILE:%=Tailc/%.o)
+
+#*--- Cgen ------------------------------------------------------------*/
+CGEN_FILE	= walk cop emit-cop cgen capp
+
+CGEN_OBJ	= $(CGEN_FILE:%=Cgen/%.o)
+
+#*--- Jas ------------------------------------------------------------*/
+JAS_FILE        = lib classfile opcode peep wide labels stack produce as
+
+JAS_OBJ		= $(JAS_FILE:%=Jas/%.o)
+
+#*--- BackEnd ---------------------------------------------------------*/
+BACKEND_FILE    = backend walk c jvm dotnet jsm lib cplib \
+                  c-main c-proto c-emit c-init
+
+BACKEND_OBJ	= $(BACKEND_FILE:%=BackEnd/%.o)
+
+#*--- SawMill ---------------------------------------------------------*/
+SAW_FILE        = lib defs rtl node2rtl collapse remove InlineReturn \
+		  blockorder gotos cast expr woodcutter \
+		  procedures elsewhere regalloc
+
+SAW_OBJ		= $(SAW_FILE:%=SawMill/%.o)
+
+#*--- SawC ------------------------------------------------------------*/
+SAW_C_FILE      = compile code
+
+SAW_C_OBJ	= $(SAW_C_FILE:%=SawC/%.o)
+
+#*--- SawMsil ---------------------------------------------------------*/
+SAW_MSIL_FILE	= compile type code inline maxstack funcall names out dnld
+
+SAW_MSIL_OBJ	= $(SAW_MSIL_FILE:%=SawMsil/%.o)
+
+#*--- SawJvm -----------------------------------------------------------*/
+SAW_JVM_FILE	= compile type code inline funcall names out jld
+
+SAW_JVM_OBJ	= $(SAW_JVM_FILE:%=SawJvm/%.o)
+
+#*--- SawJsm -----------------------------------------------------------*/
+SAW_JSM_FILE	= compile
+
+SAW_JSM_OBJ	= $(SAW_JSM_FILE:%=SawJsm/%.o)
+
+#*--- Hgen ------------------------------------------------------------*/
+HGEN_FILE	= walk
+
+HGEN_OBJ	= $(HGEN_FILE:%=Hgen/%.o)
+
+#*--- tvector ---------------------------------------------------------*/
+TVECTOR_FILE	= tvector access cnst
+
+TVECTOR_OBJ	= $(TVECTOR_FILE:%=Tvector/%.o)
+
+#*--- trace -----------------------------------------------------------*/
+TRACE_FILE	= walk
+
+TRACE_OBJ	= $(TRACE_FILE:%=Trace/%.o)
+
+#*--- fail ------------------------------------------------------------*/
+FAIL_FILE	= walk
+
+FAIL_OBJ	= $(FAIL_FILE:%=Fail/%.o)
+
+#*--- callcc ----------------------------------------------------------*/
+CALLCC_FILE	= walk
+
+CALLCC_OBJ	= $(CALLCC_FILE:%=Callcc/%.o)
+
+#*--- reduce ----------------------------------------------------------*/
+REDUCE_FILE	= walk cond typec copy cse same 1occ sbeta
+
+REDUCE_OBJ	= $(REDUCE_FILE:%=Reduce/%.o)
+
+#*--- effect ----------------------------------------------------------*/
+EFFECT_FILE	= effect walk cgraph spread feffect
+
+EFFECT_OBJ	= $(EFFECT_FILE:%=Effect/%.o)
+
+#*--- object ----------------------------------------------------------*/
+OBJECT_FILE	= class generic method getter \
+                  plain-access wide-access java-access \
+                  struct slots tools coercion predicate creator nil
+
+OBJECT_OBJ	= $(OBJECT_FILE:%=Object/%.o)
+
+#*--- bdb -------------------------------------------------------------*/
+BDB_FILE	= setting spread-obj initialize walk emit
+
+BDB_OBJ		= $(BDB_FILE:%=Bdb/%.o)
+
+#*--- prof -------------------------------------------------------------*/
+PROF_FILE	= unit emit
+
+PROF_OBJ	= $(PROF_FILE:%=Prof/%.o)
+
+#*--- user ------------------------------------------------------------*/
+USER_FILE	= user
+
+USER_OBJ	= $(USER_FILE:%=User/%.o)
+
+#*---------------------------------------------------------------------*/
+#*    The object files                                                 */
+#*---------------------------------------------------------------------*/
+OBJECTS		= $(ENGINE_OBJ) $(WRITE_OBJ) \
+                  $(READ_OBJ) $(AST_OBJ) $(CC_OBJ) $(FOREIGN_OBJ) \
+                  $(HEAP_OBJ) $(MODULE_OBJ) $(TYPE_OBJ) $(EXPAND_OBJ) \
+                  $(INLINE_OBJ) $(BIVALUE_OBJ) $(USER_OBJ) $(HGEN_OBJ) \
+                  $(COERCE_OBJ) $(GLOBALIZE_OBJ) $(CNST_OBJ) $(CFA_OBJ) \
+		  $(INTEGRATE_OBJ) $(TAILC_OBJ) $(CGEN_OBJ) $(TVECTOR_OBJ) \
+                  $(TSTRUCT_OBJ) $(TRACE_OBJ) $(CALLCC_OBJ) $(EVAL_OBJ) \
+                  $(LIFEXT_OBJ) $(FAIL_OBJ) $(REDUCE_OBJ) $(EFFECT_OBJ) \
+                  $(OBJECT_OBJ) $(TOOLS_OBJ) $(BDB_OBJ) $(PROF_OBJ) \
+                  $(JAS_OBJ) $(BACKEND_OBJ) \
+                  $(SAW_OBJ) $(SAW_C_OBJ) $(SAW_JVM_OBJ) $(SAW_MSIL_OBJ) \
+                  $(SAW_JSM_OBJ) $(INIT_OBJ)

@@ -1,0 +1,133 @@
+%*=====================================================================*/
+%*    serrano/tex/tools/barchart/barchart.ps                           */
+%*    -------------------------------------------------------------    */
+%*    Author      :  Manuel Serrano                                    */
+%*    Creation    :  Wed Jul 26 11:10:02 1995                          */
+%*    Last change :  Wed Jul 26 13:39:33 1995 (serrano)                */
+%*    -------------------------------------------------------------    */
+%*    The `barchart' template file                                     */
+%*=====================================================================*/
+
+%*---------------------------------------------------------------------*/
+%*    BeginProlog                                                      */
+%*---------------------------------------------------------------------*/
+%%BeginProlog
+
+%*---------------------------------------------------------------------*/
+%*    La conversion cm inch/72                                         */
+%*---------------------------------------------------------------------*/
+/cm
+{
+   72 mul 2.54 div
+} def
+
+
+%*---------------------------------------------------------------------*/
+%*    choosefont ...                                                   */
+%*---------------------------------------------------------------------*/
+/choosefontdic 2 dict def
+/choosefont
+{
+   choosefontdic begin
+   /size exch def
+   /font exch def
+                
+   font findfont size scalefont setfont
+   end
+} def
+
+%*---------------------------------------------------------------------*/
+%*    drawbox                                                          */
+%*---------------------------------------------------------------------*/
+/drawboxdict 4 dict def
+/drawbox
+{
+   drawboxdict begin
+   /ymax exch def
+   /xmax exch def
+   /ymin exch def
+   /xmin exch def
+
+   newpath
+
+   xmin ymin moveto
+   xmax ymin lineto
+   xmax ymax lineto
+   xmin ymax lineto
+
+   closepath
+
+   end
+} def
+
+%*---------------------------------------------------------------------*/
+%*    drawpolygonbox                                                   */
+%*---------------------------------------------------------------------*/
+/drawpolygonboxdict 8 dict def
+/drawpolygonbox
+{
+   drawboxdict begin
+   /y3 exch def
+   /x3 exch def
+   /y2 exch def
+   /x2 exch def
+   /y1 exch def
+   /x1 exch def
+   /y0 exch def
+   /x0 exch def
+
+   newpath
+
+   x0 y0 moveto
+   x1 y1 lineto
+   x2 y2 lineto
+   x3 y3 lineto
+
+   closepath
+
+   end
+} def
+
+%*---------------------------------------------------------------------*/
+%*    drawline                                                         */
+%*---------------------------------------------------------------------*/
+/drawlinedict 4 dict def
+/drawline
+{
+   drawlinedict begin
+   /ymax exch def
+   /xmax exch def
+   /ymin exch def
+   /xmin exch def
+
+   newpath
+
+   xmin ymin moveto
+   xmax ymax lineto
+
+   closepath
+   stroke
+   end
+} def
+
+%*---------------------------------------------------------------------*/
+%*    write ...                                                        */
+%*---------------------------------------------------------------------*/
+/writedict 3 dict def
+/write
+{
+   writedict begin
+   /s exch def
+   /y exch def
+   /x exch def
+
+   x y moveto
+   s show
+
+   end
+} def
+
+%*---------------------------------------------------------------------*/
+%*    EndProlog                                                        */
+%*---------------------------------------------------------------------*/
+%%EndProlog

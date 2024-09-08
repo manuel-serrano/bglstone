@@ -1,0 +1,47 @@
+***************
+*** 99,119 ****
+  ;*    open-src-file ...                                                */
+  ;*---------------------------------------------------------------------*/
+  (define (open-src-file sfile)
+-    (reader-reset!)
+-    (set! *port* (if (string? sfile)
+-             (if (file-exists? sfile)
+-             (let ((port (open-input-file sfile)))
+-                (if (input-port? port)
+-                    (begin
+-                   (reader-reset!)
+-                   port)
+-                    (error "src-file->memory"
+-                       "Can't open such file"
+-                       sfile)))
+              (error "src-file->memory"
+-                    "Can't find such file"
+-                    sfile))
+-             (current-input-port))))
+  
+  ;*---------------------------------------------------------------------*/
+  ;*    close-src-port ...                                               */
+--- 99,121 ----
+  ;*    open-src-file ...                                                */
+  ;*---------------------------------------------------------------------*/
+  (define (open-src-file sfile)
++   (reader-reset!)
++   (set! *port*
++     (if (string? sfile)
++         (let ((found (find-file/path sfile *load-path*)))
++           (if found
++           (let ((port (open-input-file found)))
++             (if (input-port? port)
++             (begin
++               (reader-reset!)
++               port)
+              (error "src-file->memory"
++                    "Can't open such file"
++                    found)))
++           (error "src-file->memory"
++              "Can't find such file"
++              sfile)))
++         (current-input-port))))
+  
+  ;*---------------------------------------------------------------------*/
+  ;*    close-src-port ...                                               */

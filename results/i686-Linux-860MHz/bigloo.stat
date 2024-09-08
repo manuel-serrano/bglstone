@@ -1,0 +1,14 @@
+(title "Bigloo"
+(configuration
+  (date "Mon Mar 15 16:33:22 2004")
+  (host "owens")
+  (uptime
+    " 16:33:22 up  7:14,  2 users,  load average: 0.08, 0.06, 0.02")
+  (arch "i686")
+  (mhz "860")
+  (memory "235")
+  (comment)
+  (compiler "Bigloo (2.6c)")
+  (os "Linux 2.4.21")
+  (iterations 1))
+./runit.scm,127:exiting...

@@ -1,0 +1,4635 @@
+;; =========================================================
+;; The expanded module
+;; Bigloo (2.5d)
+;; Inria -- Sophia Antipolis        Fri Dec 13 07:27:39 CET 2002 
+;; =========================================================
+
+;; ---------------------------------------------------------
+;; !!! WARNING !!!      !!! WARNING !!!      !!! WARNING !!!
+;; ---------------------------------------------------------
+;; This expanded file cannot be compile "as is". In order to
+;; compile it:
+;;    - the explicit call to the MODULE-INITIALIZATION 
+;;      must be removed.
+;;    - If the source module was INCLUDING files,
+;;      you must selected manually which files still have to
+;;      be included in the expanded forms.
+;; ---------------------------------------------------------
+;; The module clause
+(module
+  ir_translate
+  (import
+    engine_param
+    tools_speek
+    type_type
+    type_bind
+    ast_location
+    ast_node
+    arch_arch
+    ir_node
+    ir_label
+    ir_frame
+    runtime_runtime)
+  (export
+    (ast->ir::ir ::ast)
+    (generic anode->inode ::obj ::obj ::int)))
+
+;; unit: toplevel
+;; ast->ir::ir
+(define
+  (ast->ir::ir ast::ast)
+  (begin (verbose 1 "  - ast->ir\n")
+         (let ((instance2095 ast))
+              (labels
+                ((loop (decl-list global-num)
+                       (if (null? decl-list)
+                           (begin (let ((text *text-segment*))
+                                       (begin (labels
+                                                ((lname2098
+                                                   (l2097)
+                                                   (if ((@ pair?
+                                                           __r4_pairs_and_lists_6_3)
+                                                        l2097)
+                                                       (begin ((lambda
+                                                                 (decl)
+                                                                 (framedecl<-fundecl
+                                                                   decl
+                                                                   #unspecified))
+                                                               ((@ car
+                                                                   __r4_pairs_and_lists_6_3)
+                                                                l2097))
+                                                              (lname2098
+                                                                ((@ cdr
+                                                                    __r4_pairs_and_lists_6_3)
+                                                                 l2097)))
+                                                       (begin #t))))
+                                                (lname2098 (runtime-fundecls)))
+                                              (make-ir
+                                                (begin text)
+                                                (begin global-num)
+                                                (begin *string-constants*)))))
+                           (if (fundecl? (car decl-list))
+                               (begin (let ((text (framedecl<-fundecl
+                                                    (car decl-list)
+                                                    #unspecified)))
+                                           (begin (add-to-text-segment! text)
+                                                  (loop (cdr decl-list)
+                                                        global-num))))
+                               (if (if (vardecl? (car decl-list)) #f #t)
+                                   (begin (loop (cdr decl-list) global-num))
+                                   (begin (loop (cdr decl-list)
+                                                (+fx global-num 1))))))))
+                (loop (ast-decl-list instance2095) 0)))))
+;; *text-segment*
+(define *text-segment* '())
+;; add-to-text-segment!
+(define
+  (add-to-text-segment! framedecl::framedecl)
+  (set! *text-segment*
+        (c-cons framedecl *text-segment*)))
+;; framedecl<-fundecl::framedecl
+(define
+  (framedecl<-fundecl::framedecl
+    fundecl::fundecl
+    link)
+  (let ((instance2100 fundecl))
+       (begin (if *inner-functions*
+                  (let ((static-link
+                          (make-local
+                            #unspecified
+                            #unspecified
+                            #unspecified
+                            #unspecified
+                            (begin #t))))
+                       (fundecl-params-set!
+                         instance2100
+                         (c-cons
+                           static-link
+                           (fundecl-params instance2100))))
+                  #f)
+              (make-new-framedecl fundecl link))))
+(define-generic
+  (anode->inode obj framedecl::obj local-num::int))
+(define-method
+  (anode->inode body::stmt frame local-num)
+  (begin body))
+(define-method
+  (anode->inode body::block frame local-num)
+  (let ((instance2103 body))
+       (labels
+         ((loop (decl-list local-num stmts)
+                (if (null? decl-list)
+                    (begin (make-seq
+                             (let ((l2106 stmts))
+                                  (if ((@ null? __r4_pairs_and_lists_6_3) l2106)
+                                      '()
+                                      (let ((head2108
+                                              ((@ cons __r4_pairs_and_lists_6_3)
+                                               '()
+                                               '())))
+                                           (labels
+                                             ((lname2107
+                                                (l2106 tail2109)
+                                                (if ((@ null?
+                                                        __r4_pairs_and_lists_6_3)
+                                                     l2106)
+                                                    ((@ cdr
+                                                        __r4_pairs_and_lists_6_3)
+                                                     head2108)
+                                                    (let ((newtail2110
+                                                            ((@ cons
+                                                                __r4_pairs_and_lists_6_3)
+                                                             ((lambda
+                                                                (stmt)
+                                                                (anode->inode
+                                                                  stmt
+                                                                  frame
+                                                                  local-num))
+                                                              ((@ car
+                                                                  __r4_pairs_and_lists_6_3)
+                                                               l2106))
+                                                             '())))
+                                                         (begin ((@ set-cdr!
+                                                                    __r4_pairs_and_lists_6_3)
+                                                                 tail2109
+                                                                 newtail2110)
+                                                                (lname2107
+                                                                  ((@ cdr
+                                                                      __r4_pairs_and_lists_6_3)
+                                                                   l2106)
+                                                                  newtail2110))))))
+                                             (lname2107 l2106 head2108)))))))
+                    (if (fundecl? (car decl-list))
+                        (begin (add-to-text-segment!
+                                 (framedecl<-fundecl (car decl-list) frame))
+                               (loop (cdr decl-list) local-num stmts))
+                        (if (local-escape? (car decl-list))
+                            (begin (let ((ws (arch-word-size)))
+                                        (let ((local-addr
+                                                (make-ir-const
+                                                  (negfx (*fx (+fx 1 local-num)
+                                                              ws)))))
+                                             (let ((new-local-num
+                                                     (+fx local-num 1)))
+                                                  (let ()
+                                                       (begin (let ((instance2112
+                                                                      frame))
+                                                                   (if (>fx new-local-num
+                                                                            (framedecl-local-num
+                                                                              instance2112))
+                                                                       (framedecl-local-num-set!
+                                                                         instance2112
+                                                                         new-local-num)
+                                                                       #f))
+                                                              (let ((instance2114
+                                                                      (car decl-list)))
+                                                                   (begin (begin ((@ display-2
+                                                                                     __r4_output_6_10_3)
+                                                                                  "./Ir/translate.scm"
+                                                                                  ((@ current-output-port
+                                                                                      __r4_ports_6_10_1)))
+                                                                                 ((@ display-2
+                                                                                     __r4_output_6_10_3)
+                                                                                  ","
+                                                                                  ((@ current-output-port
+                                                                                      __r4_ports_6_10_1)))
+                                                                                 ((@ display-2
+                                                                                     __r4_output_6_10_3)
+                                                                                  138
+                                                                                  ((@ current-output-port
+                                                                                      __r4_ports_6_10_1)))
+                                                                                 ((@ display-2
+                                                                                     __r4_output_6_10_3)
+                                                                                  ":"
+                                                                                  ((@ current-output-port
+                                                                                      __r4_ports_6_10_1)))
+                                                                                 ((@ display-2
+                                                                                     __r4_output_6_10_3)
+                                                                                  "yep..."
+                                                                                  ((@ current-output-port
+                                                                                      __r4_ports_6_10_1)))
+                                                                                 ((@ newline-1
+                                                                                     __r4_output_6_10_3)
+                                                                                  ((@ current-output-port
+                                                                                      __r4_ports_6_10_1))))
+                                                                          (vardecl-fetch-set!
+                                                                            instance2114
+                                                                            local-addr)))
+                                                              (loop (cdr decl-list)
+                                                                    new-local-num
+                                                                    stmts)))))))
+                            (begin (let ((temp (make-new-temp)))
+                                        (let ((local-fetch temp))
+                                             (let ()
+                                                  (begin (begin ((@ display-2
+                                                                    __r4_output_6_10_3)
+                                                                 "./Ir/translate.scm"
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1)))
+                                                                ((@ display-2
+                                                                    __r4_output_6_10_3)
+                                                                 ","
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1)))
+                                                                ((@ display-2
+                                                                    __r4_output_6_10_3)
+                                                                 145
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1)))
+                                                                ((@ display-2
+                                                                    __r4_output_6_10_3)
+                                                                 ":"
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1)))
+                                                                ((@ display-2
+                                                                    __r4_output_6_10_3)
+                                                                 "temp2: "
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1)))
+                                                                ((@ display-2
+                                                                    __r4_output_6_10_3)
+                                                                 temp
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1)))
+                                                                ((@ newline-1
+                                                                    __r4_output_6_10_3)
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1))))
+                                                         (begin ((@ display-2
+                                                                    __r4_output_6_10_3)
+                                                                 "./Ir/translate.scm"
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1)))
+                                                                ((@ display-2
+                                                                    __r4_output_6_10_3)
+                                                                 ","
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1)))
+                                                                ((@ display-2
+                                                                    __r4_output_6_10_3)
+                                                                 146
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1)))
+                                                                ((@ display-2
+                                                                    __r4_output_6_10_3)
+                                                                 ":"
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1)))
+                                                                ((@ display-2
+                                                                    __r4_output_6_10_3)
+                                                                 "local-fetch: "
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1)))
+                                                                ((@ display-2
+                                                                    __r4_output_6_10_3)
+                                                                 vardecl-fetch
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1)))
+                                                                ((@ newline-1
+                                                                    __r4_output_6_10_3)
+                                                                 ((@ current-output-port
+                                                                     __r4_ports_6_10_1))))
+                                                         (let ((instance2116
+                                                                 (car decl-list)))
+                                                              (begin (begin ((@ display-2
+                                                                                __r4_output_6_10_3)
+                                                                             "./Ir/translate.scm"
+                                                                             ((@ current-output-port
+                                                                                 __r4_ports_6_10_1)))
+                                                                            ((@ display-2
+                                                                                __r4_output_6_10_3)
+                                                                             ","
+                                                                             ((@ current-output-port
+                                                                                 __r4_ports_6_10_1)))
+                                                                            ((@ display-2
+                                                                                __r4_output_6_10_3)
+                                                                             148
+                                                                             ((@ current-output-port
+                                                                                 __r4_ports_6_10_1)))
+                                                                            ((@ display-2
+                                                                                __r4_output_6_10_3)
+                                                                             ":"
+                                                                             ((@ current-output-port
+                                                                                 __r4_ports_6_10_1)))
+                                                                            ((@ display-2
+                                                                                __r4_output_6_10_3)
+                                                                             "yep...: "
+                                                                             ((@ current-output-port
+                                                                                 __r4_ports_6_10_1)))
+                                                                            ((@ display-2
+                                                                                __r4_output_6_10_3)
+                                                                             (find-runtime-type
+                                                                               vardecl-fetch)
+                                                                             ((@ current-output-port
+                                                                                 __r4_ports_6_10_1)))
+                                                                            ((@ newline-1
+                                                                                __r4_output_6_10_3)
+                                                                             ((@ current-output-port
+                                                                                 __r4_ports_6_10_1))))
+                                                                     (vardecl-fetch-set!
+                                                                       instance2116
+                                                                       vardecl-fetch)))
+                                                         (loop (cdr decl-list)
+                                                               local-num
+                                                               stmts)))))))))))
+         (loop (block-decl-list instance2103)
+               local-num
+               (block-stmt-list instance2103)))))
+(define-method
+  (anode->inode body::if-then frame local-num)
+  (let ((instance2118 body))
+       (let ((true (get-new-label frame "true")))
+            (let ((false (get-new-label frame "false")))
+                 (let ((itest (anode->inode
+                                (if-then-test instance2118)
+                                frame
+                                local-num)))
+                      (let ((cjump (if (if (opfx? itest)
+                                           (memq (opfx-op itest)
+                                                 '(< > <= >= == !=))
+                                           #f)
+                                       (let ((instance2120 itest))
+                                            (make-cjump
+                                              (begin (opfx-op instance2120))
+                                              (begin (opfx-left instance2120))
+                                              (begin (opfx-right instance2120))
+                                              (begin true)
+                                              (begin false)))
+                                       (make-cjump
+                                         '!=
+                                         (begin itest)
+                                         (make-ir-const (begin 0))
+                                         (begin true)
+                                         (begin false)))))
+                           (let ((ithen (anode->inode
+                                          (if-then-then instance2118)
+                                          frame
+                                          local-num)))
+                                (let ()
+                                     (make-seq
+                                       (list cjump true ithen false))))))))))
+(define-method
+  (anode->inode body::if-then-else frame local-num)
+  (let ((instance2126 body))
+       (let ((true (get-new-label frame "true")))
+            (let ((false (get-new-label frame "false")))
+                 (let ((endif (get-new-label frame "endif")))
+                      (let ((itest (anode->inode
+                                     (if-then-test instance2126)
+                                     frame
+                                     local-num)))
+                           (let ((cjump (if (if (opfx? itest)
+                                                (memq (opfx-op itest)
+                                                      '(< > <= >= == !=))
+                                                #f)
+                                            (let ((instance2128 itest))
+                                                 (make-cjump
+                                                   (begin (opfx-op
+                                                            instance2128))
+                                                   (begin (opfx-left
+                                                            instance2128))
+                                                   (begin (opfx-right
+                                                            instance2128))
+                                                   (begin true)
+                                                   (begin false)))
+                                            (make-cjump
+                                              '!=
+                                              (begin itest)
+                                              (make-ir-const (begin 0))
+                                              (begin true)
+                                              (begin false)))))
+                                (let ((ithen (anode->inode
+                                               (if-then-then instance2126)
+                                               frame
+                                               local-num)))
+                                     (let ((jump-endif
+                                             (make-jump (begin endif))))
+                                          (let ((ielse (anode->inode
+                                                         (if-then-else-otherwise
+                                                           instance2126)
+                                                         frame
+                                                         local-num)))
+                                               (let ()
+                                                    (make-seq
+                                                      (list cjump
+                                                            true
+                                                            ithen
+                                                            jump-endif
+                                                            false
+                                                            ielse
+                                                            endif)))))))))))))
+(define-method
+  (anode->inode body::setq frame local-num)
+  (let ((instance2135 body))
+       (begin (begin ((@ display-2 __r4_output_6_10_3)
+                      "./Ir/translate.scm"
+                      ((@ current-output-port __r4_ports_6_10_1)))
+                     ((@ display-2 __r4_output_6_10_3)
+                      ","
+                      ((@ current-output-port __r4_ports_6_10_1)))
+                     ((@ display-2 __r4_output_6_10_3)
+                      228
+                      ((@ current-output-port __r4_ports_6_10_1)))
+                     ((@ display-2 __r4_output_6_10_3)
+                      ":"
+                      ((@ current-output-port __r4_ports_6_10_1)))
+                     ((@ display-2 __r4_output_6_10_3)
+                      "varref: "
+                      ((@ current-output-port __r4_ports_6_10_1)))
+                     ((@ display-2 __r4_output_6_10_3)
+                      (find-runtime-type (setq-varref instance2135))
+                      ((@ current-output-port __r4_ports_6_10_1)))
+                     ((@ newline-1 __r4_output_6_10_3)
+                      ((@ current-output-port __r4_ports_6_10_1))))
+              (let ((ir-varref
+                      (anode->inode
+                        (setq-varref instance2135)
+                        frame
+                        local-num))
+                    (ir-value
+                      (anode->inode
+                        (setq-value instance2135)
+                        frame
+                        local-num)))
+                   (if (mem? ir-varref)
+                       (begin (make-move-mem
+                                (mem-addr ir-varref)
+                                (arch-word-size)
+                                (begin ir-value)))
+                       (if (temp? ir-varref)
+                           (begin (make-move-temp
+                                    (begin ir-varref)
+                                    (begin ir-value)))
+                           (begin (error "anode->inode"
+                                         "Illegal varref"
+                                         (find-runtime-type ir-varref)))))))))
+(define-method
+  (anode->inode body::aset frame local-num)
+  (let ((instance2139 body))
+       (make-move-mem
+         (mem-addr
+           (anode->inode
+             (aset-aref instance2139)
+             frame
+             local-num))
+         (arch-word-size)
+         (anode->inode
+           (aset-value instance2139)
+           frame
+           local-num))))
+(define-method
+  (anode->inode body::rset frame local-num)
+  (let ((instance2142 body))
+       (make-move-mem
+         (mem-addr
+           (anode->inode
+             (rset-rref instance2142)
+             frame
+             local-num))
+         (arch-word-size)
+         (anode->inode
+           (rset-value instance2142)
+           frame
+           local-num))))
+(define-method
+  (anode->inode body::return frame local-num)
+  (let ((instance2145 frame))
+       (make-jump
+         (begin (framedecl-epilogue instance2145)))))
+(define-method
+  (anode->inode body::return-value frame local-num)
+  (let ((instance2148 body))
+       (let ((ret-value (arch-retv-expr))
+             (iexpr (anode->inode
+                      (return-value-value instance2148)
+                      frame
+                      local-num)))
+            (make-seq
+              (list (if (temp? ret-value)
+                        (make-move-temp (begin ret-value) (begin iexpr))
+                        (make-move-mem
+                          (begin iexpr)
+                          (arch-word-size)
+                          (begin iexpr)))
+                    (call-next-method))))))
+(define-method
+  (anode->inode bod::while frame local-num)
+  (let ((instance2153 bod))
+       (let ((while (get-new-label frame "while")))
+            (let ((true (get-new-label frame "true")))
+                 (let ((endwhile (get-new-label frame "endwhile")))
+                      (let ((itest (anode->inode
+                                     (while-test instance2153)
+                                     frame
+                                     local-num)))
+                           (let ((cjump (if (if (opfx? itest)
+                                                (memq (opfx-op itest)
+                                                      '(< > <= >= == !=))
+                                                #f)
+                                            (let ((instance2155 itest))
+                                                 (make-cjump
+                                                   (begin (opfx-op
+                                                            instance2155))
+                                                   (begin (opfx-left
+                                                            instance2155))
+                                                   (begin (opfx-right
+                                                            instance2155))
+                                                   (begin true)
+                                                   (begin endwhile)))
+                                            (make-cjump
+                                              '!=
+                                              (begin itest)
+                                              (make-ir-const (begin 0))
+                                              (begin true)
+                                              (begin endwhile)))))
+                                (let ((ibody (anode->inode
+                                               (while-body instance2153)
+                                               frame
+                                               local-num)))
+                                     (let ((again (make-jump (begin while))))
+                                          (let ()
+                                               (make-seq
+                                                 (list while
+                                                       cjump
+                                                       true
+                                                       ibody
+                                                       again
+                                                       endwhile))))))))))))
+(define-method
+  (anode->inode body::exprstmt frame local-num)
+  (let ((nop (no-op))) (make-estmt (begin nop))))
+(define-method
+  (anode->inode
+    body::exprstmt-value
+    frame
+    local-num)
+  (let ((instance2163 body))
+       (make-estmt
+         (anode->inode
+           (exprstmt-value->expr instance2163)
+           frame
+           local-num))))
+(define-method
+  (anode->inode body::binop frame local-num)
+  (let ((instance2166 body))
+       (let ((ileft (anode->inode
+                      (binop-left instance2166)
+                      frame
+                      local-num))
+             (iright
+               (anode->inode
+                 (binop-right instance2166)
+                 frame
+                 local-num)))
+            (make-opfx
+              (string->symbol
+                (ident-name (binop-id instance2166)))
+              (begin ileft)
+              (begin iright)))))
+(define-method
+  (anode->inode body::funcall frame local-num)
+  (begin (letrec
+           ((mem-at
+              (lambda
+                (offset base)
+                (if (=fx offset 0)
+                    (make-mem (begin base))
+                    (make-mem
+                      (plus base
+                            (make-ir-const (*fx offset (arch-word-size)))))))))
+           (let ((instance2172 body))
+                (let ((iactuals
+                        (let ((l2174 (funcall-actuals instance2172)))
+                             (if ((@ null? __r4_pairs_and_lists_6_3) l2174)
+                                 '()
+                                 (let ((head2176
+                                         ((@ cons __r4_pairs_and_lists_6_3)
+                                          '()
+                                          '())))
+                                      (labels
+                                        ((lname2175
+                                           (l2174 tail2177)
+                                           (if ((@ null?
+                                                   __r4_pairs_and_lists_6_3)
+                                                l2174)
+                                               ((@ cdr __r4_pairs_and_lists_6_3)
+                                                head2176)
+                                               (let ((newtail2178
+                                                       ((@ cons
+                                                           __r4_pairs_and_lists_6_3)
+                                                        ((lambda
+                                                           (actual)
+                                                           (anode->inode
+                                                             actual
+                                                             frame
+                                                             local-num))
+                                                         ((@ car
+                                                             __r4_pairs_and_lists_6_3)
+                                                          l2174))
+                                                        '())))
+                                                    (begin ((@ set-cdr!
+                                                               __r4_pairs_and_lists_6_3)
+                                                            tail2177
+                                                            newtail2178)
+                                                           (lname2175
+                                                             ((@ cdr
+                                                                 __r4_pairs_and_lists_6_3)
+                                                              l2174)
+                                                             newtail2178))))))
+                                        (lname2175 l2174 head2176)))))))
+                     (let ((callee-depth
+                             (fundecl-depth (funcall-fun instance2172))))
+                          (let ((caller-depth
+                                  (if (fundecl? frame)
+                                      (fundecl-depth frame)
+                                      -1)))
+                               (let ((static-link
+                                       (if (if (=fx caller-depth -1)
+                                               #t
+                                               (=fx callee-depth 0))
+                                           (begin (make-ir-const (begin 0)))
+                                           (if (>fx callee-depth caller-depth)
+                                               (begin (arch-fp-expr))
+                                               (if (=fx callee-depth
+                                                        caller-depth)
+                                                   (begin (mem-at
+                                                            (arch-old-fp)
+                                                            (arch-fp-expr)))
+                                                   (begin (labels
+                                                            ((loop (i e)
+                                                                   (if (=fx i
+                                                                            caller-depth)
+                                                                       e
+                                                                       (loop (+fx i
+                                                                                  1)
+                                                                             (mem-at
+                                                                               (arch-old-fp)
+                                                                               e)))))
+                                                            (loop callee-depth
+                                                                  (mem-at
+                                                                    (arch-old-fp)
+                                                                    (arch-fp-expr))))))))))
+                                    (let ((iactuals+fp
+                                            (if *inner-functions*
+                                                (c-cons static-link iactuals)
+                                                iactuals)))
+                                         (let ()
+                                              (make-call
+                                                (begin (funcall-fun
+                                                         instance2172))
+                                                (begin iactuals+fp))))))))))))
+(define-method
+  (anode->inode body::aref frame local-num)
+  (let ((instance2181 body))
+       (let ((mul (make-opfx
+                    '*
+                    (anode->inode
+                      (aref-offset instance2181)
+                      frame
+                      local-num)
+                    (make-ir-const (arch-word-size)))))
+            (let ((plus (plus (anode->inode
+                                (aref-array instance2181)
+                                frame
+                                local-num)
+                              mul)))
+                 (let () (make-mem (begin plus)))))))
+(define-method
+  (anode->inode body::rref frame local-num)
+  (let ((instance2186 body))
+       (let ((record-fields
+               (structure-fields
+                 (rref-record-type instance2186))))
+            (let ((field-offset
+                    (labels
+                      ((loop (fields offset)
+                             (if (null? fields)
+                                 (begin (source-error
+                                          (expr-location instance2186)
+                                          "Illegal structure access"
+                                          (rref-field-id instance2186)))
+                                 (if (ident=?
+                                       (cdr (car fields))
+                                       (rref-field-id instance2186))
+                                     (begin offset)
+                                     (begin (loop (cdr fields)
+                                                  (+fx offset 1)))))))
+                      (loop record-fields 0))))
+                 (let ((cnst-offset
+                         (make-ir-const
+                           (*fx (arch-word-size) field-offset))))
+                      (let ((plus (plus (anode->inode
+                                          (rref-record instance2186)
+                                          frame
+                                          local-num)
+                                        cnst-offset)))
+                           (let () (make-mem (begin plus)))))))))
+(define-method
+  (anode->inode varref::varref frame local-num)
+  (begin (letrec
+           ((local-frame->inode
+              (lambda::mem
+                (slink fp::ir-expr)
+                (if (vardecl? slink)
+                    (begin (let ((instance2196 slink))
+                                (make-mem
+                                  (plus fp (vardecl-fetch instance2196)))))
+                    (if (=fx slink 0)
+                        (begin (make-mem (make-ir-const (begin slink))))
+                        (begin (make-mem (plus fp slink)))))))
+            (local-register->inode
+              (lambda::temp
+                (vardecl::local)
+                (let ((instance2194 vardecl))
+                     (vardecl-fetch instance2194))))
+            (global->inode
+              (lambda::mem
+                (vardecl::global)
+                (let ((instance2190 vardecl))
+                     (let ((bss (arch-bss-expr)))
+                          (let ((offset
+                                  (make-ir-const
+                                    (*fx (vardecl-fetch instance2190)
+                                         (arch-word-size)))))
+                               (let ((plus (plus bss offset)))
+                                    (let () (make-mem (begin plus))))))))))
+           (let ((instance2202 varref))
+                (if (global? (varref-vardecl instance2202))
+                    (begin (global->inode (varref-vardecl instance2202)))
+                    (if (if (local-escape? (varref-vardecl instance2202))
+                            #f
+                            #t)
+                        (begin (local-register->inode
+                                 (varref-vardecl instance2202)))
+                        (begin (labels
+                                 ((loop (depth fp)
+                                        (if (=fx depth 0)
+                                            (local-frame->inode
+                                              (varref-vardecl instance2202)
+                                              fp)
+                                            (let ((fundecl frame))
+                                                 (let ((params
+                                                         (fundecl-params
+                                                           fundecl)))
+                                                      (let ((slink (if (arch-old-fp)
+                                                                       (arch-old-fp)
+                                                                       (car params))))
+                                                           (let ((old-fp
+                                                                   (local-frame->inode
+                                                                     slink
+                                                                     fp)))
+                                                                (let ()
+                                                                     (loop (-fx depth
+                                                                                1)
+                                                                           old-fp)))))))))
+                                 (loop (varref-depth instance2202)
+                                       (arch-fp-expr))))))))))
+(define-method
+  (anode->inode body::const frame local-num)
+  (let ((instance2204 body))
+       (if (type=? (const-type instance2204) *type-int*)
+           (begin (make-ir-const
+                    (begin (const-value instance2204))))
+           (if (type=? (const-type instance2204) *type-string*)
+               (begin (let ((label (get-new-label frame "_str")))
+                           (begin (declare-string!
+                                    label
+                                    (const-value instance2204))
+                                  (make-name (begin label)))))
+               (if (type=? (const-type instance2204) *type-nil*)
+                   (begin (make-ir-const (begin 0)))
+                   (begin (source-error
+                            (expr-location instance2204)
+                            "Illegal constant type"
+                            (const-type instance2204))))))))
+;; *string-constants*
+(define *string-constants* '())
+;; declare-string!
+(define
+  (declare-string! label::label value::bstring)
+  (set! *string-constants*
+        (c-cons (c-cons label value) *string-constants*)))
+
+;; unit: object
+;; pseudo-return?::bool
+(define-inline
+  (pseudo-return?::bool obj2094)
+  (is-a? obj2094 (@ pseudo-return ir_node)))
+;; fill-pseudo-return!::pseudo-return
+(define-inline
+  (fill-pseudo-return!::pseudo-return
+    new2087::pseudo-return
+    framedecl2086::framedecl)
+  (let ((framedecl2086::framedecl framedecl2086))
+       (begin (pragma::obj
+                "((((BgL_pseudozd2returnzd2_bglt)CREF($1))->BgL_framedeclz00) = ((BgL_framedeclz00_bglt)$2), BUNSPEC)"
+                new2087
+                framedecl2086)
+              new2087)))
+;; make-pseudo-return::pseudo-return
+(define-inline
+  (make-pseudo-return::pseudo-return
+    framedecl2090::framedecl)
+  (let ((new2091::pseudo-return (allocate-pseudo-return)))
+       (begin (fill-pseudo-return! new2091 framedecl2090)
+              new2091)))
+;; allocate-pseudo-return::pseudo-return
+(define-inline
+  (allocate-pseudo-return::pseudo-return)
+  (let ((new2093::pseudo-return
+          (free-pragma::pseudo-return
+            "((BgL_pseudozd2returnzd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_pseudozd2returnzd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new2093
+                ((@ class-num __object)
+                 (@ pseudo-return ir_node)))
+              (object-widening-set! new2093 #f)
+              (object-mark-producer! new2093)
+              new2093)))
+;; pseudo-return-framedecl::framedecl
+(define-inline
+  (pseudo-return-framedecl::framedecl
+    obj2085::pseudo-return)
+  (free-pragma::framedecl
+    "(((BgL_pseudozd2returnzd2_bglt)CREF($1))->BgL_framedeclz00)"
+    obj2085))
+;; pseudo-fundef?::bool
+(define-inline
+  (pseudo-fundef?::bool obj2084)
+  (is-a? obj2084 (@ pseudo-fundef ir_node)))
+;; fill-pseudo-fundef!::pseudo-fundef
+(define-inline
+  (fill-pseudo-fundef!::pseudo-fundef
+    new2075::pseudo-fundef
+    name2073::bstring
+    framedecl2074::framedecl)
+  (let ((name2073::bstring name2073)
+        (framedecl2074::framedecl framedecl2074))
+       (begin (pragma::obj
+                "((((BgL_pseudozd2fundefzd2_bglt)CREF($1))->BgL_namez00) = ((obj_t)$2), BUNSPEC)"
+                new2075
+                name2073)
+              (pragma::obj
+                "((((BgL_pseudozd2fundefzd2_bglt)CREF($1))->BgL_framedeclz00) = ((BgL_framedeclz00_bglt)$2), BUNSPEC)"
+                new2075
+                framedecl2074)
+              new2075)))
+;; make-pseudo-fundef::pseudo-fundef
+(define-inline
+  (make-pseudo-fundef::pseudo-fundef
+    name2079::bstring
+    framedecl2080::framedecl)
+  (let ((new2081::pseudo-fundef (allocate-pseudo-fundef)))
+       (begin (fill-pseudo-fundef!
+                new2081
+                name2079
+                framedecl2080)
+              new2081)))
+;; allocate-pseudo-fundef::pseudo-fundef
+(define-inline
+  (allocate-pseudo-fundef::pseudo-fundef)
+  (let ((new2083::pseudo-fundef
+          (free-pragma::pseudo-fundef
+            "((BgL_pseudozd2fundefzd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_pseudozd2fundefzd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new2083
+                ((@ class-num __object)
+                 (@ pseudo-fundef ir_node)))
+              (object-widening-set! new2083 #f)
+              (object-mark-producer! new2083)
+              new2083)))
+;; pseudo-fundef-name::bstring
+(define-inline
+  (pseudo-fundef-name::bstring
+    obj2071::pseudo-fundef)
+  (free-pragma::bstring
+    "(((BgL_pseudozd2fundefzd2_bglt)CREF($1))->BgL_namez00)"
+    obj2071))
+;; pseudo-fundef-framedecl::framedecl
+(define-inline
+  (pseudo-fundef-framedecl::framedecl
+    obj2072::pseudo-fundef)
+  (free-pragma::framedecl
+    "(((BgL_pseudozd2fundefzd2_bglt)CREF($1))->BgL_framedeclz00)"
+    obj2072))
+;; label-bb?::bool
+(define-inline
+  (label-bb?::bool obj2065)
+  (is-a? obj2065 (@ label-bb ir_node)))
+;; widening-label-bb::label-bb
+(define-inline
+  (widening-label-bb::label-bb
+    basic-block2052::basic-block)
+  (let ((new2053::label-bb
+          (free-pragma::label-bb
+            "((BgL_labelzd2bbzd2_bglt)BREF( GC_MALLOC (sizeof(struct BgL_labelzd2bbzd2_bgl))))")))
+       (begin #unspecified
+              (fill-label-bb! new2053 basic-block2052)
+              new2053)))
+;; fill-label-bb!::label-bb
+(define-inline
+  (fill-label-bb!::label-bb
+    new2056::label-bb
+    basic-block2055::basic-block)
+  (let ((basic-block2055::basic-block basic-block2055))
+       (begin (pragma::obj
+                "((((BgL_labelzd2bbzd2_bglt)CREF($1))->BgL_basiczd2blockzd2) = ((BgL_basiczd2blockzd2_bglt)$2), BUNSPEC)"
+                new2056
+                basic-block2055)
+              new2056)))
+;; make-label-bb::label-bb
+(define-inline
+  (make-label-bb::label-bb
+    framedecl2060::obj
+    ident2061::ident
+    basic-block2059::basic-block)
+  (let ((aux2062::label
+          (make-label framedecl2060 ident2061)))
+       (let ((new2063::label-bb
+               (___bgl_private_stamp_mark cast label-bb aux2062)))
+            (begin (object-class-num-set!
+                     new2063
+                     (class-num (@ label-bb ir_node)))
+                   (object-widening-set!
+                     new2063
+                     (widening-label-bb basic-block2059))
+                   (object-mark-producer! new2063)
+                   new2063))))
+;; allocate-label-bb::label
+(define-inline
+  (allocate-label-bb::label)
+  (let ((new2064::label
+          (free-pragma::label
+            "((BgL_labelz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_labelz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new2064
+                ((@ class-num __object) (@ label-bb ir_node)))
+              (object-widening-set! new2064 #f)
+              (object-mark-producer! new2064)
+              new2064)))
+;; label-bb-basic-block::basic-block
+(define-inline
+  (label-bb-basic-block::basic-block
+    obj2066::label-bb)
+  (free-pragma::basic-block
+    "(((BgL_labelzd2bbzd2_bglt)CREF($1))->BgL_basiczd2blockzd2)"
+    (object-widening obj2066)))
+;; label?::bool
+(define-inline
+  (label?::bool obj2051)
+  (is-a? obj2051 (@ label ir_node)))
+;; fill-label!::label
+(define-inline
+  (fill-label!::label
+    new2042::label
+    framedecl2040::obj
+    ident2041::ident)
+  (let ((framedecl2040::obj framedecl2040)
+        (ident2041::ident ident2041))
+       (begin (pragma::obj
+                "((((BgL_labelz00_bglt)CREF($1))->BgL_framedeclz00) = ((obj_t)$2), BUNSPEC)"
+                new2042
+                framedecl2040)
+              (pragma::obj
+                "((((BgL_labelz00_bglt)CREF($1))->BgL_identz00) = ((BgL_identz00_bglt)$2), BUNSPEC)"
+                new2042
+                ident2041)
+              new2042)))
+;; make-label::label
+(define-inline
+  (make-label::label
+    framedecl2046::obj
+    ident2047::ident)
+  (let ((new2048::label (allocate-label)))
+       (begin (fill-label! new2048 framedecl2046 ident2047)
+              new2048)))
+;; allocate-label::label
+(define-inline
+  (allocate-label::label)
+  (let ((new2050::label
+          (free-pragma::label
+            "((BgL_labelz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_labelz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new2050
+                ((@ class-num __object) (@ label ir_node)))
+              (object-widening-set! new2050 #f)
+              (object-mark-producer! new2050)
+              new2050)))
+;; label-framedecl-set!::obj
+(define-inline
+  (label-framedecl-set!::obj
+    obj2038::label
+    val2037::obj)
+  (pragma::obj
+    "((((BgL_labelz00_bglt)CREF($1))->BgL_framedeclz00) = ((obj_t)$2), BUNSPEC)"
+    obj2038
+    val2037))
+;; label-framedecl::obj
+(define-inline
+  (label-framedecl::obj obj2036::label)
+  (free-pragma::obj
+    "(((BgL_labelz00_bglt)CREF($1))->BgL_framedeclz00)"
+    obj2036))
+;; label-ident::ident
+(define-inline
+  (label-ident::ident obj2039::label)
+  (free-pragma::ident
+    "(((BgL_labelz00_bglt)CREF($1))->BgL_identz00)"
+    obj2039))
+;; seq?::bool
+(define-inline
+  (seq?::bool obj2035)
+  (is-a? obj2035 (@ seq ir_node)))
+;; fill-seq!::seq
+(define-inline
+  (fill-seq!::seq new2028::seq stmts2027::obj)
+  (let ((stmts2027::obj stmts2027))
+       (begin (pragma::obj
+                "((((BgL_seqz00_bglt)CREF($1))->BgL_stmtsz00) = ((obj_t)$2), BUNSPEC)"
+                new2028
+                stmts2027)
+              new2028)))
+;; make-seq::seq
+(define-inline
+  (make-seq::seq stmts2031::obj)
+  (let ((new2032::seq (allocate-seq)))
+       (begin (fill-seq! new2032 stmts2031) new2032)))
+;; allocate-seq::seq
+(define-inline
+  (allocate-seq::seq)
+  (let ((new2034::seq
+          (free-pragma::seq
+            "((BgL_seqz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_seqz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new2034
+                ((@ class-num __object) (@ seq ir_node)))
+              (object-widening-set! new2034 #f)
+              (object-mark-producer! new2034)
+              new2034)))
+;; seq-stmts::obj
+(define-inline
+  (seq-stmts::obj obj2026::seq)
+  (free-pragma::obj
+    "(((BgL_seqz00_bglt)CREF($1))->BgL_stmtsz00)"
+    obj2026))
+;; cjump?::bool
+(define-inline
+  (cjump?::bool obj2025)
+  (is-a? obj2025 (@ cjump ir_node)))
+;; fill-cjump!::cjump
+(define-inline
+  (fill-cjump!::cjump
+    new2010::cjump
+    op2005::symbol
+    left2006::ir-expr
+    right2007::ir-expr
+    true2008::label
+    false2009::label)
+  (let ((op2005::symbol op2005)
+        (left2006::ir-expr left2006)
+        (right2007::ir-expr right2007)
+        (true2008::label true2008)
+        (false2009::label false2009))
+       (begin (pragma::obj
+                "((((BgL_cjumpz00_bglt)CREF($1))->BgL_opz00) = ((obj_t)$2), BUNSPEC)"
+                new2010
+                op2005)
+              (pragma::obj
+                "((((BgL_cjumpz00_bglt)CREF($1))->BgL_leftz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+                new2010
+                left2006)
+              (pragma::obj
+                "((((BgL_cjumpz00_bglt)CREF($1))->BgL_rightz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+                new2010
+                right2007)
+              (pragma::obj
+                "((((BgL_cjumpz00_bglt)CREF($1))->BgL_truez00) = ((BgL_labelz00_bglt)$2), BUNSPEC)"
+                new2010
+                true2008)
+              (pragma::obj
+                "((((BgL_cjumpz00_bglt)CREF($1))->BgL_falsez00) = ((BgL_labelz00_bglt)$2), BUNSPEC)"
+                new2010
+                false2009)
+              new2010)))
+;; make-cjump::cjump
+(define-inline
+  (make-cjump::cjump
+    op2017::symbol
+    left2018::ir-expr
+    right2019::ir-expr
+    true2020::label
+    false2021::label)
+  (let ((new2022::cjump (allocate-cjump)))
+       (begin (fill-cjump!
+                new2022
+                op2017
+                left2018
+                right2019
+                true2020
+                false2021)
+              new2022)))
+;; allocate-cjump::cjump
+(define-inline
+  (allocate-cjump::cjump)
+  (let ((new2024::cjump
+          (free-pragma::cjump
+            "((BgL_cjumpz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_cjumpz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new2024
+                ((@ class-num __object) (@ cjump ir_node)))
+              (object-widening-set! new2024 #f)
+              (object-mark-producer! new2024)
+              new2024)))
+;; cjump-op::symbol
+(define-inline
+  (cjump-op::symbol obj2000::cjump)
+  (free-pragma::symbol
+    "(((BgL_cjumpz00_bglt)CREF($1))->BgL_opz00)"
+    obj2000))
+;; cjump-left::ir-expr
+(define-inline
+  (cjump-left::ir-expr obj2001::cjump)
+  (free-pragma::ir-expr
+    "(((BgL_cjumpz00_bglt)CREF($1))->BgL_leftz00)"
+    obj2001))
+;; cjump-right::ir-expr
+(define-inline
+  (cjump-right::ir-expr obj2002::cjump)
+  (free-pragma::ir-expr
+    "(((BgL_cjumpz00_bglt)CREF($1))->BgL_rightz00)"
+    obj2002))
+;; cjump-true::label
+(define-inline
+  (cjump-true::label obj2003::cjump)
+  (free-pragma::label
+    "(((BgL_cjumpz00_bglt)CREF($1))->BgL_truez00)"
+    obj2003))
+;; cjump-false::label
+(define-inline
+  (cjump-false::label obj2004::cjump)
+  (free-pragma::label
+    "(((BgL_cjumpz00_bglt)CREF($1))->BgL_falsez00)"
+    obj2004))
+;; jump?::bool
+(define-inline
+  (jump?::bool obj1999)
+  (is-a? obj1999 (@ jump ir_node)))
+;; fill-jump!::jump
+(define-inline
+  (fill-jump!::jump new1992::jump addr1991::label)
+  (let ((addr1991::label addr1991))
+       (begin (pragma::obj
+                "((((BgL_jumpz00_bglt)CREF($1))->BgL_addrz00) = ((BgL_labelz00_bglt)$2), BUNSPEC)"
+                new1992
+                addr1991)
+              new1992)))
+;; make-jump::jump
+(define-inline
+  (make-jump::jump addr1995::label)
+  (let ((new1996::jump (allocate-jump)))
+       (begin (fill-jump! new1996 addr1995) new1996)))
+;; allocate-jump::jump
+(define-inline
+  (allocate-jump::jump)
+  (let ((new1998::jump
+          (free-pragma::jump
+            "((BgL_jumpz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_jumpz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1998
+                ((@ class-num __object) (@ jump ir_node)))
+              (object-widening-set! new1998 #f)
+              (object-mark-producer! new1998)
+              new1998)))
+;; jump-addr::label
+(define-inline
+  (jump-addr::label obj1990::jump)
+  (free-pragma::label
+    "(((BgL_jumpz00_bglt)CREF($1))->BgL_addrz00)"
+    obj1990))
+;; estmt?::bool
+(define-inline
+  (estmt?::bool obj1989)
+  (is-a? obj1989 (@ estmt ir_node)))
+;; fill-estmt!::estmt
+(define-inline
+  (fill-estmt!::estmt
+    new1982::estmt
+    >expr1981::ir-expr)
+  (let ((>expr1981::ir-expr >expr1981))
+       (begin (pragma::obj
+                "((((BgL_estmtz00_bglt)CREF($1))->BgL_ze3exprze3) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+                new1982
+                >expr1981)
+              new1982)))
+;; make-estmt::estmt
+(define-inline
+  (make-estmt::estmt >expr1985::ir-expr)
+  (let ((new1986::estmt (allocate-estmt)))
+       (begin (fill-estmt! new1986 >expr1985) new1986)))
+;; allocate-estmt::estmt
+(define-inline
+  (allocate-estmt::estmt)
+  (let ((new1988::estmt
+          (free-pragma::estmt
+            "((BgL_estmtz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_estmtz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1988
+                ((@ class-num __object) (@ estmt ir_node)))
+              (object-widening-set! new1988 #f)
+              (object-mark-producer! new1988)
+              new1988)))
+;; estmt->expr-set!::obj
+(define-inline
+  (estmt->expr-set!::obj
+    obj1980::estmt
+    val1979::ir-expr)
+  (pragma::obj
+    "((((BgL_estmtz00_bglt)CREF($1))->BgL_ze3exprze3) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+    obj1980
+    val1979))
+;; estmt->expr::ir-expr
+(define-inline
+  (estmt->expr::ir-expr obj1978::estmt)
+  (free-pragma::ir-expr
+    "(((BgL_estmtz00_bglt)CREF($1))->BgL_ze3exprze3)"
+    obj1978))
+;; move-mem?::bool
+(define-inline
+  (move-mem?::bool obj1977)
+  (is-a? obj1977 (@ move-mem ir_node)))
+;; fill-move-mem!::move-mem
+(define-inline
+  (fill-move-mem!::move-mem
+    new1966::move-mem
+    addr1963::ir-expr
+    k1964::int
+    expr1965::ir-expr)
+  (let ((addr1963::ir-expr addr1963)
+        (k1964::int k1964)
+        (expr1965::ir-expr expr1965))
+       (begin (pragma::obj
+                "((((BgL_movezd2memzd2_bglt)CREF($1))->BgL_addrz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+                new1966
+                addr1963)
+              (pragma::obj
+                "((((BgL_movezd2memzd2_bglt)CREF($1))->BgL_kz00) = ((int)$2), BUNSPEC)"
+                new1966
+                k1964)
+              (pragma::obj
+                "((((BgL_movezd2memzd2_bglt)CREF($1))->BgL_exprz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+                new1966
+                expr1965)
+              new1966)))
+;; make-move-mem::move-mem
+(define-inline
+  (make-move-mem::move-mem
+    addr1971::ir-expr
+    k1972::int
+    expr1973::ir-expr)
+  (let ((new1974::move-mem (allocate-move-mem)))
+       (begin (fill-move-mem! new1974 addr1971 k1972 expr1973)
+              new1974)))
+;; allocate-move-mem::move-mem
+(define-inline
+  (allocate-move-mem::move-mem)
+  (let ((new1976::move-mem
+          (free-pragma::move-mem
+            "((BgL_movezd2memzd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_movezd2memzd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new1976
+                ((@ class-num __object) (@ move-mem ir_node)))
+              (object-widening-set! new1976 #f)
+              (object-mark-producer! new1976)
+              new1976)))
+;; move-mem-addr-set!::obj
+(define-inline
+  (move-mem-addr-set!::obj
+    obj1958::move-mem
+    val1957::ir-expr)
+  (pragma::obj
+    "((((BgL_movezd2memzd2_bglt)CREF($1))->BgL_addrz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+    obj1958
+    val1957))
+;; move-mem-addr::ir-expr
+(define-inline
+  (move-mem-addr::ir-expr obj1956::move-mem)
+  (free-pragma::ir-expr
+    "(((BgL_movezd2memzd2_bglt)CREF($1))->BgL_addrz00)"
+    obj1956))
+;; move-mem-k::int
+(define-inline
+  (move-mem-k::int obj1959::move-mem)
+  (free-pragma::int
+    "(((BgL_movezd2memzd2_bglt)CREF($1))->BgL_kz00)"
+    obj1959))
+;; move-mem-expr-set!::obj
+(define-inline
+  (move-mem-expr-set!::obj
+    obj1962::move-mem
+    val1961::ir-expr)
+  (pragma::obj
+    "((((BgL_movezd2memzd2_bglt)CREF($1))->BgL_exprz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+    obj1962
+    val1961))
+;; move-mem-expr::ir-expr
+(define-inline
+  (move-mem-expr::ir-expr obj1960::move-mem)
+  (free-pragma::ir-expr
+    "(((BgL_movezd2memzd2_bglt)CREF($1))->BgL_exprz00)"
+    obj1960))
+;; move-temp?::bool
+(define-inline
+  (move-temp?::bool obj1955)
+  (is-a? obj1955 (@ move-temp ir_node)))
+;; fill-move-temp!::move-temp
+(define-inline
+  (fill-move-temp!::move-temp
+    new1946::move-temp
+    temp1944::temp
+    expr1945::ir-expr)
+  (let ((temp1944::temp temp1944)
+        (expr1945::ir-expr expr1945))
+       (begin (pragma::obj
+                "((((BgL_movezd2tempzd2_bglt)CREF($1))->BgL_tempz00) = ((BgL_tempz00_bglt)$2), BUNSPEC)"
+                new1946
+                temp1944)
+              (pragma::obj
+                "((((BgL_movezd2tempzd2_bglt)CREF($1))->BgL_exprz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+                new1946
+                expr1945)
+              new1946)))
+;; make-move-temp::move-temp
+(define-inline
+  (make-move-temp::move-temp
+    temp1950::temp
+    expr1951::ir-expr)
+  (let ((new1952::move-temp (allocate-move-temp)))
+       (begin (fill-move-temp! new1952 temp1950 expr1951)
+              new1952)))
+;; allocate-move-temp::move-temp
+(define-inline
+  (allocate-move-temp::move-temp)
+  (let ((new1954::move-temp
+          (free-pragma::move-temp
+            "((BgL_movezd2tempzd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_movezd2tempzd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new1954
+                ((@ class-num __object) (@ move-temp ir_node)))
+              (object-widening-set! new1954 #f)
+              (object-mark-producer! new1954)
+              new1954)))
+;; move-temp-temp-set!::obj
+(define-inline
+  (move-temp-temp-set!::obj
+    obj1940::move-temp
+    val1939::temp)
+  (pragma::obj
+    "((((BgL_movezd2tempzd2_bglt)CREF($1))->BgL_tempz00) = ((BgL_tempz00_bglt)$2), BUNSPEC)"
+    obj1940
+    val1939))
+;; move-temp-temp::temp
+(define-inline
+  (move-temp-temp::temp obj1938::move-temp)
+  (free-pragma::temp
+    "(((BgL_movezd2tempzd2_bglt)CREF($1))->BgL_tempz00)"
+    obj1938))
+;; move-temp-expr-set!::obj
+(define-inline
+  (move-temp-expr-set!::obj
+    obj1943::move-temp
+    val1942::ir-expr)
+  (pragma::obj
+    "((((BgL_movezd2tempzd2_bglt)CREF($1))->BgL_exprz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+    obj1943
+    val1942))
+;; move-temp-expr::ir-expr
+(define-inline
+  (move-temp-expr::ir-expr obj1941::move-temp)
+  (free-pragma::ir-expr
+    "(((BgL_movezd2tempzd2_bglt)CREF($1))->BgL_exprz00)"
+    obj1941))
+;; call?::bool
+(define-inline
+  (call?::bool obj1937)
+  (is-a? obj1937 (@ call ir_node)))
+;; fill-call!::call
+(define-inline
+  (fill-call!::call
+    new1928::call
+    framedecl1926::fundecl
+    args1927::obj)
+  (let ((framedecl1926::fundecl framedecl1926)
+        (args1927::obj args1927))
+       (begin (pragma::obj
+                "((((BgL_callz00_bglt)CREF($1))->BgL_framedeclz00) = ((BgL_fundeclz00_bglt)$2), BUNSPEC)"
+                new1928
+                framedecl1926)
+              (pragma::obj
+                "((((BgL_callz00_bglt)CREF($1))->BgL_argsz00) = ((obj_t)$2), BUNSPEC)"
+                new1928
+                args1927)
+              new1928)))
+;; make-call::call
+(define-inline
+  (make-call::call
+    framedecl1932::fundecl
+    args1933::obj)
+  (let ((new1934::call (allocate-call)))
+       (begin (fill-call! new1934 framedecl1932 args1933)
+              new1934)))
+;; allocate-call::call
+(define-inline
+  (allocate-call::call)
+  (let ((new1936::call
+          (free-pragma::call
+            "((BgL_callz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_callz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1936
+                ((@ class-num __object) (@ call ir_node)))
+              (object-widening-set! new1936 #f)
+              (object-mark-producer! new1936)
+              new1936)))
+;; call-framedecl::fundecl
+(define-inline
+  (call-framedecl::fundecl obj1924::call)
+  (free-pragma::fundecl
+    "(((BgL_callz00_bglt)CREF($1))->BgL_framedeclz00)"
+    obj1924))
+;; call-args::obj
+(define-inline
+  (call-args::obj obj1925::call)
+  (free-pragma::obj
+    "(((BgL_callz00_bglt)CREF($1))->BgL_argsz00)"
+    obj1925))
+;; mem?::bool
+(define-inline
+  (mem?::bool obj1923)
+  (is-a? obj1923 (@ mem ir_node)))
+;; fill-mem!::mem
+(define-inline
+  (fill-mem!::mem new1916::mem addr1915::ir-expr)
+  (let ((addr1915::ir-expr addr1915))
+       (begin (pragma::obj
+                "((((BgL_memz00_bglt)CREF($1))->BgL_addrz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+                new1916
+                addr1915)
+              new1916)))
+;; make-mem::mem
+(define-inline
+  (make-mem::mem addr1919::ir-expr)
+  (let ((new1920::mem (allocate-mem)))
+       (begin (fill-mem! new1920 addr1919) new1920)))
+;; allocate-mem::mem
+(define-inline
+  (allocate-mem::mem)
+  (let ((new1922::mem
+          (free-pragma::mem
+            "((BgL_memz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_memz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1922
+                ((@ class-num __object) (@ mem ir_node)))
+              (object-widening-set! new1922 #f)
+              (object-mark-producer! new1922)
+              new1922)))
+;; mem-addr-set!::obj
+(define-inline
+  (mem-addr-set!::obj
+    obj1914::mem
+    val1913::ir-expr)
+  (pragma::obj
+    "((((BgL_memz00_bglt)CREF($1))->BgL_addrz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+    obj1914
+    val1913))
+;; mem-addr::ir-expr
+(define-inline
+  (mem-addr::ir-expr obj1912::mem)
+  (free-pragma::ir-expr
+    "(((BgL_memz00_bglt)CREF($1))->BgL_addrz00)"
+    obj1912))
+;; opfx?::bool
+(define-inline
+  (opfx?::bool obj1911)
+  (is-a? obj1911 (@ opfx ir_node)))
+;; fill-opfx!::opfx
+(define-inline
+  (fill-opfx!::opfx
+    new1900::opfx
+    op1897::symbol
+    left1898::ir-expr
+    right1899::ir-expr)
+  (let ((op1897::symbol op1897)
+        (left1898::ir-expr left1898)
+        (right1899::ir-expr right1899))
+       (begin (pragma::obj
+                "((((BgL_opfxz00_bglt)CREF($1))->BgL_opz00) = ((obj_t)$2), BUNSPEC)"
+                new1900
+                op1897)
+              (pragma::obj
+                "((((BgL_opfxz00_bglt)CREF($1))->BgL_leftz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+                new1900
+                left1898)
+              (pragma::obj
+                "((((BgL_opfxz00_bglt)CREF($1))->BgL_rightz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+                new1900
+                right1899)
+              new1900)))
+;; make-opfx::opfx
+(define-inline
+  (make-opfx::opfx
+    op1905::symbol
+    left1906::ir-expr
+    right1907::ir-expr)
+  (let ((new1908::opfx (allocate-opfx)))
+       (begin (fill-opfx! new1908 op1905 left1906 right1907)
+              new1908)))
+;; allocate-opfx::opfx
+(define-inline
+  (allocate-opfx::opfx)
+  (let ((new1910::opfx
+          (free-pragma::opfx
+            "((BgL_opfxz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_opfxz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1910
+                ((@ class-num __object) (@ opfx ir_node)))
+              (object-widening-set! new1910 #f)
+              (object-mark-producer! new1910)
+              new1910)))
+;; opfx-op::symbol
+(define-inline
+  (opfx-op::symbol obj1890::opfx)
+  (free-pragma::symbol
+    "(((BgL_opfxz00_bglt)CREF($1))->BgL_opz00)"
+    obj1890))
+;; opfx-left-set!::obj
+(define-inline
+  (opfx-left-set!::obj
+    obj1893::opfx
+    val1892::ir-expr)
+  (pragma::obj
+    "((((BgL_opfxz00_bglt)CREF($1))->BgL_leftz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+    obj1893
+    val1892))
+;; opfx-left::ir-expr
+(define-inline
+  (opfx-left::ir-expr obj1891::opfx)
+  (free-pragma::ir-expr
+    "(((BgL_opfxz00_bglt)CREF($1))->BgL_leftz00)"
+    obj1891))
+;; opfx-right-set!::obj
+(define-inline
+  (opfx-right-set!::obj
+    obj1896::opfx
+    val1895::ir-expr)
+  (pragma::obj
+    "((((BgL_opfxz00_bglt)CREF($1))->BgL_rightz00) = ((BgL_irzd2exprzd2_bglt)$2), BUNSPEC)"
+    obj1896
+    val1895))
+;; opfx-right::ir-expr
+(define-inline
+  (opfx-right::ir-expr obj1894::opfx)
+  (free-pragma::ir-expr
+    "(((BgL_opfxz00_bglt)CREF($1))->BgL_rightz00)"
+    obj1894))
+;; ireg?::bool
+(define-inline
+  (ireg?::bool obj1889)
+  (is-a? obj1889 (@ ireg ir_node)))
+;; fill-ireg!::ireg
+(define-inline
+  (fill-ireg!::ireg
+    new1874::ireg
+    key1869::obj
+    name1870::bstring
+    interference1871::obj
+    hardware1872::obj
+    temp1873::obj)
+  (let ((key1869::obj key1869)
+        (name1870::bstring name1870)
+        (interference1871::obj interference1871)
+        (hardware1872::obj hardware1872)
+        (temp1873::obj temp1873))
+       (begin (pragma::obj
+                "((((BgL_iregz00_bglt)CREF($1))->BgL_keyz00) = ((obj_t)$2), BUNSPEC)"
+                new1874
+                key1869)
+              (pragma::obj
+                "((((BgL_iregz00_bglt)CREF($1))->BgL_namez00) = ((obj_t)$2), BUNSPEC)"
+                new1874
+                name1870)
+              (pragma::obj
+                "((((BgL_iregz00_bglt)CREF($1))->BgL_interferencez00) = ((obj_t)$2), BUNSPEC)"
+                new1874
+                interference1871)
+              (pragma::obj
+                "((((BgL_iregz00_bglt)CREF($1))->BgL_hardwarez00) = ((obj_t)$2), BUNSPEC)"
+                new1874
+                hardware1872)
+              (pragma::obj
+                "((((BgL_iregz00_bglt)CREF($1))->BgL_tempz00) = ((obj_t)$2), BUNSPEC)"
+                new1874
+                temp1873)
+              new1874)))
+;; make-ireg::ireg
+(define-inline
+  (make-ireg::ireg
+    key1881::obj
+    name1882::bstring
+    interference1883::obj
+    hardware1884::obj
+    temp1885::obj)
+  (let ((new1886::ireg (allocate-ireg)))
+       (begin (fill-ireg!
+                new1886
+                key1881
+                name1882
+                interference1883
+                hardware1884
+                temp1885)
+              new1886)))
+;; allocate-ireg::ireg
+(define-inline
+  (allocate-ireg::ireg)
+  (let ((new1888::ireg
+          (free-pragma::ireg
+            "((BgL_iregz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_iregz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1888
+                ((@ class-num __object) (@ ireg ir_node)))
+              (object-widening-set! new1888 #f)
+              (object-mark-producer! new1888)
+              new1888)))
+;; ireg-temp-set!::obj
+(define-inline
+  (ireg-temp-set!::obj obj1868::ireg val1867::obj)
+  (pragma::obj
+    "((((BgL_iregz00_bglt)CREF($1))->BgL_tempz00) = ((obj_t)$2), BUNSPEC)"
+    obj1868
+    val1867))
+;; ireg-temp::obj
+(define-inline
+  (ireg-temp::obj obj1866::ireg)
+  (free-pragma::obj
+    "(((BgL_iregz00_bglt)CREF($1))->BgL_tempz00)"
+    obj1866))
+;; temp?::bool
+(define-inline
+  (temp?::bool obj1855)
+  (is-a? obj1855 (@ temp ir_node)))
+;; fill-temp!::temp
+(define-inline
+  (fill-temp!::temp
+    new1842::temp
+    key1838::obj
+    name1839::bstring
+    interference1840::obj
+    hardware1841::obj)
+  (let ((key1838::obj key1838)
+        (name1839::bstring name1839)
+        (interference1840::obj interference1840)
+        (hardware1841::obj hardware1841))
+       (begin (pragma::obj
+                "((((BgL_tempz00_bglt)CREF($1))->BgL_keyz00) = ((obj_t)$2), BUNSPEC)"
+                new1842
+                key1838)
+              (pragma::obj
+                "((((BgL_tempz00_bglt)CREF($1))->BgL_namez00) = ((obj_t)$2), BUNSPEC)"
+                new1842
+                name1839)
+              (pragma::obj
+                "((((BgL_tempz00_bglt)CREF($1))->BgL_interferencez00) = ((obj_t)$2), BUNSPEC)"
+                new1842
+                interference1840)
+              (pragma::obj
+                "((((BgL_tempz00_bglt)CREF($1))->BgL_hardwarez00) = ((obj_t)$2), BUNSPEC)"
+                new1842
+                hardware1841)
+              new1842)))
+;; make-temp::temp
+(define-inline
+  (make-temp::temp
+    key1848::obj
+    name1849::bstring
+    interference1850::obj
+    hardware1851::obj)
+  (let ((new1852::temp (allocate-temp)))
+       (begin (fill-temp!
+                new1852
+                key1848
+                name1849
+                interference1850
+                hardware1851)
+              new1852)))
+;; allocate-temp::temp
+(define-inline
+  (allocate-temp::temp)
+  (let ((new1854::temp
+          (free-pragma::temp
+            "((BgL_tempz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_tempz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1854
+                ((@ class-num __object) (@ temp ir_node)))
+              (object-widening-set! new1854 #f)
+              (object-mark-producer! new1854)
+              new1854)))
+;; temp-key-set!::obj
+(define-inline
+  (temp-key-set!::obj obj1830::temp val1829::obj)
+  (pragma::obj
+    "((((BgL_tempz00_bglt)CREF($1))->BgL_keyz00) = ((obj_t)$2), BUNSPEC)"
+    obj1830
+    val1829))
+;; temp-key::obj
+(define-inline
+  (temp-key::obj obj1828::temp)
+  (free-pragma::obj
+    "(((BgL_tempz00_bglt)CREF($1))->BgL_keyz00)"
+    obj1828))
+;; temp-name::bstring
+(define-inline
+  (temp-name::bstring obj1831::temp)
+  (free-pragma::bstring
+    "(((BgL_tempz00_bglt)CREF($1))->BgL_namez00)"
+    obj1831))
+;; temp-interference-set!::obj
+(define-inline
+  (temp-interference-set!::obj
+    obj1834::temp
+    val1833::obj)
+  (pragma::obj
+    "((((BgL_tempz00_bglt)CREF($1))->BgL_interferencez00) = ((obj_t)$2), BUNSPEC)"
+    obj1834
+    val1833))
+;; temp-interference::obj
+(define-inline
+  (temp-interference::obj obj1832::temp)
+  (free-pragma::obj
+    "(((BgL_tempz00_bglt)CREF($1))->BgL_interferencez00)"
+    obj1832))
+;; temp-hardware-set!::obj
+(define-inline
+  (temp-hardware-set!::obj
+    obj1837::temp
+    val1836::obj)
+  (pragma::obj
+    "((((BgL_tempz00_bglt)CREF($1))->BgL_hardwarez00) = ((obj_t)$2), BUNSPEC)"
+    obj1837
+    val1836))
+;; temp-hardware::obj
+(define-inline
+  (temp-hardware::obj obj1835::temp)
+  (free-pragma::obj
+    "(((BgL_tempz00_bglt)CREF($1))->BgL_hardwarez00)"
+    obj1835))
+;; name?::bool
+(define-inline
+  (name?::bool obj1827)
+  (is-a? obj1827 (@ name ir_node)))
+;; fill-name!::name
+(define-inline
+  (fill-name!::name new1820::name label1819::label)
+  (let ((label1819::label label1819))
+       (begin (pragma::obj
+                "((((BgL_namez00_bglt)CREF($1))->BgL_labelz00) = ((BgL_labelz00_bglt)$2), BUNSPEC)"
+                new1820
+                label1819)
+              new1820)))
+;; make-name::name
+(define-inline
+  (make-name::name label1823::label)
+  (let ((new1824::name (allocate-name)))
+       (begin (fill-name! new1824 label1823) new1824)))
+;; allocate-name::name
+(define-inline
+  (allocate-name::name)
+  (let ((new1826::name
+          (free-pragma::name
+            "((BgL_namez00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_namez00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1826
+                ((@ class-num __object) (@ name ir_node)))
+              (object-widening-set! new1826 #f)
+              (object-mark-producer! new1826)
+              new1826)))
+;; name-label::label
+(define-inline
+  (name-label::label obj1818::name)
+  (free-pragma::label
+    "(((BgL_namez00_bglt)CREF($1))->BgL_labelz00)"
+    obj1818))
+;; ir-const?::bool
+(define-inline
+  (ir-const?::bool obj1817)
+  (is-a? obj1817 (@ ir-const ir_node)))
+;; fill-ir-const!::ir-const
+(define-inline
+  (fill-ir-const!::ir-const
+    new1810::ir-const
+    value1809::int)
+  (let ((value1809::int value1809))
+       (begin (pragma::obj
+                "((((BgL_irzd2constzd2_bglt)CREF($1))->BgL_valuez00) = ((int)$2), BUNSPEC)"
+                new1810
+                value1809)
+              new1810)))
+;; make-ir-const::ir-const
+(define-inline
+  (make-ir-const::ir-const value1813::int)
+  (let ((new1814::ir-const (allocate-ir-const)))
+       (begin (fill-ir-const! new1814 value1813)
+              new1814)))
+;; allocate-ir-const::ir-const
+(define-inline
+  (allocate-ir-const::ir-const)
+  (let ((new1816::ir-const
+          (free-pragma::ir-const
+            "((BgL_irzd2constzd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_irzd2constzd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new1816
+                ((@ class-num __object) (@ ir-const ir_node)))
+              (object-widening-set! new1816 #f)
+              (object-mark-producer! new1816)
+              new1816)))
+;; ir-const-value::int
+(define-inline
+  (ir-const-value::int obj1808::ir-const)
+  (free-pragma::int
+    "(((BgL_irzd2constzd2_bglt)CREF($1))->BgL_valuez00)"
+    obj1808))
+;; ir-expr?::bool
+(define-inline
+  (ir-expr?::bool obj1807)
+  (is-a? obj1807 (@ ir-expr ir_node)))
+;; fill-ir-expr!::ir-expr
+(define-inline
+  (fill-ir-expr!::ir-expr new1802::ir-expr)
+  (let () new1802))
+;; make-ir-expr::ir-expr
+(define-inline
+  (make-ir-expr::ir-expr)
+  (let ((new1804::ir-expr (allocate-ir-expr)))
+       (begin (fill-ir-expr! new1804) new1804)))
+;; allocate-ir-expr::ir-expr
+(define-inline
+  (allocate-ir-expr::ir-expr)
+  (let ((new1806::ir-expr
+          (free-pragma::ir-expr
+            "((BgL_irzd2exprzd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_irzd2exprzd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new1806
+                ((@ class-num __object) (@ ir-expr ir_node)))
+              (object-widening-set! new1806 #f)
+              (object-mark-producer! new1806)
+              new1806)))
+;; basic-block?::bool
+(define-inline
+  (basic-block?::bool obj1801)
+  (is-a? obj1801 (@ basic-block ir_node)))
+;; fill-basic-block!::basic-block
+(define-inline
+  (fill-basic-block!::basic-block
+    new1788::basic-block
+    mark1784::obj
+    prolog1785::label
+    body1786::obj
+    epilogue1787::ir-stmt)
+  (let ((mark1784::obj mark1784)
+        (prolog1785::label prolog1785)
+        (body1786::obj body1786)
+        (epilogue1787::ir-stmt epilogue1787))
+       (begin (pragma::obj
+                "((((BgL_basiczd2blockzd2_bglt)CREF($1))->BgL_markz00) = ((obj_t)$2), BUNSPEC)"
+                new1788
+                mark1784)
+              (pragma::obj
+                "((((BgL_basiczd2blockzd2_bglt)CREF($1))->BgL_prologz00) = ((BgL_labelz00_bglt)$2), BUNSPEC)"
+                new1788
+                prolog1785)
+              (pragma::obj
+                "((((BgL_basiczd2blockzd2_bglt)CREF($1))->BgL_bodyz00) = ((obj_t)$2), BUNSPEC)"
+                new1788
+                body1786)
+              (pragma::obj
+                "((((BgL_basiczd2blockzd2_bglt)CREF($1))->BgL_epiloguez00) = ((BgL_irzd2stmtzd2_bglt)$2), BUNSPEC)"
+                new1788
+                epilogue1787)
+              new1788)))
+;; make-basic-block::basic-block
+(define-inline
+  (make-basic-block::basic-block
+    mark1794::obj
+    prolog1795::label
+    body1796::obj
+    epilogue1797::ir-stmt)
+  (let ((new1798::basic-block (allocate-basic-block)))
+       (begin (fill-basic-block!
+                new1798
+                mark1794
+                prolog1795
+                body1796
+                epilogue1797)
+              new1798)))
+;; allocate-basic-block::basic-block
+(define-inline
+  (allocate-basic-block::basic-block)
+  (let ((new1800::basic-block
+          (free-pragma::basic-block
+            "((BgL_basiczd2blockzd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_basiczd2blockzd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new1800
+                ((@ class-num __object) (@ basic-block ir_node)))
+              (object-widening-set! new1800 #f)
+              (object-mark-producer! new1800)
+              new1800)))
+;; basic-block-mark-set!::obj
+(define-inline
+  (basic-block-mark-set!::obj
+    obj1780::basic-block
+    val1779::obj)
+  (pragma::obj
+    "((((BgL_basiczd2blockzd2_bglt)CREF($1))->BgL_markz00) = ((obj_t)$2), BUNSPEC)"
+    obj1780
+    val1779))
+;; basic-block-mark::obj
+(define-inline
+  (basic-block-mark::obj obj1778::basic-block)
+  (free-pragma::obj
+    "(((BgL_basiczd2blockzd2_bglt)CREF($1))->BgL_markz00)"
+    obj1778))
+;; basic-block-prolog::label
+(define-inline
+  (basic-block-prolog::label obj1781::basic-block)
+  (free-pragma::label
+    "(((BgL_basiczd2blockzd2_bglt)CREF($1))->BgL_prologz00)"
+    obj1781))
+;; basic-block-body::obj
+(define-inline
+  (basic-block-body::obj obj1782::basic-block)
+  (free-pragma::obj
+    "(((BgL_basiczd2blockzd2_bglt)CREF($1))->BgL_bodyz00)"
+    obj1782))
+;; basic-block-epilogue::ir-stmt
+(define-inline
+  (basic-block-epilogue::ir-stmt
+    obj1783::basic-block)
+  (free-pragma::ir-stmt
+    "(((BgL_basiczd2blockzd2_bglt)CREF($1))->BgL_epiloguez00)"
+    obj1783))
+;; framedecl?::bool
+(define-inline
+  (framedecl?::bool obj1742)
+  (is-a? obj1742 (@ framedecl ir_node)))
+;; widening-framedecl::framedecl
+(define-inline
+  (widening-framedecl::framedecl
+    prolog1693::label
+    link1694::obj
+    ir-stmt1695::ir-stmt
+    epilogue1696::label
+    frame-pointer-saved?1697::obj
+    local-num1698::int
+    saved-registers1699::obj
+    spill-num1700::int
+    spilled1701::obj)
+  (let ((new1702::framedecl
+          (free-pragma::framedecl
+            "((BgL_framedeclz00_bglt)BREF( GC_MALLOC (sizeof(struct BgL_framedeclz00_bgl))))")))
+       (begin #unspecified
+              (fill-framedecl!
+                new1702
+                prolog1693
+                link1694
+                ir-stmt1695
+                epilogue1696
+                frame-pointer-saved?1697
+                local-num1698
+                saved-registers1699
+                spill-num1700
+                spilled1701)
+              new1702)))
+;; fill-framedecl!::framedecl
+(define-inline
+  (fill-framedecl!::framedecl
+    new1713::framedecl
+    prolog1704::label
+    link1705::obj
+    ir-stmt1706::ir-stmt
+    epilogue1707::label
+    frame-pointer-saved?1708::obj
+    local-num1709::int
+    saved-registers1710::obj
+    spill-num1711::int
+    spilled1712::obj)
+  (let ((prolog1704::label prolog1704)
+        (link1705::obj link1705)
+        (ir-stmt1706::ir-stmt ir-stmt1706)
+        (epilogue1707::label epilogue1707)
+        (frame-pointer-saved?1708::obj
+          frame-pointer-saved?1708)
+        (local-num1709::int local-num1709)
+        (saved-registers1710::obj saved-registers1710)
+        (spill-num1711::int spill-num1711)
+        (spilled1712::obj spilled1712))
+       (begin (pragma::obj
+                "((((BgL_framedeclz00_bglt)CREF($1))->BgL_prologz00) = ((BgL_labelz00_bglt)$2), BUNSPEC)"
+                new1713
+                prolog1704)
+              (pragma::obj
+                "((((BgL_framedeclz00_bglt)CREF($1))->BgL_linkz00) = ((obj_t)$2), BUNSPEC)"
+                new1713
+                link1705)
+              (pragma::obj
+                "((((BgL_framedeclz00_bglt)CREF($1))->BgL_irzd2stmtzd2) = ((BgL_irzd2stmtzd2_bglt)$2), BUNSPEC)"
+                new1713
+                ir-stmt1706)
+              (pragma::obj
+                "((((BgL_framedeclz00_bglt)CREF($1))->BgL_epiloguez00) = ((BgL_labelz00_bglt)$2), BUNSPEC)"
+                new1713
+                epilogue1707)
+              (pragma::obj
+                "((((BgL_framedeclz00_bglt)CREF($1))->BgL_framezd2pointerzd2savedzf3zf3) = ((obj_t)$2), BUNSPEC)"
+                new1713
+                frame-pointer-saved?1708)
+              (pragma::obj
+                "((((BgL_framedeclz00_bglt)CREF($1))->BgL_localzd2numzd2) = ((int)$2), BUNSPEC)"
+                new1713
+                local-num1709)
+              (pragma::obj
+                "((((BgL_framedeclz00_bglt)CREF($1))->BgL_savedzd2registerszd2) = ((obj_t)$2), BUNSPEC)"
+                new1713
+                saved-registers1710)
+              (pragma::obj
+                "((((BgL_framedeclz00_bglt)CREF($1))->BgL_spillzd2numzd2) = ((int)$2), BUNSPEC)"
+                new1713
+                spill-num1711)
+              (pragma::obj
+                "((((BgL_framedeclz00_bglt)CREF($1))->BgL_spilledz00) = ((obj_t)$2), BUNSPEC)"
+                new1713
+                spilled1712)
+              new1713)))
+;; make-framedecl::framedecl
+(define-inline
+  (make-framedecl::framedecl
+    location1733::obj
+    id1734::obj
+    type1735::obj
+    params1736::obj
+    body1737::stmt
+    depth1738::obj
+    prolog1724::label
+    link1725::obj
+    ir-stmt1726::ir-stmt
+    epilogue1727::label
+    frame-pointer-saved?1728::obj
+    local-num1729::int
+    saved-registers1730::obj
+    spill-num1731::int
+    spilled1732::obj)
+  (let ((aux1739::fundecl
+          (make-fundecl
+            location1733
+            id1734
+            type1735
+            params1736
+            body1737
+            depth1738)))
+       (let ((new1740::framedecl
+               (___bgl_private_stamp_mark
+                 cast
+                 framedecl
+                 aux1739)))
+            (begin (object-class-num-set!
+                     new1740
+                     (class-num (@ framedecl ir_node)))
+                   (object-widening-set!
+                     new1740
+                     (widening-framedecl
+                       prolog1724
+                       link1725
+                       ir-stmt1726
+                       epilogue1727
+                       frame-pointer-saved?1728
+                       local-num1729
+                       saved-registers1730
+                       spill-num1731
+                       spilled1732))
+                   (object-mark-producer! new1740)
+                   new1740))))
+;; allocate-framedecl::fundecl
+(define-inline
+  (allocate-framedecl::fundecl)
+  (let ((new1741::fundecl
+          (free-pragma::fundecl
+            "((BgL_fundeclz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_fundeclz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1741
+                ((@ class-num __object) (@ framedecl ir_node)))
+              (object-widening-set! new1741 #f)
+              (object-mark-producer! new1741)
+              new1741)))
+;; framedecl-prolog::label
+(define-inline
+  (framedecl-prolog::label obj1743::framedecl)
+  (free-pragma::label
+    "(((BgL_framedeclz00_bglt)CREF($1))->BgL_prologz00)"
+    (object-widening obj1743)))
+;; framedecl-link::obj
+(define-inline
+  (framedecl-link::obj obj1744::framedecl)
+  (free-pragma::obj
+    "(((BgL_framedeclz00_bglt)CREF($1))->BgL_linkz00)"
+    (object-widening obj1744)))
+;; framedecl-ir-stmt-set!::obj
+(define-inline
+  (framedecl-ir-stmt-set!::obj
+    obj1747::framedecl
+    val1746::ir-stmt)
+  (pragma::obj
+    "((((BgL_framedeclz00_bglt)CREF($1))->BgL_irzd2stmtzd2) = ((BgL_irzd2stmtzd2_bglt)$2), BUNSPEC)"
+    (object-widening obj1747)
+    val1746))
+;; framedecl-ir-stmt::ir-stmt
+(define-inline
+  (framedecl-ir-stmt::ir-stmt obj1745::framedecl)
+  (free-pragma::ir-stmt
+    "(((BgL_framedeclz00_bglt)CREF($1))->BgL_irzd2stmtzd2)"
+    (object-widening obj1745)))
+;; framedecl-epilogue::label
+(define-inline
+  (framedecl-epilogue::label obj1748::framedecl)
+  (free-pragma::label
+    "(((BgL_framedeclz00_bglt)CREF($1))->BgL_epiloguez00)"
+    (object-widening obj1748)))
+;; framedecl-frame-pointer-saved?-set!::obj
+(define-inline
+  (framedecl-frame-pointer-saved?-set!::obj
+    obj1751::framedecl
+    val1750::obj)
+  (pragma::obj
+    "((((BgL_framedeclz00_bglt)CREF($1))->BgL_framezd2pointerzd2savedzf3zf3) = ((obj_t)$2), BUNSPEC)"
+    (object-widening obj1751)
+    val1750))
+;; framedecl-frame-pointer-saved?::obj
+(define-inline
+  (framedecl-frame-pointer-saved?::obj
+    obj1749::framedecl)
+  (free-pragma::obj
+    "(((BgL_framedeclz00_bglt)CREF($1))->BgL_framezd2pointerzd2savedzf3zf3)"
+    (object-widening obj1749)))
+;; framedecl-local-num-set!::obj
+(define-inline
+  (framedecl-local-num-set!::obj
+    obj1754::framedecl
+    val1753::int)
+  (pragma::obj
+    "((((BgL_framedeclz00_bglt)CREF($1))->BgL_localzd2numzd2) = ((int)$2), BUNSPEC)"
+    (object-widening obj1754)
+    val1753))
+;; framedecl-local-num::int
+(define-inline
+  (framedecl-local-num::int obj1752::framedecl)
+  (free-pragma::int
+    "(((BgL_framedeclz00_bglt)CREF($1))->BgL_localzd2numzd2)"
+    (object-widening obj1752)))
+;; framedecl-saved-registers-set!::obj
+(define-inline
+  (framedecl-saved-registers-set!::obj
+    obj1757::framedecl
+    val1756::obj)
+  (pragma::obj
+    "((((BgL_framedeclz00_bglt)CREF($1))->BgL_savedzd2registerszd2) = ((obj_t)$2), BUNSPEC)"
+    (object-widening obj1757)
+    val1756))
+;; framedecl-saved-registers::obj
+(define-inline
+  (framedecl-saved-registers::obj
+    obj1755::framedecl)
+  (free-pragma::obj
+    "(((BgL_framedeclz00_bglt)CREF($1))->BgL_savedzd2registerszd2)"
+    (object-widening obj1755)))
+;; framedecl-spill-num-set!::obj
+(define-inline
+  (framedecl-spill-num-set!::obj
+    obj1760::framedecl
+    val1759::int)
+  (pragma::obj
+    "((((BgL_framedeclz00_bglt)CREF($1))->BgL_spillzd2numzd2) = ((int)$2), BUNSPEC)"
+    (object-widening obj1760)
+    val1759))
+;; framedecl-spill-num::int
+(define-inline
+  (framedecl-spill-num::int obj1758::framedecl)
+  (free-pragma::int
+    "(((BgL_framedeclz00_bglt)CREF($1))->BgL_spillzd2numzd2)"
+    (object-widening obj1758)))
+;; framedecl-spilled-set!::obj
+(define-inline
+  (framedecl-spilled-set!::obj
+    obj1763::framedecl
+    val1762::obj)
+  (pragma::obj
+    "((((BgL_framedeclz00_bglt)CREF($1))->BgL_spilledz00) = ((obj_t)$2), BUNSPEC)"
+    (object-widening obj1763)
+    val1762))
+;; framedecl-spilled::obj
+(define-inline
+  (framedecl-spilled::obj obj1761::framedecl)
+  (free-pragma::obj
+    "(((BgL_framedeclz00_bglt)CREF($1))->BgL_spilledz00)"
+    (object-widening obj1761)))
+;; ir-stmt?::bool
+(define-inline
+  (ir-stmt?::bool obj1692)
+  (is-a? obj1692 (@ ir-stmt ir_node)))
+;; fill-ir-stmt!::ir-stmt
+(define-inline
+  (fill-ir-stmt!::ir-stmt new1687::ir-stmt)
+  (let () new1687))
+;; make-ir-stmt::ir-stmt
+(define-inline
+  (make-ir-stmt::ir-stmt)
+  (let ((new1689::ir-stmt (allocate-ir-stmt)))
+       (begin (fill-ir-stmt! new1689) new1689)))
+;; allocate-ir-stmt::ir-stmt
+(define-inline
+  (allocate-ir-stmt::ir-stmt)
+  (let ((new1691::ir-stmt
+          (free-pragma::ir-stmt
+            "((BgL_irzd2stmtzd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_irzd2stmtzd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new1691
+                ((@ class-num __object) (@ ir-stmt ir_node)))
+              (object-widening-set! new1691 #f)
+              (object-mark-producer! new1691)
+              new1691)))
+;; ir?::bool
+(define-inline
+  (ir?::bool obj1686)
+  (is-a? obj1686 (@ ir ir_node)))
+;; fill-ir!::ir
+(define-inline
+  (fill-ir!::ir
+    new1675::ir
+    text-segment1672::obj
+    bss-segment1673::obj
+    data-segment1674::obj)
+  (let ((text-segment1672::obj text-segment1672)
+        (bss-segment1673::obj bss-segment1673)
+        (data-segment1674::obj data-segment1674))
+       (begin (pragma::obj
+                "((((BgL_irz00_bglt)CREF($1))->BgL_textzd2segmentzd2) = ((obj_t)$2), BUNSPEC)"
+                new1675
+                text-segment1672)
+              (pragma::obj
+                "((((BgL_irz00_bglt)CREF($1))->BgL_bsszd2segmentzd2) = ((obj_t)$2), BUNSPEC)"
+                new1675
+                bss-segment1673)
+              (pragma::obj
+                "((((BgL_irz00_bglt)CREF($1))->BgL_datazd2segmentzd2) = ((obj_t)$2), BUNSPEC)"
+                new1675
+                data-segment1674)
+              new1675)))
+;; make-ir::ir
+(define-inline
+  (make-ir::ir
+    text-segment1680::obj
+    bss-segment1681::obj
+    data-segment1682::obj)
+  (let ((new1683::ir (allocate-ir)))
+       (begin (fill-ir!
+                new1683
+                text-segment1680
+                bss-segment1681
+                data-segment1682)
+              new1683)))
+;; allocate-ir::ir
+(define-inline
+  (allocate-ir::ir)
+  (let ((new1685::ir
+          (free-pragma::ir
+            "((BgL_irz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_irz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1685
+                ((@ class-num __object) (@ ir ir_node)))
+              (object-widening-set! new1685 #f)
+              (object-mark-producer! new1685)
+              new1685)))
+;; ir-text-segment-set!::obj
+(define-inline
+  (ir-text-segment-set!::obj
+    obj1665::ir
+    val1664::obj)
+  (pragma::obj
+    "((((BgL_irz00_bglt)CREF($1))->BgL_textzd2segmentzd2) = ((obj_t)$2), BUNSPEC)"
+    obj1665
+    val1664))
+;; ir-text-segment::obj
+(define-inline
+  (ir-text-segment::obj obj1663::ir)
+  (free-pragma::obj
+    "(((BgL_irz00_bglt)CREF($1))->BgL_textzd2segmentzd2)"
+    obj1663))
+;; ir-bss-segment-set!::obj
+(define-inline
+  (ir-bss-segment-set!::obj
+    obj1668::ir
+    val1667::obj)
+  (pragma::obj
+    "((((BgL_irz00_bglt)CREF($1))->BgL_bsszd2segmentzd2) = ((obj_t)$2), BUNSPEC)"
+    obj1668
+    val1667))
+;; ir-bss-segment::obj
+(define-inline
+  (ir-bss-segment::obj obj1666::ir)
+  (free-pragma::obj
+    "(((BgL_irz00_bglt)CREF($1))->BgL_bsszd2segmentzd2)"
+    obj1666))
+;; ir-data-segment-set!::obj
+(define-inline
+  (ir-data-segment-set!::obj
+    obj1671::ir
+    val1670::obj)
+  (pragma::obj
+    "((((BgL_irz00_bglt)CREF($1))->BgL_datazd2segmentzd2) = ((obj_t)$2), BUNSPEC)"
+    obj1671
+    val1670))
+;; ir-data-segment::obj
+(define-inline
+  (ir-data-segment::obj obj1669::ir)
+  (free-pragma::obj
+    "(((BgL_irz00_bglt)CREF($1))->BgL_datazd2segmentzd2)"
+    obj1669))
+;; ident?::bool
+(define-inline
+  (ident?::bool obj1662)
+  (is-a? obj1662 (@ ident ast_ident)))
+;; fill-ident!::ident
+(define-inline
+  (fill-ident!::ident
+    new1653::ident
+    name1651::bstring
+    location1652::obj)
+  (let ((name1651::bstring name1651)
+        (location1652::obj location1652))
+       (begin (pragma::obj
+                "((((BgL_identz00_bglt)CREF($1))->BgL_namez00) = ((obj_t)$2), BUNSPEC)"
+                new1653
+                name1651)
+              (pragma::obj
+                "((((BgL_identz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1653
+                location1652)
+              new1653)))
+;; make-ident::ident
+(define-inline
+  (make-ident::ident
+    name1657::bstring
+    location1658::obj)
+  (let ((new1659::ident (allocate-ident)))
+       (begin (fill-ident! new1659 name1657 location1658)
+              new1659)))
+;; allocate-ident::ident
+(define-inline
+  (allocate-ident::ident)
+  (let ((new1661::ident
+          (free-pragma::ident
+            "((BgL_identz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_identz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1661
+                ((@ class-num __object) (@ ident ast_ident)))
+              (object-widening-set! new1661 #f)
+              (object-mark-producer! new1661)
+              new1661)))
+;; ident-name::bstring
+(define-inline
+  (ident-name::bstring obj1649::ident)
+  (free-pragma::bstring
+    "(((BgL_identz00_bglt)CREF($1))->BgL_namez00)"
+    obj1649))
+;; ident-location::obj
+(define-inline
+  (ident-location::obj obj1650::ident)
+  (free-pragma::obj
+    "(((BgL_identz00_bglt)CREF($1))->BgL_locationz00)"
+    obj1650))
+;; varref?::bool
+(define-inline
+  (varref?::bool obj1648)
+  (is-a? obj1648 (@ varref ast_node)))
+;; fill-varref!::varref
+(define-inline
+  (fill-varref!::varref
+    new1637::varref
+    location1634::obj
+    depth1635::int
+    vardecl1636::obj)
+  (let ((location1634::obj location1634)
+        (depth1635::int depth1635)
+        (vardecl1636::obj vardecl1636))
+       (begin (pragma::obj
+                "((((BgL_varrefz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1637
+                location1634)
+              (pragma::obj
+                "((((BgL_varrefz00_bglt)CREF($1))->BgL_depthz00) = ((int)$2), BUNSPEC)"
+                new1637
+                depth1635)
+              (pragma::obj
+                "((((BgL_varrefz00_bglt)CREF($1))->BgL_vardeclz00) = ((obj_t)$2), BUNSPEC)"
+                new1637
+                vardecl1636)
+              new1637)))
+;; make-varref::varref
+(define-inline
+  (make-varref::varref
+    location1642::obj
+    depth1643::int
+    vardecl1644::obj)
+  (let ((new1645::varref (allocate-varref)))
+       (begin (fill-varref!
+                new1645
+                location1642
+                depth1643
+                vardecl1644)
+              new1645)))
+;; allocate-varref::varref
+(define-inline
+  (allocate-varref::varref)
+  (let ((new1647::varref
+          (free-pragma::varref
+            "((BgL_varrefz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_varrefz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1647
+                ((@ class-num __object) (@ varref ast_node)))
+              (object-widening-set! new1647 #f)
+              (object-mark-producer! new1647)
+              new1647)))
+;; varref-depth-set!::obj
+(define-inline
+  (varref-depth-set!::obj
+    obj1630::varref
+    val1629::int)
+  (pragma::obj
+    "((((BgL_varrefz00_bglt)CREF($1))->BgL_depthz00) = ((int)$2), BUNSPEC)"
+    obj1630
+    val1629))
+;; varref-depth::int
+(define-inline
+  (varref-depth::int obj1628::varref)
+  (free-pragma::int
+    "(((BgL_varrefz00_bglt)CREF($1))->BgL_depthz00)"
+    obj1628))
+;; varref-vardecl-set!::obj
+(define-inline
+  (varref-vardecl-set!::obj
+    obj1633::varref
+    val1632::obj)
+  (pragma::obj
+    "((((BgL_varrefz00_bglt)CREF($1))->BgL_vardeclz00) = ((obj_t)$2), BUNSPEC)"
+    obj1633
+    val1632))
+;; varref-vardecl::obj
+(define-inline
+  (varref-vardecl::obj obj1631::varref)
+  (free-pragma::obj
+    "(((BgL_varrefz00_bglt)CREF($1))->BgL_vardeclz00)"
+    obj1631))
+;; const?::bool
+(define-inline
+  (const?::bool obj1626)
+  (is-a? obj1626 (@ const ast_node)))
+;; fill-const!::const
+(define-inline
+  (fill-const!::const
+    new1615::const
+    location1612::obj
+    value1613::obj
+    type1614::obj)
+  (let ((location1612::obj location1612)
+        (value1613::obj value1613)
+        (type1614::obj type1614))
+       (begin (pragma::obj
+                "((((BgL_constz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1615
+                location1612)
+              (pragma::obj
+                "((((BgL_constz00_bglt)CREF($1))->BgL_valuez00) = ((obj_t)$2), BUNSPEC)"
+                new1615
+                value1613)
+              (pragma::obj
+                "((((BgL_constz00_bglt)CREF($1))->BgL_typez00) = ((obj_t)$2), BUNSPEC)"
+                new1615
+                type1614)
+              new1615)))
+;; make-const::const
+(define-inline
+  (make-const::const
+    location1620::obj
+    value1621::obj
+    type1622::obj)
+  (let ((new1623::const (allocate-const)))
+       (begin (fill-const!
+                new1623
+                location1620
+                value1621
+                type1622)
+              new1623)))
+;; allocate-const::const
+(define-inline
+  (allocate-const::const)
+  (let ((new1625::const
+          (free-pragma::const
+            "((BgL_constz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_constz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1625
+                ((@ class-num __object) (@ const ast_node)))
+              (object-widening-set! new1625 #f)
+              (object-mark-producer! new1625)
+              new1625)))
+;; const-value::obj
+(define-inline
+  (const-value::obj obj1608::const)
+  (free-pragma::obj
+    "(((BgL_constz00_bglt)CREF($1))->BgL_valuez00)"
+    obj1608))
+;; const-type-set!::obj
+(define-inline
+  (const-type-set!::obj
+    obj1611::const
+    val1610::obj)
+  (pragma::obj
+    "((((BgL_constz00_bglt)CREF($1))->BgL_typez00) = ((obj_t)$2), BUNSPEC)"
+    obj1611
+    val1610))
+;; const-type::obj
+(define-inline
+  (const-type::obj obj1609::const)
+  (free-pragma::obj
+    "(((BgL_constz00_bglt)CREF($1))->BgL_typez00)"
+    obj1609))
+;; rref?::bool
+(define-inline
+  (rref?::bool obj1606)
+  (is-a? obj1606 (@ rref ast_node)))
+;; fill-rref!::rref
+(define-inline
+  (fill-rref!::rref
+    new1593::rref
+    location1589::obj
+    record1590::expr
+    record-type1591::obj
+    field-id1592::ident)
+  (let ((location1589::obj location1589)
+        (record1590::expr record1590)
+        (record-type1591::obj record-type1591)
+        (field-id1592::ident field-id1592))
+       (begin (pragma::obj
+                "((((BgL_rrefz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1593
+                location1589)
+              (pragma::obj
+                "((((BgL_rrefz00_bglt)CREF($1))->BgL_recordz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1593
+                record1590)
+              (pragma::obj
+                "((((BgL_rrefz00_bglt)CREF($1))->BgL_recordzd2typezd2) = ((obj_t)$2), BUNSPEC)"
+                new1593
+                record-type1591)
+              (pragma::obj
+                "((((BgL_rrefz00_bglt)CREF($1))->BgL_fieldzd2idzd2) = ((BgL_identz00_bglt)$2), BUNSPEC)"
+                new1593
+                field-id1592)
+              new1593)))
+;; make-rref::rref
+(define-inline
+  (make-rref::rref
+    location1599::obj
+    record1600::expr
+    record-type1601::obj
+    field-id1602::ident)
+  (let ((new1603::rref (allocate-rref)))
+       (begin (fill-rref!
+                new1603
+                location1599
+                record1600
+                record-type1601
+                field-id1602)
+              new1603)))
+;; allocate-rref::rref
+(define-inline
+  (allocate-rref::rref)
+  (let ((new1605::rref
+          (free-pragma::rref
+            "((BgL_rrefz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_rrefz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1605
+                ((@ class-num __object) (@ rref ast_node)))
+              (object-widening-set! new1605 #f)
+              (object-mark-producer! new1605)
+              new1605)))
+;; rref-record-set!::obj
+(define-inline
+  (rref-record-set!::obj
+    obj1582::rref
+    val1581::expr)
+  (pragma::obj
+    "((((BgL_rrefz00_bglt)CREF($1))->BgL_recordz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+    obj1582
+    val1581))
+;; rref-record::expr
+(define-inline
+  (rref-record::expr obj1580::rref)
+  (free-pragma::expr
+    "(((BgL_rrefz00_bglt)CREF($1))->BgL_recordz00)"
+    obj1580))
+;; rref-record-type-set!::obj
+(define-inline
+  (rref-record-type-set!::obj
+    obj1585::rref
+    val1584::obj)
+  (pragma::obj
+    "((((BgL_rrefz00_bglt)CREF($1))->BgL_recordzd2typezd2) = ((obj_t)$2), BUNSPEC)"
+    obj1585
+    val1584))
+;; rref-record-type::obj
+(define-inline
+  (rref-record-type::obj obj1583::rref)
+  (free-pragma::obj
+    "(((BgL_rrefz00_bglt)CREF($1))->BgL_recordzd2typezd2)"
+    obj1583))
+;; rref-field-id-set!::obj
+(define-inline
+  (rref-field-id-set!::obj
+    obj1588::rref
+    val1587::ident)
+  (pragma::obj
+    "((((BgL_rrefz00_bglt)CREF($1))->BgL_fieldzd2idzd2) = ((BgL_identz00_bglt)$2), BUNSPEC)"
+    obj1588
+    val1587))
+;; rref-field-id::ident
+(define-inline
+  (rref-field-id::ident obj1586::rref)
+  (free-pragma::ident
+    "(((BgL_rrefz00_bglt)CREF($1))->BgL_fieldzd2idzd2)"
+    obj1586))
+;; aref?::bool
+(define-inline
+  (aref?::bool obj1578)
+  (is-a? obj1578 (@ aref ast_node)))
+;; fill-aref!::aref
+(define-inline
+  (fill-aref!::aref
+    new1567::aref
+    location1564::obj
+    array1565::expr
+    offset1566::expr)
+  (let ((location1564::obj location1564)
+        (array1565::expr array1565)
+        (offset1566::expr offset1566))
+       (begin (pragma::obj
+                "((((BgL_arefz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1567
+                location1564)
+              (pragma::obj
+                "((((BgL_arefz00_bglt)CREF($1))->BgL_arrayz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1567
+                array1565)
+              (pragma::obj
+                "((((BgL_arefz00_bglt)CREF($1))->BgL_offsetz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1567
+                offset1566)
+              new1567)))
+;; make-aref::aref
+(define-inline
+  (make-aref::aref
+    location1572::obj
+    array1573::expr
+    offset1574::expr)
+  (let ((new1575::aref (allocate-aref)))
+       (begin (fill-aref!
+                new1575
+                location1572
+                array1573
+                offset1574)
+              new1575)))
+;; allocate-aref::aref
+(define-inline
+  (allocate-aref::aref)
+  (let ((new1577::aref
+          (free-pragma::aref
+            "((BgL_arefz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_arefz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1577
+                ((@ class-num __object) (@ aref ast_node)))
+              (object-widening-set! new1577 #f)
+              (object-mark-producer! new1577)
+              new1577)))
+;; aref-array-set!::obj
+(define-inline
+  (aref-array-set!::obj
+    obj1560::aref
+    val1559::expr)
+  (pragma::obj
+    "((((BgL_arefz00_bglt)CREF($1))->BgL_arrayz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+    obj1560
+    val1559))
+;; aref-array::expr
+(define-inline
+  (aref-array::expr obj1558::aref)
+  (free-pragma::expr
+    "(((BgL_arefz00_bglt)CREF($1))->BgL_arrayz00)"
+    obj1558))
+;; aref-offset-set!::obj
+(define-inline
+  (aref-offset-set!::obj
+    obj1563::aref
+    val1562::expr)
+  (pragma::obj
+    "((((BgL_arefz00_bglt)CREF($1))->BgL_offsetz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+    obj1563
+    val1562))
+;; aref-offset::expr
+(define-inline
+  (aref-offset::expr obj1561::aref)
+  (free-pragma::expr
+    "(((BgL_arefz00_bglt)CREF($1))->BgL_offsetz00)"
+    obj1561))
+;; funcall?::bool
+(define-inline
+  (funcall?::bool obj1556)
+  (is-a? obj1556 (@ funcall ast_node)))
+;; fill-funcall!::funcall
+(define-inline
+  (fill-funcall!::funcall
+    new1545::funcall
+    location1542::obj
+    fun1543::obj
+    actuals1544::obj)
+  (let ((location1542::obj location1542)
+        (fun1543::obj fun1543)
+        (actuals1544::obj actuals1544))
+       (begin (pragma::obj
+                "((((BgL_funcallz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1545
+                location1542)
+              (pragma::obj
+                "((((BgL_funcallz00_bglt)CREF($1))->BgL_funz00) = ((obj_t)$2), BUNSPEC)"
+                new1545
+                fun1543)
+              (pragma::obj
+                "((((BgL_funcallz00_bglt)CREF($1))->BgL_actualsz00) = ((obj_t)$2), BUNSPEC)"
+                new1545
+                actuals1544)
+              new1545)))
+;; make-funcall::funcall
+(define-inline
+  (make-funcall::funcall
+    location1550::obj
+    fun1551::obj
+    actuals1552::obj)
+  (let ((new1553::funcall (allocate-funcall)))
+       (begin (fill-funcall!
+                new1553
+                location1550
+                fun1551
+                actuals1552)
+              new1553)))
+;; allocate-funcall::funcall
+(define-inline
+  (allocate-funcall::funcall)
+  (let ((new1555::funcall
+          (free-pragma::funcall
+            "((BgL_funcallz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_funcallz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1555
+                ((@ class-num __object) (@ funcall ast_node)))
+              (object-widening-set! new1555 #f)
+              (object-mark-producer! new1555)
+              new1555)))
+;; funcall-fun-set!::obj
+(define-inline
+  (funcall-fun-set!::obj
+    obj1538::funcall
+    val1537::obj)
+  (pragma::obj
+    "((((BgL_funcallz00_bglt)CREF($1))->BgL_funz00) = ((obj_t)$2), BUNSPEC)"
+    obj1538
+    val1537))
+;; funcall-fun::obj
+(define-inline
+  (funcall-fun::obj obj1536::funcall)
+  (free-pragma::obj
+    "(((BgL_funcallz00_bglt)CREF($1))->BgL_funz00)"
+    obj1536))
+;; funcall-actuals-set!::obj
+(define-inline
+  (funcall-actuals-set!::obj
+    obj1541::funcall
+    val1540::obj)
+  (pragma::obj
+    "((((BgL_funcallz00_bglt)CREF($1))->BgL_actualsz00) = ((obj_t)$2), BUNSPEC)"
+    obj1541
+    val1540))
+;; funcall-actuals::obj
+(define-inline
+  (funcall-actuals::obj obj1539::funcall)
+  (free-pragma::obj
+    "(((BgL_funcallz00_bglt)CREF($1))->BgL_actualsz00)"
+    obj1539))
+;; binop?::bool
+(define-inline
+  (binop?::bool obj1534)
+  (is-a? obj1534 (@ binop ast_node)))
+;; fill-binop!::binop
+(define-inline
+  (fill-binop!::binop
+    new1521::binop
+    location1517::obj
+    id1518::ident
+    left1519::expr
+    right1520::expr)
+  (let ((location1517::obj location1517)
+        (id1518::ident id1518)
+        (left1519::expr left1519)
+        (right1520::expr right1520))
+       (begin (pragma::obj
+                "((((BgL_binopz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1521
+                location1517)
+              (pragma::obj
+                "((((BgL_binopz00_bglt)CREF($1))->BgL_idz00) = ((BgL_identz00_bglt)$2), BUNSPEC)"
+                new1521
+                id1518)
+              (pragma::obj
+                "((((BgL_binopz00_bglt)CREF($1))->BgL_leftz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1521
+                left1519)
+              (pragma::obj
+                "((((BgL_binopz00_bglt)CREF($1))->BgL_rightz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1521
+                right1520)
+              new1521)))
+;; make-binop::binop
+(define-inline
+  (make-binop::binop
+    location1527::obj
+    id1528::ident
+    left1529::expr
+    right1530::expr)
+  (let ((new1531::binop (allocate-binop)))
+       (begin (fill-binop!
+                new1531
+                location1527
+                id1528
+                left1529
+                right1530)
+              new1531)))
+;; allocate-binop::binop
+(define-inline
+  (allocate-binop::binop)
+  (let ((new1533::binop
+          (free-pragma::binop
+            "((BgL_binopz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_binopz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1533
+                ((@ class-num __object) (@ binop ast_node)))
+              (object-widening-set! new1533 #f)
+              (object-mark-producer! new1533)
+              new1533)))
+;; binop-id::ident
+(define-inline
+  (binop-id::ident obj1510::binop)
+  (free-pragma::ident
+    "(((BgL_binopz00_bglt)CREF($1))->BgL_idz00)"
+    obj1510))
+;; binop-left-set!::obj
+(define-inline
+  (binop-left-set!::obj
+    obj1513::binop
+    val1512::expr)
+  (pragma::obj
+    "((((BgL_binopz00_bglt)CREF($1))->BgL_leftz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+    obj1513
+    val1512))
+;; binop-left::expr
+(define-inline
+  (binop-left::expr obj1511::binop)
+  (free-pragma::expr
+    "(((BgL_binopz00_bglt)CREF($1))->BgL_leftz00)"
+    obj1511))
+;; binop-right-set!::obj
+(define-inline
+  (binop-right-set!::obj
+    obj1516::binop
+    val1515::expr)
+  (pragma::obj
+    "((((BgL_binopz00_bglt)CREF($1))->BgL_rightz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+    obj1516
+    val1515))
+;; binop-right::expr
+(define-inline
+  (binop-right::expr obj1514::binop)
+  (free-pragma::expr
+    "(((BgL_binopz00_bglt)CREF($1))->BgL_rightz00)"
+    obj1514))
+;; exprstmt-value?::bool
+(define-inline
+  (exprstmt-value?::bool obj1508)
+  (is-a? obj1508 (@ exprstmt-value ast_node)))
+;; fill-exprstmt-value!::exprstmt-value
+(define-inline
+  (fill-exprstmt-value!::exprstmt-value
+    new1499::exprstmt-value
+    location1497::obj
+    >expr1498::expr)
+  (let ((location1497::obj location1497)
+        (>expr1498::expr >expr1498))
+       (begin (pragma::obj
+                "((((BgL_exprstmtzd2valuezd2_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1499
+                location1497)
+              (pragma::obj
+                "((((BgL_exprstmtzd2valuezd2_bglt)CREF($1))->BgL_ze3exprze3) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1499
+                >expr1498)
+              new1499)))
+;; make-exprstmt-value::exprstmt-value
+(define-inline
+  (make-exprstmt-value::exprstmt-value
+    location1503::obj
+    >expr1504::expr)
+  (let ((new1505::exprstmt-value
+          (allocate-exprstmt-value)))
+       (begin (fill-exprstmt-value!
+                new1505
+                location1503
+                >expr1504)
+              new1505)))
+;; allocate-exprstmt-value::exprstmt-value
+(define-inline
+  (allocate-exprstmt-value::exprstmt-value)
+  (let ((new1507::exprstmt-value
+          (free-pragma::exprstmt-value
+            "((BgL_exprstmtzd2valuezd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_exprstmtzd2valuezd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new1507
+                ((@ class-num __object)
+                 (@ exprstmt-value ast_node)))
+              (object-widening-set! new1507 #f)
+              (object-mark-producer! new1507)
+              new1507)))
+;; exprstmt-value->expr-set!::obj
+(define-inline
+  (exprstmt-value->expr-set!::obj
+    obj1496::exprstmt-value
+    val1495::expr)
+  (pragma::obj
+    "((((BgL_exprstmtzd2valuezd2_bglt)CREF($1))->BgL_ze3exprze3) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+    obj1496
+    val1495))
+;; exprstmt-value->expr::expr
+(define-inline
+  (exprstmt-value->expr::expr
+    obj1494::exprstmt-value)
+  (free-pragma::expr
+    "(((BgL_exprstmtzd2valuezd2_bglt)CREF($1))->BgL_ze3exprze3)"
+    obj1494))
+;; exprstmt?::bool
+(define-inline
+  (exprstmt?::bool obj1492)
+  (is-a? obj1492 (@ exprstmt ast_node)))
+;; fill-exprstmt!::exprstmt
+(define-inline
+  (fill-exprstmt!::exprstmt
+    new1485::exprstmt
+    location1484::obj)
+  (let ((location1484::obj location1484))
+       (begin (pragma::obj
+                "((((BgL_exprstmtz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1485
+                location1484)
+              new1485)))
+;; make-exprstmt::exprstmt
+(define-inline
+  (make-exprstmt::exprstmt location1488::obj)
+  (let ((new1489::exprstmt (allocate-exprstmt)))
+       (begin (fill-exprstmt! new1489 location1488)
+              new1489)))
+;; allocate-exprstmt::exprstmt
+(define-inline
+  (allocate-exprstmt::exprstmt)
+  (let ((new1491::exprstmt
+          (free-pragma::exprstmt
+            "((BgL_exprstmtz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_exprstmtz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1491
+                ((@ class-num __object) (@ exprstmt ast_node)))
+              (object-widening-set! new1491 #f)
+              (object-mark-producer! new1491)
+              new1491)))
+;; while?::bool
+(define-inline
+  (while?::bool obj1482)
+  (is-a? obj1482 (@ while ast_node)))
+;; fill-while!::while
+(define-inline
+  (fill-while!::while
+    new1471::while
+    location1468::obj
+    test1469::expr
+    body1470::stmt)
+  (let ((location1468::obj location1468)
+        (test1469::expr test1469)
+        (body1470::stmt body1470))
+       (begin (pragma::obj
+                "((((BgL_whilez00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1471
+                location1468)
+              (pragma::obj
+                "((((BgL_whilez00_bglt)CREF($1))->BgL_testz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1471
+                test1469)
+              (pragma::obj
+                "((((BgL_whilez00_bglt)CREF($1))->BgL_bodyz00) = ((BgL_stmtz00_bglt)$2), BUNSPEC)"
+                new1471
+                body1470)
+              new1471)))
+;; make-while::while
+(define-inline
+  (make-while::while
+    location1476::obj
+    test1477::expr
+    body1478::stmt)
+  (let ((new1479::while (allocate-while)))
+       (begin (fill-while!
+                new1479
+                location1476
+                test1477
+                body1478)
+              new1479)))
+;; allocate-while::while
+(define-inline
+  (allocate-while::while)
+  (let ((new1481::while
+          (free-pragma::while
+            "((BgL_whilez00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_whilez00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1481
+                ((@ class-num __object) (@ while ast_node)))
+              (object-widening-set! new1481 #f)
+              (object-mark-producer! new1481)
+              new1481)))
+;; while-test-set!::obj
+(define-inline
+  (while-test-set!::obj
+    obj1466::while
+    val1465::expr)
+  (pragma::obj
+    "((((BgL_whilez00_bglt)CREF($1))->BgL_testz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+    obj1466
+    val1465))
+;; while-test::expr
+(define-inline
+  (while-test::expr obj1464::while)
+  (free-pragma::expr
+    "(((BgL_whilez00_bglt)CREF($1))->BgL_testz00)"
+    obj1464))
+;; while-body::stmt
+(define-inline
+  (while-body::stmt obj1467::while)
+  (free-pragma::stmt
+    "(((BgL_whilez00_bglt)CREF($1))->BgL_bodyz00)"
+    obj1467))
+;; return-value?::bool
+(define-inline
+  (return-value?::bool obj1462)
+  (is-a? obj1462 (@ return-value ast_node)))
+;; fill-return-value!::return-value
+(define-inline
+  (fill-return-value!::return-value
+    new1453::return-value
+    location1451::obj
+    value1452::expr)
+  (let ((location1451::obj location1451)
+        (value1452::expr value1452))
+       (begin (pragma::obj
+                "((((BgL_returnzd2valuezd2_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1453
+                location1451)
+              (pragma::obj
+                "((((BgL_returnzd2valuezd2_bglt)CREF($1))->BgL_valuez00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1453
+                value1452)
+              new1453)))
+;; make-return-value::return-value
+(define-inline
+  (make-return-value::return-value
+    location1457::obj
+    value1458::expr)
+  (let ((new1459::return-value (allocate-return-value)))
+       (begin (fill-return-value!
+                new1459
+                location1457
+                value1458)
+              new1459)))
+;; allocate-return-value::return-value
+(define-inline
+  (allocate-return-value::return-value)
+  (let ((new1461::return-value
+          (free-pragma::return-value
+            "((BgL_returnzd2valuezd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_returnzd2valuezd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new1461
+                ((@ class-num __object)
+                 (@ return-value ast_node)))
+              (object-widening-set! new1461 #f)
+              (object-mark-producer! new1461)
+              new1461)))
+;; return-value-value-set!::obj
+(define-inline
+  (return-value-value-set!::obj
+    obj1450::return-value
+    val1449::expr)
+  (pragma::obj
+    "((((BgL_returnzd2valuezd2_bglt)CREF($1))->BgL_valuez00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+    obj1450
+    val1449))
+;; return-value-value::expr
+(define-inline
+  (return-value-value::expr obj1448::return-value)
+  (free-pragma::expr
+    "(((BgL_returnzd2valuezd2_bglt)CREF($1))->BgL_valuez00)"
+    obj1448))
+;; break?::bool
+(define-inline
+  (break?::bool obj1446)
+  (is-a? obj1446 (@ break ast_node)))
+;; fill-break!::break
+(define-inline
+  (fill-break!::break
+    new1439::break
+    location1438::obj)
+  (let ((location1438::obj location1438))
+       (begin (pragma::obj
+                "((((BgL_breakz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1439
+                location1438)
+              new1439)))
+;; make-break::break
+(define-inline
+  (make-break::break location1442::obj)
+  (let ((new1443::break (allocate-break)))
+       (begin (fill-break! new1443 location1442)
+              new1443)))
+;; allocate-break::break
+(define-inline
+  (allocate-break::break)
+  (let ((new1445::break
+          (free-pragma::break
+            "((BgL_breakz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_breakz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1445
+                ((@ class-num __object) (@ break ast_node)))
+              (object-widening-set! new1445 #f)
+              (object-mark-producer! new1445)
+              new1445)))
+;; return?::bool
+(define-inline
+  (return?::bool obj1436)
+  (is-a? obj1436 (@ return ast_node)))
+;; fill-return!::return
+(define-inline
+  (fill-return!::return
+    new1429::return
+    location1428::obj)
+  (let ((location1428::obj location1428))
+       (begin (pragma::obj
+                "((((BgL_returnz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1429
+                location1428)
+              new1429)))
+;; make-return::return
+(define-inline
+  (make-return::return location1432::obj)
+  (let ((new1433::return (allocate-return)))
+       (begin (fill-return! new1433 location1432)
+              new1433)))
+;; allocate-return::return
+(define-inline
+  (allocate-return::return)
+  (let ((new1435::return
+          (free-pragma::return
+            "((BgL_returnz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_returnz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1435
+                ((@ class-num __object) (@ return ast_node)))
+              (object-widening-set! new1435 #f)
+              (object-mark-producer! new1435)
+              new1435)))
+;; rset?::bool
+(define-inline
+  (rset?::bool obj1426)
+  (is-a? obj1426 (@ rset ast_node)))
+;; fill-rset!::rset
+(define-inline
+  (fill-rset!::rset
+    new1415::rset
+    location1412::obj
+    rref1413::rref
+    value1414::expr)
+  (let ((location1412::obj location1412)
+        (rref1413::rref rref1413)
+        (value1414::expr value1414))
+       (begin (pragma::obj
+                "((((BgL_rsetz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1415
+                location1412)
+              (pragma::obj
+                "((((BgL_rsetz00_bglt)CREF($1))->BgL_rrefz00) = ((BgL_rrefz00_bglt)$2), BUNSPEC)"
+                new1415
+                rref1413)
+              (pragma::obj
+                "((((BgL_rsetz00_bglt)CREF($1))->BgL_valuez00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1415
+                value1414)
+              new1415)))
+;; make-rset::rset
+(define-inline
+  (make-rset::rset
+    location1420::obj
+    rref1421::rref
+    value1422::expr)
+  (let ((new1423::rset (allocate-rset)))
+       (begin (fill-rset!
+                new1423
+                location1420
+                rref1421
+                value1422)
+              new1423)))
+;; allocate-rset::rset
+(define-inline
+  (allocate-rset::rset)
+  (let ((new1425::rset
+          (free-pragma::rset
+            "((BgL_rsetz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_rsetz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1425
+                ((@ class-num __object) (@ rset ast_node)))
+              (object-widening-set! new1425 #f)
+              (object-mark-producer! new1425)
+              new1425)))
+;; rset-rref::rref
+(define-inline
+  (rset-rref::rref obj1408::rset)
+  (free-pragma::rref
+    "(((BgL_rsetz00_bglt)CREF($1))->BgL_rrefz00)"
+    obj1408))
+;; rset-value-set!::obj
+(define-inline
+  (rset-value-set!::obj
+    obj1411::rset
+    val1410::expr)
+  (pragma::obj
+    "((((BgL_rsetz00_bglt)CREF($1))->BgL_valuez00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+    obj1411
+    val1410))
+;; rset-value::expr
+(define-inline
+  (rset-value::expr obj1409::rset)
+  (free-pragma::expr
+    "(((BgL_rsetz00_bglt)CREF($1))->BgL_valuez00)"
+    obj1409))
+;; aset?::bool
+(define-inline
+  (aset?::bool obj1406)
+  (is-a? obj1406 (@ aset ast_node)))
+;; fill-aset!::aset
+(define-inline
+  (fill-aset!::aset
+    new1395::aset
+    location1392::obj
+    aref1393::aref
+    value1394::expr)
+  (let ((location1392::obj location1392)
+        (aref1393::aref aref1393)
+        (value1394::expr value1394))
+       (begin (pragma::obj
+                "((((BgL_asetz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1395
+                location1392)
+              (pragma::obj
+                "((((BgL_asetz00_bglt)CREF($1))->BgL_arefz00) = ((BgL_arefz00_bglt)$2), BUNSPEC)"
+                new1395
+                aref1393)
+              (pragma::obj
+                "((((BgL_asetz00_bglt)CREF($1))->BgL_valuez00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1395
+                value1394)
+              new1395)))
+;; make-aset::aset
+(define-inline
+  (make-aset::aset
+    location1400::obj
+    aref1401::aref
+    value1402::expr)
+  (let ((new1403::aset (allocate-aset)))
+       (begin (fill-aset!
+                new1403
+                location1400
+                aref1401
+                value1402)
+              new1403)))
+;; allocate-aset::aset
+(define-inline
+  (allocate-aset::aset)
+  (let ((new1405::aset
+          (free-pragma::aset
+            "((BgL_asetz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_asetz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1405
+                ((@ class-num __object) (@ aset ast_node)))
+              (object-widening-set! new1405 #f)
+              (object-mark-producer! new1405)
+              new1405)))
+;; aset-aref::aref
+(define-inline
+  (aset-aref::aref obj1388::aset)
+  (free-pragma::aref
+    "(((BgL_asetz00_bglt)CREF($1))->BgL_arefz00)"
+    obj1388))
+;; aset-value-set!::obj
+(define-inline
+  (aset-value-set!::obj
+    obj1391::aset
+    val1390::expr)
+  (pragma::obj
+    "((((BgL_asetz00_bglt)CREF($1))->BgL_valuez00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+    obj1391
+    val1390))
+;; aset-value::expr
+(define-inline
+  (aset-value::expr obj1389::aset)
+  (free-pragma::expr
+    "(((BgL_asetz00_bglt)CREF($1))->BgL_valuez00)"
+    obj1389))
+;; setq?::bool
+(define-inline
+  (setq?::bool obj1386)
+  (is-a? obj1386 (@ setq ast_node)))
+;; fill-setq!::setq
+(define-inline
+  (fill-setq!::setq
+    new1375::setq
+    location1372::obj
+    varref1373::obj
+    value1374::expr)
+  (let ((location1372::obj location1372)
+        (varref1373::obj varref1373)
+        (value1374::expr value1374))
+       (begin (pragma::obj
+                "((((BgL_setqz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1375
+                location1372)
+              (pragma::obj
+                "((((BgL_setqz00_bglt)CREF($1))->BgL_varrefz00) = ((obj_t)$2), BUNSPEC)"
+                new1375
+                varref1373)
+              (pragma::obj
+                "((((BgL_setqz00_bglt)CREF($1))->BgL_valuez00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1375
+                value1374)
+              new1375)))
+;; make-setq::setq
+(define-inline
+  (make-setq::setq
+    location1380::obj
+    varref1381::obj
+    value1382::expr)
+  (let ((new1383::setq (allocate-setq)))
+       (begin (fill-setq!
+                new1383
+                location1380
+                varref1381
+                value1382)
+              new1383)))
+;; allocate-setq::setq
+(define-inline
+  (allocate-setq::setq)
+  (let ((new1385::setq
+          (free-pragma::setq
+            "((BgL_setqz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_setqz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1385
+                ((@ class-num __object) (@ setq ast_node)))
+              (object-widening-set! new1385 #f)
+              (object-mark-producer! new1385)
+              new1385)))
+;; setq-varref-set!::obj
+(define-inline
+  (setq-varref-set!::obj
+    obj1368::setq
+    val1367::obj)
+  (pragma::obj
+    "((((BgL_setqz00_bglt)CREF($1))->BgL_varrefz00) = ((obj_t)$2), BUNSPEC)"
+    obj1368
+    val1367))
+;; setq-varref::obj
+(define-inline
+  (setq-varref::obj obj1366::setq)
+  (free-pragma::obj
+    "(((BgL_setqz00_bglt)CREF($1))->BgL_varrefz00)"
+    obj1366))
+;; setq-value-set!::obj
+(define-inline
+  (setq-value-set!::obj
+    obj1371::setq
+    val1370::expr)
+  (pragma::obj
+    "((((BgL_setqz00_bglt)CREF($1))->BgL_valuez00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+    obj1371
+    val1370))
+;; setq-value::expr
+(define-inline
+  (setq-value::expr obj1369::setq)
+  (free-pragma::expr
+    "(((BgL_setqz00_bglt)CREF($1))->BgL_valuez00)"
+    obj1369))
+;; if-then-else?::bool
+(define-inline
+  (if-then-else?::bool obj1364)
+  (is-a? obj1364 (@ if-then-else ast_node)))
+;; fill-if-then-else!::if-then-else
+(define-inline
+  (fill-if-then-else!::if-then-else
+    new1351::if-then-else
+    location1347::obj
+    test1348::expr
+    then1349::stmt
+    otherwise1350::stmt)
+  (let ((location1347::obj location1347)
+        (test1348::expr test1348)
+        (then1349::stmt then1349)
+        (otherwise1350::stmt otherwise1350))
+       (begin (pragma::obj
+                "((((BgL_ifzd2thenzd2elsez00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1351
+                location1347)
+              (pragma::obj
+                "((((BgL_ifzd2thenzd2elsez00_bglt)CREF($1))->BgL_testz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1351
+                test1348)
+              (pragma::obj
+                "((((BgL_ifzd2thenzd2elsez00_bglt)CREF($1))->BgL_thenz00) = ((BgL_stmtz00_bglt)$2), BUNSPEC)"
+                new1351
+                then1349)
+              (pragma::obj
+                "((((BgL_ifzd2thenzd2elsez00_bglt)CREF($1))->BgL_otherwisez00) = ((BgL_stmtz00_bglt)$2), BUNSPEC)"
+                new1351
+                otherwise1350)
+              new1351)))
+;; make-if-then-else::if-then-else
+(define-inline
+  (make-if-then-else::if-then-else
+    location1357::obj
+    test1358::expr
+    then1359::stmt
+    otherwise1360::stmt)
+  (let ((new1361::if-then-else (allocate-if-then-else)))
+       (begin (fill-if-then-else!
+                new1361
+                location1357
+                test1358
+                then1359
+                otherwise1360)
+              new1361)))
+;; allocate-if-then-else::if-then-else
+(define-inline
+  (allocate-if-then-else::if-then-else)
+  (let ((new1363::if-then-else
+          (free-pragma::if-then-else
+            "((BgL_ifzd2thenzd2elsez00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_ifzd2thenzd2elsez00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1363
+                ((@ class-num __object)
+                 (@ if-then-else ast_node)))
+              (object-widening-set! new1363 #f)
+              (object-mark-producer! new1363)
+              new1363)))
+;; if-then-else-otherwise::stmt
+(define-inline
+  (if-then-else-otherwise::stmt
+    obj1346::if-then-else)
+  (free-pragma::stmt
+    "(((BgL_ifzd2thenzd2elsez00_bglt)CREF($1))->BgL_otherwisez00)"
+    obj1346))
+;; if-then?::bool
+(define-inline
+  (if-then?::bool obj1340)
+  (is-a? obj1340 (@ if-then ast_node)))
+;; fill-if-then!::if-then
+(define-inline
+  (fill-if-then!::if-then
+    new1329::if-then
+    location1326::obj
+    test1327::expr
+    then1328::stmt)
+  (let ((location1326::obj location1326)
+        (test1327::expr test1327)
+        (then1328::stmt then1328))
+       (begin (pragma::obj
+                "((((BgL_ifzd2thenzd2_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1329
+                location1326)
+              (pragma::obj
+                "((((BgL_ifzd2thenzd2_bglt)CREF($1))->BgL_testz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+                new1329
+                test1327)
+              (pragma::obj
+                "((((BgL_ifzd2thenzd2_bglt)CREF($1))->BgL_thenz00) = ((BgL_stmtz00_bglt)$2), BUNSPEC)"
+                new1329
+                then1328)
+              new1329)))
+;; make-if-then::if-then
+(define-inline
+  (make-if-then::if-then
+    location1334::obj
+    test1335::expr
+    then1336::stmt)
+  (let ((new1337::if-then (allocate-if-then)))
+       (begin (fill-if-then!
+                new1337
+                location1334
+                test1335
+                then1336)
+              new1337)))
+;; allocate-if-then::if-then
+(define-inline
+  (allocate-if-then::if-then)
+  (let ((new1339::if-then
+          (free-pragma::if-then
+            "((BgL_ifzd2thenzd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_ifzd2thenzd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new1339
+                ((@ class-num __object) (@ if-then ast_node)))
+              (object-widening-set! new1339 #f)
+              (object-mark-producer! new1339)
+              new1339)))
+;; if-then-test-set!::obj
+(define-inline
+  (if-then-test-set!::obj
+    obj1324::if-then
+    val1323::expr)
+  (pragma::obj
+    "((((BgL_ifzd2thenzd2_bglt)CREF($1))->BgL_testz00) = ((BgL_exprz00_bglt)$2), BUNSPEC)"
+    obj1324
+    val1323))
+;; if-then-test::expr
+(define-inline
+  (if-then-test::expr obj1322::if-then)
+  (free-pragma::expr
+    "(((BgL_ifzd2thenzd2_bglt)CREF($1))->BgL_testz00)"
+    obj1322))
+;; if-then-then::stmt
+(define-inline
+  (if-then-then::stmt obj1325::if-then)
+  (free-pragma::stmt
+    "(((BgL_ifzd2thenzd2_bglt)CREF($1))->BgL_thenz00)"
+    obj1325))
+;; block?::bool
+(define-inline
+  (block?::bool obj1320)
+  (is-a? obj1320 (@ block ast_node)))
+;; fill-block!::block
+(define-inline
+  (fill-block!::block
+    new1309::block
+    location1306::obj
+    decl-list1307::obj
+    stmt-list1308::obj)
+  (let ((location1306::obj location1306)
+        (decl-list1307::obj decl-list1307)
+        (stmt-list1308::obj stmt-list1308))
+       (begin (pragma::obj
+                "((((BgL_blockz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1309
+                location1306)
+              (pragma::obj
+                "((((BgL_blockz00_bglt)CREF($1))->BgL_declzd2listzd2) = ((obj_t)$2), BUNSPEC)"
+                new1309
+                decl-list1307)
+              (pragma::obj
+                "((((BgL_blockz00_bglt)CREF($1))->BgL_stmtzd2listzd2) = ((obj_t)$2), BUNSPEC)"
+                new1309
+                stmt-list1308)
+              new1309)))
+;; make-block::block
+(define-inline
+  (make-block::block
+    location1314::obj
+    decl-list1315::obj
+    stmt-list1316::obj)
+  (let ((new1317::block (allocate-block)))
+       (begin (fill-block!
+                new1317
+                location1314
+                decl-list1315
+                stmt-list1316)
+              new1317)))
+;; allocate-block::block
+(define-inline
+  (allocate-block::block)
+  (let ((new1319::block
+          (free-pragma::block
+            "((BgL_blockz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_blockz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1319
+                ((@ class-num __object) (@ block ast_node)))
+              (object-widening-set! new1319 #f)
+              (object-mark-producer! new1319)
+              new1319)))
+;; block-decl-list::obj
+(define-inline
+  (block-decl-list::obj obj1304::block)
+  (free-pragma::obj
+    "(((BgL_blockz00_bglt)CREF($1))->BgL_declzd2listzd2)"
+    obj1304))
+;; block-stmt-list::obj
+(define-inline
+  (block-stmt-list::obj obj1305::block)
+  (free-pragma::obj
+    "(((BgL_blockz00_bglt)CREF($1))->BgL_stmtzd2listzd2)"
+    obj1305))
+;; stmt?::bool
+(define-inline
+  (stmt?::bool obj1302)
+  (is-a? obj1302 (@ stmt ast_node)))
+;; fill-stmt!::stmt
+(define-inline
+  (fill-stmt!::stmt
+    new1295::stmt
+    location1294::obj)
+  (let ((location1294::obj location1294))
+       (begin (pragma::obj
+                "((((BgL_stmtz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1295
+                location1294)
+              new1295)))
+;; make-stmt::stmt
+(define-inline
+  (make-stmt::stmt location1298::obj)
+  (let ((new1299::stmt (allocate-stmt)))
+       (begin (fill-stmt! new1299 location1298) new1299)))
+;; allocate-stmt::stmt
+(define-inline
+  (allocate-stmt::stmt)
+  (let ((new1301::stmt
+          (free-pragma::stmt
+            "((BgL_stmtz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_stmtz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1301
+                ((@ class-num __object) (@ stmt ast_node)))
+              (object-widening-set! new1301 #f)
+              (object-mark-producer! new1301)
+              new1301)))
+;; stmt-location::obj
+(define-inline
+  (stmt-location::obj obj1293::stmt)
+  (free-pragma::obj
+    "(((BgL_stmtz00_bglt)CREF($1))->BgL_locationz00)"
+    obj1293))
+;; fundecl?::bool
+(define-inline
+  (fundecl?::bool obj1292)
+  (is-a? obj1292 (@ fundecl ast_node)))
+;; fill-fundecl!::fundecl
+(define-inline
+  (fill-fundecl!::fundecl
+    new1275::fundecl
+    location1269::obj
+    id1270::obj
+    type1271::obj
+    params1272::obj
+    body1273::stmt
+    depth1274::obj)
+  (let ((location1269::obj location1269)
+        (id1270::obj id1270)
+        (type1271::obj type1271)
+        (params1272::obj params1272)
+        (body1273::stmt body1273)
+        (depth1274::obj depth1274))
+       (begin (pragma::obj
+                "((((BgL_fundeclz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1275
+                location1269)
+              (pragma::obj
+                "((((BgL_fundeclz00_bglt)CREF($1))->BgL_idz00) = ((obj_t)$2), BUNSPEC)"
+                new1275
+                id1270)
+              (pragma::obj
+                "((((BgL_fundeclz00_bglt)CREF($1))->BgL_typez00) = ((obj_t)$2), BUNSPEC)"
+                new1275
+                type1271)
+              (pragma::obj
+                "((((BgL_fundeclz00_bglt)CREF($1))->BgL_paramsz00) = ((obj_t)$2), BUNSPEC)"
+                new1275
+                params1272)
+              (pragma::obj
+                "((((BgL_fundeclz00_bglt)CREF($1))->BgL_bodyz00) = ((BgL_stmtz00_bglt)$2), BUNSPEC)"
+                new1275
+                body1273)
+              (pragma::obj
+                "((((BgL_fundeclz00_bglt)CREF($1))->BgL_depthz00) = ((obj_t)$2), BUNSPEC)"
+                new1275
+                depth1274)
+              new1275)))
+;; make-fundecl::fundecl
+(define-inline
+  (make-fundecl::fundecl
+    location1283::obj
+    id1284::obj
+    type1285::obj
+    params1286::obj
+    body1287::stmt
+    depth1288::obj)
+  (let ((new1289::fundecl (allocate-fundecl)))
+       (begin (fill-fundecl!
+                new1289
+                location1283
+                id1284
+                type1285
+                params1286
+                body1287
+                depth1288)
+              new1289)))
+;; allocate-fundecl::fundecl
+(define-inline
+  (allocate-fundecl::fundecl)
+  (let ((new1291::fundecl
+          (free-pragma::fundecl
+            "((BgL_fundeclz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_fundeclz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1291
+                ((@ class-num __object) (@ fundecl ast_node)))
+              (object-widening-set! new1291 #f)
+              (object-mark-producer! new1291)
+              new1291)))
+;; fundecl-type-set!::obj
+(define-inline
+  (fundecl-type-set!::obj
+    obj1261::fundecl
+    val1260::obj)
+  (pragma::obj
+    "((((BgL_fundeclz00_bglt)CREF($1))->BgL_typez00) = ((obj_t)$2), BUNSPEC)"
+    obj1261
+    val1260))
+;; fundecl-type::obj
+(define-inline
+  (fundecl-type::obj obj1259::fundecl)
+  (free-pragma::obj
+    "(((BgL_fundeclz00_bglt)CREF($1))->BgL_typez00)"
+    obj1259))
+;; fundecl-params-set!::obj
+(define-inline
+  (fundecl-params-set!::obj
+    obj1264::fundecl
+    val1263::obj)
+  (pragma::obj
+    "((((BgL_fundeclz00_bglt)CREF($1))->BgL_paramsz00) = ((obj_t)$2), BUNSPEC)"
+    obj1264
+    val1263))
+;; fundecl-params::obj
+(define-inline
+  (fundecl-params::obj obj1262::fundecl)
+  (free-pragma::obj
+    "(((BgL_fundeclz00_bglt)CREF($1))->BgL_paramsz00)"
+    obj1262))
+;; fundecl-body::stmt
+(define-inline
+  (fundecl-body::stmt obj1265::fundecl)
+  (free-pragma::stmt
+    "(((BgL_fundeclz00_bglt)CREF($1))->BgL_bodyz00)"
+    obj1265))
+;; fundecl-depth-set!::obj
+(define-inline
+  (fundecl-depth-set!::obj
+    obj1268::fundecl
+    val1267::obj)
+  (pragma::obj
+    "((((BgL_fundeclz00_bglt)CREF($1))->BgL_depthz00) = ((obj_t)$2), BUNSPEC)"
+    obj1268
+    val1267))
+;; fundecl-depth::obj
+(define-inline
+  (fundecl-depth::obj obj1266::fundecl)
+  (free-pragma::obj
+    "(((BgL_fundeclz00_bglt)CREF($1))->BgL_depthz00)"
+    obj1266))
+;; global?::bool
+(define-inline
+  (global?::bool obj1244)
+  (is-a? obj1244 (@ global ast_node)))
+;; widening-global::global
+(define-inline
+  (widening-global::global)
+  (let ((new1233::global
+          (free-pragma::global
+            "((BgL_globalz00_bglt)BREF( GC_MALLOC (sizeof(struct BgL_globalz00_bgl))))")))
+       (begin #unspecified
+              (fill-global! new1233)
+              new1233)))
+;; fill-global!::global
+(define-inline
+  (fill-global!::global new1235::global)
+  (let () new1235))
+;; make-global::global
+(define-inline
+  (make-global::global
+    location1237::obj
+    id1238::obj
+    fetch1239::obj
+    type1240::obj)
+  (let ((aux1241::vardecl
+          (make-vardecl
+            location1237
+            id1238
+            fetch1239
+            type1240)))
+       (let ((new1242::global
+               (___bgl_private_stamp_mark cast global aux1241)))
+            (begin (object-class-num-set!
+                     new1242
+                     (class-num (@ global ast_node)))
+                   (object-widening-set! new1242 (widening-global))
+                   (object-mark-producer! new1242)
+                   new1242))))
+;; allocate-global::vardecl
+(define-inline
+  (allocate-global::vardecl)
+  (let ((new1243::vardecl
+          (free-pragma::vardecl
+            "((BgL_vardeclz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_vardeclz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1243
+                ((@ class-num __object) (@ global ast_node)))
+              (object-widening-set! new1243 #f)
+              (object-mark-producer! new1243)
+              new1243)))
+;; local?::bool
+(define-inline
+  (local?::bool obj1219)
+  (is-a? obj1219 (@ local ast_node)))
+;; widening-local::local
+(define-inline
+  (widening-local::local escape?1204::bool)
+  (let ((new1205::local
+          (free-pragma::local
+            "((BgL_localz00_bglt)BREF( GC_MALLOC (sizeof(struct BgL_localz00_bgl))))")))
+       (begin #unspecified
+              (fill-local! new1205 escape?1204)
+              new1205)))
+;; fill-local!::local
+(define-inline
+  (fill-local!::local
+    new1208::local
+    escape?1207::bool)
+  (let ((escape?1207::bool escape?1207))
+       (begin (pragma::obj
+                "((((BgL_localz00_bglt)CREF($1))->BgL_escapezf3zf3) = ((bool_t)$2), BUNSPEC)"
+                new1208
+                escape?1207)
+              new1208)))
+;; make-local::local
+(define-inline
+  (make-local::local
+    location1212::obj
+    id1213::obj
+    fetch1214::obj
+    type1215::obj
+    escape?1211::bool)
+  (let ((aux1216::vardecl
+          (make-vardecl
+            location1212
+            id1213
+            fetch1214
+            type1215)))
+       (let ((new1217::local
+               (___bgl_private_stamp_mark cast local aux1216)))
+            (begin (object-class-num-set!
+                     new1217
+                     (class-num (@ local ast_node)))
+                   (object-widening-set!
+                     new1217
+                     (widening-local escape?1211))
+                   (object-mark-producer! new1217)
+                   new1217))))
+;; allocate-local::vardecl
+(define-inline
+  (allocate-local::vardecl)
+  (let ((new1218::vardecl
+          (free-pragma::vardecl
+            "((BgL_vardeclz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_vardeclz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1218
+                ((@ class-num __object) (@ local ast_node)))
+              (object-widening-set! new1218 #f)
+              (object-mark-producer! new1218)
+              new1218)))
+;; local-escape?-set!::obj
+(define-inline
+  (local-escape?-set!::obj
+    obj1222::local
+    val1221::bool)
+  (pragma::obj
+    "((((BgL_localz00_bglt)CREF($1))->BgL_escapezf3zf3) = ((bool_t)$2), BUNSPEC)"
+    (object-widening obj1222)
+    val1221))
+;; local-escape?::bool
+(define-inline
+  (local-escape?::bool obj1220::local)
+  (free-pragma::bool
+    "(((BgL_localz00_bglt)CREF($1))->BgL_escapezf3zf3)"
+    (object-widening obj1220)))
+;; vardecl?::bool
+(define-inline
+  (vardecl?::bool obj1203)
+  (is-a? obj1203 (@ vardecl ast_node)))
+;; fill-vardecl!::vardecl
+(define-inline
+  (fill-vardecl!::vardecl
+    new1190::vardecl
+    location1186::obj
+    id1187::obj
+    fetch1188::obj
+    type1189::obj)
+  (let ((location1186::obj location1186)
+        (id1187::obj id1187)
+        (fetch1188::obj fetch1188)
+        (type1189::obj type1189))
+       (begin (pragma::obj
+                "((((BgL_vardeclz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1190
+                location1186)
+              (pragma::obj
+                "((((BgL_vardeclz00_bglt)CREF($1))->BgL_idz00) = ((obj_t)$2), BUNSPEC)"
+                new1190
+                id1187)
+              (pragma::obj
+                "((((BgL_vardeclz00_bglt)CREF($1))->BgL_fetchz00) = ((obj_t)$2), BUNSPEC)"
+                new1190
+                fetch1188)
+              (pragma::obj
+                "((((BgL_vardeclz00_bglt)CREF($1))->BgL_typez00) = ((obj_t)$2), BUNSPEC)"
+                new1190
+                type1189)
+              new1190)))
+;; make-vardecl::vardecl
+(define-inline
+  (make-vardecl::vardecl
+    location1196::obj
+    id1197::obj
+    fetch1198::obj
+    type1199::obj)
+  (let ((new1200::vardecl (allocate-vardecl)))
+       (begin (fill-vardecl!
+                new1200
+                location1196
+                id1197
+                fetch1198
+                type1199)
+              new1200)))
+;; allocate-vardecl::vardecl
+(define-inline
+  (allocate-vardecl::vardecl)
+  (let ((new1202::vardecl
+          (free-pragma::vardecl
+            "((BgL_vardeclz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_vardeclz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1202
+                ((@ class-num __object) (@ vardecl ast_node)))
+              (object-widening-set! new1202 #f)
+              (object-mark-producer! new1202)
+              new1202)))
+;; vardecl-fetch-set!::obj
+(define-inline
+  (vardecl-fetch-set!::obj
+    obj1182::vardecl
+    val1181::obj)
+  (pragma::obj
+    "((((BgL_vardeclz00_bglt)CREF($1))->BgL_fetchz00) = ((obj_t)$2), BUNSPEC)"
+    obj1182
+    val1181))
+;; vardecl-fetch::obj
+(define-inline
+  (vardecl-fetch::obj obj1180::vardecl)
+  (free-pragma::obj
+    "(((BgL_vardeclz00_bglt)CREF($1))->BgL_fetchz00)"
+    obj1180))
+;; vardecl-type-set!::obj
+(define-inline
+  (vardecl-type-set!::obj
+    obj1185::vardecl
+    val1184::obj)
+  (pragma::obj
+    "((((BgL_vardeclz00_bglt)CREF($1))->BgL_typez00) = ((obj_t)$2), BUNSPEC)"
+    obj1185
+    val1184))
+;; vardecl-type::obj
+(define-inline
+  (vardecl-type::obj obj1183::vardecl)
+  (free-pragma::obj
+    "(((BgL_vardeclz00_bglt)CREF($1))->BgL_typez00)"
+    obj1183))
+;; typespec-array?::bool
+(define-inline
+  (typespec-array?::bool obj1175)
+  (is-a? obj1175 (@ typespec-array ast_node)))
+;; fill-typespec-array!::typespec-array
+(define-inline
+  (fill-typespec-array!::typespec-array
+    new1164::typespec-array
+    location1161::obj
+    id1162::obj
+    of1163::ident)
+  (let ((location1161::obj location1161)
+        (id1162::obj id1162)
+        (of1163::ident of1163))
+       (begin (pragma::obj
+                "((((BgL_typespeczd2arrayzd2_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1164
+                location1161)
+              (pragma::obj
+                "((((BgL_typespeczd2arrayzd2_bglt)CREF($1))->BgL_idz00) = ((obj_t)$2), BUNSPEC)"
+                new1164
+                id1162)
+              (pragma::obj
+                "((((BgL_typespeczd2arrayzd2_bglt)CREF($1))->BgL_ofz00) = ((BgL_identz00_bglt)$2), BUNSPEC)"
+                new1164
+                of1163)
+              new1164)))
+;; make-typespec-array::typespec-array
+(define-inline
+  (make-typespec-array::typespec-array
+    location1169::obj
+    id1170::obj
+    of1171::ident)
+  (let ((new1172::typespec-array
+          (allocate-typespec-array)))
+       (begin (fill-typespec-array!
+                new1172
+                location1169
+                id1170
+                of1171)
+              new1172)))
+;; allocate-typespec-array::typespec-array
+(define-inline
+  (allocate-typespec-array::typespec-array)
+  (let ((new1174::typespec-array
+          (free-pragma::typespec-array
+            "((BgL_typespeczd2arrayzd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_typespeczd2arrayzd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new1174
+                ((@ class-num __object)
+                 (@ typespec-array ast_node)))
+              (object-widening-set! new1174 #f)
+              (object-mark-producer! new1174)
+              new1174)))
+;; typespec-array-of::ident
+(define-inline
+  (typespec-array-of::ident
+    obj1160::typespec-array)
+  (free-pragma::ident
+    "(((BgL_typespeczd2arrayzd2_bglt)CREF($1))->BgL_ofz00)"
+    obj1160))
+;; typespec-record?::bool
+(define-inline
+  (typespec-record?::bool obj1155)
+  (is-a? obj1155 (@ typespec-record ast_node)))
+;; fill-typespec-record!::typespec-record
+(define-inline
+  (fill-typespec-record!::typespec-record
+    new1144::typespec-record
+    location1141::obj
+    id1142::obj
+    fields1143::obj)
+  (let ((location1141::obj location1141)
+        (id1142::obj id1142)
+        (fields1143::obj fields1143))
+       (begin (pragma::obj
+                "((((BgL_typespeczd2recordzd2_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1144
+                location1141)
+              (pragma::obj
+                "((((BgL_typespeczd2recordzd2_bglt)CREF($1))->BgL_idz00) = ((obj_t)$2), BUNSPEC)"
+                new1144
+                id1142)
+              (pragma::obj
+                "((((BgL_typespeczd2recordzd2_bglt)CREF($1))->BgL_fieldsz00) = ((obj_t)$2), BUNSPEC)"
+                new1144
+                fields1143)
+              new1144)))
+;; make-typespec-record::typespec-record
+(define-inline
+  (make-typespec-record::typespec-record
+    location1149::obj
+    id1150::obj
+    fields1151::obj)
+  (let ((new1152::typespec-record
+          (allocate-typespec-record)))
+       (begin (fill-typespec-record!
+                new1152
+                location1149
+                id1150
+                fields1151)
+              new1152)))
+;; allocate-typespec-record::typespec-record
+(define-inline
+  (allocate-typespec-record::typespec-record)
+  (let ((new1154::typespec-record
+          (free-pragma::typespec-record
+            "((BgL_typespeczd2recordzd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_typespeczd2recordzd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new1154
+                ((@ class-num __object)
+                 (@ typespec-record ast_node)))
+              (object-widening-set! new1154 #f)
+              (object-mark-producer! new1154)
+              new1154)))
+;; typespec-record-fields::obj
+(define-inline
+  (typespec-record-fields::obj
+    obj1140::typespec-record)
+  (free-pragma::obj
+    "(((BgL_typespeczd2recordzd2_bglt)CREF($1))->BgL_fieldsz00)"
+    obj1140))
+;; typespec-alias?::bool
+(define-inline
+  (typespec-alias?::bool obj1134)
+  (is-a? obj1134 (@ typespec-alias ast_node)))
+;; fill-typespec-alias!::typespec-alias
+(define-inline
+  (fill-typespec-alias!::typespec-alias
+    new1123::typespec-alias
+    location1120::obj
+    id1121::obj
+    of1122::ident)
+  (let ((location1120::obj location1120)
+        (id1121::obj id1121)
+        (of1122::ident of1122))
+       (begin (pragma::obj
+                "((((BgL_typespeczd2aliaszd2_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1123
+                location1120)
+              (pragma::obj
+                "((((BgL_typespeczd2aliaszd2_bglt)CREF($1))->BgL_idz00) = ((obj_t)$2), BUNSPEC)"
+                new1123
+                id1121)
+              (pragma::obj
+                "((((BgL_typespeczd2aliaszd2_bglt)CREF($1))->BgL_ofz00) = ((BgL_identz00_bglt)$2), BUNSPEC)"
+                new1123
+                of1122)
+              new1123)))
+;; make-typespec-alias::typespec-alias
+(define-inline
+  (make-typespec-alias::typespec-alias
+    location1128::obj
+    id1129::obj
+    of1130::ident)
+  (let ((new1131::typespec-alias
+          (allocate-typespec-alias)))
+       (begin (fill-typespec-alias!
+                new1131
+                location1128
+                id1129
+                of1130)
+              new1131)))
+;; allocate-typespec-alias::typespec-alias
+(define-inline
+  (allocate-typespec-alias::typespec-alias)
+  (let ((new1133::typespec-alias
+          (free-pragma::typespec-alias
+            "((BgL_typespeczd2aliaszd2_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_typespeczd2aliaszd2_bgl) )))")))
+       (begin (object-class-num-set!
+                new1133
+                ((@ class-num __object)
+                 (@ typespec-alias ast_node)))
+              (object-widening-set! new1133 #f)
+              (object-mark-producer! new1133)
+              new1133)))
+;; typespec-alias-of::ident
+(define-inline
+  (typespec-alias-of::ident
+    obj1119::typespec-alias)
+  (free-pragma::ident
+    "(((BgL_typespeczd2aliaszd2_bglt)CREF($1))->BgL_ofz00)"
+    obj1119))
+;; typespec?::bool
+(define-inline
+  (typespec?::bool obj1114)
+  (is-a? obj1114 (@ typespec ast_node)))
+;; fill-typespec!::typespec
+(define-inline
+  (fill-typespec!::typespec
+    new1105::typespec
+    location1103::obj
+    id1104::obj)
+  (let ((location1103::obj location1103)
+        (id1104::obj id1104))
+       (begin (pragma::obj
+                "((((BgL_typespecz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1105
+                location1103)
+              (pragma::obj
+                "((((BgL_typespecz00_bglt)CREF($1))->BgL_idz00) = ((obj_t)$2), BUNSPEC)"
+                new1105
+                id1104)
+              new1105)))
+;; make-typespec::typespec
+(define-inline
+  (make-typespec::typespec
+    location1109::obj
+    id1110::obj)
+  (let ((new1111::typespec (allocate-typespec)))
+       (begin (fill-typespec! new1111 location1109 id1110)
+              new1111)))
+;; allocate-typespec::typespec
+(define-inline
+  (allocate-typespec::typespec)
+  (let ((new1113::typespec
+          (free-pragma::typespec
+            "((BgL_typespecz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_typespecz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1113
+                ((@ class-num __object) (@ typespec ast_node)))
+              (object-widening-set! new1113 #f)
+              (object-mark-producer! new1113)
+              new1113)))
+;; decl?::bool
+(define-inline
+  (decl?::bool obj1098)
+  (is-a? obj1098 (@ decl ast_node)))
+;; fill-decl!::decl
+(define-inline
+  (fill-decl!::decl
+    new1089::decl
+    location1087::obj
+    id1088::obj)
+  (let ((location1087::obj location1087)
+        (id1088::obj id1088))
+       (begin (pragma::obj
+                "((((BgL_declz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1089
+                location1087)
+              (pragma::obj
+                "((((BgL_declz00_bglt)CREF($1))->BgL_idz00) = ((obj_t)$2), BUNSPEC)"
+                new1089
+                id1088)
+              new1089)))
+;; make-decl::decl
+(define-inline
+  (make-decl::decl location1093::obj id1094::obj)
+  (let ((new1095::decl (allocate-decl)))
+       (begin (fill-decl! new1095 location1093 id1094)
+              new1095)))
+;; allocate-decl::decl
+(define-inline
+  (allocate-decl::decl)
+  (let ((new1097::decl
+          (free-pragma::decl
+            "((BgL_declz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_declz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1097
+                ((@ class-num __object) (@ decl ast_node)))
+              (object-widening-set! new1097 #f)
+              (object-mark-producer! new1097)
+              new1097)))
+;; decl-id-set!::obj
+(define-inline
+  (decl-id-set!::obj obj1086::decl val1085::obj)
+  (pragma::obj
+    "((((BgL_declz00_bglt)CREF($1))->BgL_idz00) = ((obj_t)$2), BUNSPEC)"
+    obj1086
+    val1085))
+;; decl-id::obj
+(define-inline
+  (decl-id::obj obj1084::decl)
+  (free-pragma::obj
+    "(((BgL_declz00_bglt)CREF($1))->BgL_idz00)"
+    obj1084))
+;; expr?::bool
+(define-inline
+  (expr?::bool obj1082)
+  (is-a? obj1082 (@ expr ast_node)))
+;; fill-expr!::expr
+(define-inline
+  (fill-expr!::expr
+    new1075::expr
+    location1074::obj)
+  (let ((location1074::obj location1074))
+       (begin (pragma::obj
+                "((((BgL_exprz00_bglt)CREF($1))->BgL_locationz00) = ((obj_t)$2), BUNSPEC)"
+                new1075
+                location1074)
+              new1075)))
+;; make-expr::expr
+(define-inline
+  (make-expr::expr location1078::obj)
+  (let ((new1079::expr (allocate-expr)))
+       (begin (fill-expr! new1079 location1078) new1079)))
+;; allocate-expr::expr
+(define-inline
+  (allocate-expr::expr)
+  (let ((new1081::expr
+          (free-pragma::expr
+            "((BgL_exprz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_exprz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1081
+                ((@ class-num __object) (@ expr ast_node)))
+              (object-widening-set! new1081 #f)
+              (object-mark-producer! new1081)
+              new1081)))
+;; expr-location::obj
+(define-inline
+  (expr-location::obj obj1073::expr)
+  (free-pragma::obj
+    "(((BgL_exprz00_bglt)CREF($1))->BgL_locationz00)"
+    obj1073))
+;; ast?::bool
+(define-inline
+  (ast?::bool obj1072)
+  (is-a? obj1072 (@ ast ast_node)))
+;; fill-ast!::ast
+(define-inline
+  (fill-ast!::ast new1065::ast decl-list1064::obj)
+  (let ((decl-list1064::obj decl-list1064))
+       (begin (pragma::obj
+                "((((BgL_astz00_bglt)CREF($1))->BgL_declzd2listzd2) = ((obj_t)$2), BUNSPEC)"
+                new1065
+                decl-list1064)
+              new1065)))
+;; make-ast::ast
+(define-inline
+  (make-ast::ast decl-list1068::obj)
+  (let ((new1069::ast (allocate-ast)))
+       (begin (fill-ast! new1069 decl-list1068) new1069)))
+;; allocate-ast::ast
+(define-inline
+  (allocate-ast::ast)
+  (let ((new1071::ast
+          (free-pragma::ast
+            "((BgL_astz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_astz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1071
+                ((@ class-num __object) (@ ast ast_node)))
+              (object-widening-set! new1071 #f)
+              (object-mark-producer! new1071)
+              new1071)))
+;; ast-decl-list-set!::obj
+(define-inline
+  (ast-decl-list-set!::obj
+    obj1063::ast
+    val1062::obj)
+  (pragma::obj
+    "((((BgL_astz00_bglt)CREF($1))->BgL_declzd2listzd2) = ((obj_t)$2), BUNSPEC)"
+    obj1063
+    val1062))
+;; ast-decl-list::obj
+(define-inline
+  (ast-decl-list::obj obj1061::ast)
+  (free-pragma::obj
+    "(((BgL_astz00_bglt)CREF($1))->BgL_declzd2listzd2)"
+    obj1061))
+;; array?::bool
+(define-inline
+  (array?::bool obj1060)
+  (is-a? obj1060 (@ array type_type)))
+;; fill-array!::array
+(define-inline
+  (fill-array!::array
+    new1051::array
+    id1049::ident
+    of1050::obj)
+  (let ((id1049::ident id1049) (of1050::obj of1050))
+       (begin (pragma::obj
+                "((((BgL_arrayz00_bglt)CREF($1))->BgL_idz00) = ((BgL_identz00_bglt)$2), BUNSPEC)"
+                new1051
+                id1049)
+              (pragma::obj
+                "((((BgL_arrayz00_bglt)CREF($1))->BgL_ofz00) = ((obj_t)$2), BUNSPEC)"
+                new1051
+                of1050)
+              new1051)))
+;; make-array::array
+(define-inline
+  (make-array::array id1055::ident of1056::obj)
+  (let ((new1057::array (allocate-array)))
+       (begin (fill-array! new1057 id1055 of1056)
+              new1057)))
+;; allocate-array::array
+(define-inline
+  (allocate-array::array)
+  (let ((new1059::array
+          (free-pragma::array
+            "((BgL_arrayz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_arrayz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1059
+                ((@ class-num __object) (@ array type_type)))
+              (object-widening-set! new1059 #f)
+              (object-mark-producer! new1059)
+              new1059)))
+;; array-of-set!::obj
+(define-inline
+  (array-of-set!::obj obj1048::array val1047::obj)
+  (pragma::obj
+    "((((BgL_arrayz00_bglt)CREF($1))->BgL_ofz00) = ((obj_t)$2), BUNSPEC)"
+    obj1048
+    val1047))
+;; array-of::obj
+(define-inline
+  (array-of::obj obj1046::array)
+  (free-pragma::obj
+    "(((BgL_arrayz00_bglt)CREF($1))->BgL_ofz00)"
+    obj1046))
+;; structure?::bool
+(define-inline
+  (structure?::bool obj1044)
+  (is-a? obj1044 (@ structure type_type)))
+;; fill-structure!::structure
+(define-inline
+  (fill-structure!::structure
+    new1035::structure
+    id1033::ident
+    fields1034::obj)
+  (let ((id1033::ident id1033)
+        (fields1034::obj fields1034))
+       (begin (pragma::obj
+                "((((BgL_structurez00_bglt)CREF($1))->BgL_idz00) = ((BgL_identz00_bglt)$2), BUNSPEC)"
+                new1035
+                id1033)
+              (pragma::obj
+                "((((BgL_structurez00_bglt)CREF($1))->BgL_fieldsz00) = ((obj_t)$2), BUNSPEC)"
+                new1035
+                fields1034)
+              new1035)))
+;; make-structure::structure
+(define-inline
+  (make-structure::structure
+    id1039::ident
+    fields1040::obj)
+  (let ((new1041::structure (allocate-structure)))
+       (begin (fill-structure! new1041 id1039 fields1040)
+              new1041)))
+;; allocate-structure::structure
+(define-inline
+  (allocate-structure::structure)
+  (let ((new1043::structure
+          (free-pragma::structure
+            "((BgL_structurez00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_structurez00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1043
+                ((@ class-num __object) (@ structure type_type)))
+              (object-widening-set! new1043 #f)
+              (object-mark-producer! new1043)
+              new1043)))
+;; structure-fields-set!::obj
+(define-inline
+  (structure-fields-set!::obj
+    obj1032::structure
+    val1031::obj)
+  (pragma::obj
+    "((((BgL_structurez00_bglt)CREF($1))->BgL_fieldsz00) = ((obj_t)$2), BUNSPEC)"
+    obj1032
+    val1031))
+;; structure-fields::obj
+(define-inline
+  (structure-fields::obj obj1030::structure)
+  (free-pragma::obj
+    "(((BgL_structurez00_bglt)CREF($1))->BgL_fieldsz00)"
+    obj1030))
+;; alias?::bool
+(define-inline
+  (alias?::bool obj1028)
+  (is-a? obj1028 (@ alias type_type)))
+;; fill-alias!::alias
+(define-inline
+  (fill-alias!::alias
+    new1019::alias
+    id1017::ident
+    of1018::obj)
+  (let ((id1017::ident id1017) (of1018::obj of1018))
+       (begin (pragma::obj
+                "((((BgL_aliasz00_bglt)CREF($1))->BgL_idz00) = ((BgL_identz00_bglt)$2), BUNSPEC)"
+                new1019
+                id1017)
+              (pragma::obj
+                "((((BgL_aliasz00_bglt)CREF($1))->BgL_ofz00) = ((obj_t)$2), BUNSPEC)"
+                new1019
+                of1018)
+              new1019)))
+;; make-alias::alias
+(define-inline
+  (make-alias::alias id1023::ident of1024::obj)
+  (let ((new1025::alias (allocate-alias)))
+       (begin (fill-alias! new1025 id1023 of1024)
+              new1025)))
+;; allocate-alias::alias
+(define-inline
+  (allocate-alias::alias)
+  (let ((new1027::alias
+          (free-pragma::alias
+            "((BgL_aliasz00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_aliasz00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1027
+                ((@ class-num __object) (@ alias type_type)))
+              (object-widening-set! new1027 #f)
+              (object-mark-producer! new1027)
+              new1027)))
+;; alias-of-set!::obj
+(define-inline
+  (alias-of-set!::obj obj1016::alias val1015::obj)
+  (pragma::obj
+    "((((BgL_aliasz00_bglt)CREF($1))->BgL_ofz00) = ((obj_t)$2), BUNSPEC)"
+    obj1016
+    val1015))
+;; alias-of::obj
+(define-inline
+  (alias-of::obj obj1014::alias)
+  (free-pragma::obj
+    "(((BgL_aliasz00_bglt)CREF($1))->BgL_ofz00)"
+    obj1014))
+;; type?::bool
+(define-inline
+  (type?::bool obj1012)
+  (is-a? obj1012 (@ type type_type)))
+;; fill-type!::type
+(define-inline
+  (fill-type!::type new1005::type id1004::ident)
+  (let ((id1004::ident id1004))
+       (begin (pragma::obj
+                "((((BgL_typez00_bglt)CREF($1))->BgL_idz00) = ((BgL_identz00_bglt)$2), BUNSPEC)"
+                new1005
+                id1004)
+              new1005)))
+;; make-type::type
+(define-inline
+  (make-type::type id1008::ident)
+  (let ((new1009::type (allocate-type)))
+       (begin (fill-type! new1009 id1008) new1009)))
+;; allocate-type::type
+(define-inline
+  (allocate-type::type)
+  (let ((new1011::type
+          (free-pragma::type
+            "((BgL_typez00_bglt)BREF( GC_MALLOC ( sizeof(struct BgL_typez00_bgl) )))")))
+       (begin (object-class-num-set!
+                new1011
+                ((@ class-num __object) (@ type type_type)))
+              (object-widening-set! new1011 #f)
+              (object-mark-producer! new1011)
+              new1011)))
+;; type-id::ident
+(define-inline
+  (type-id::ident obj1003::type)
+  (free-pragma::ident
+    "(((BgL_typez00_bglt)CREF($1))->BgL_idz00)"
+    obj1003))
+
+;; unit: method
+#unspecified
+
+;; unit: imported-modules
+((@ module-initialization engine_param)
+ 51728
+ "ir_translate")
+((@ module-initialization tools_speek)
+ 1584
+ "ir_translate")
+((@ module-initialization type_type)
+ 29150
+ "ir_translate")
+((@ module-initialization type_bind)
+ 45879
+ "ir_translate")
+((@ module-initialization ast_location)
+ 4901
+ "ir_translate")
+((@ module-initialization ast_node)
+ 6995
+ "ir_translate")
+((@ module-initialization ast_ident)
+ 41093
+ "ir_translate")
+((@ module-initialization arch_arch)
+ 15470
+ "ir_translate")
+((@ module-initialization ir_node)
+ 38975
+ "ir_translate")
+((@ module-initialization ir_label)
+ 56265
+ "ir_translate")
+((@ module-initialization ir_frame)
+ 53542
+ "ir_translate")
+((@ module-initialization runtime_runtime)
+ 3992
+ "ir_translate")
+

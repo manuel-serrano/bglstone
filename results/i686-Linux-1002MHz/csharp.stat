@@ -1,0 +1,23 @@
+(title "cshaprt"
+(configuration
+  (date "Mon Feb 16 11:15:57 2004")
+  (host "redrock")
+  (uptime
+    " 11:15:57 up 8 days, 15:13,  7 users,  load average: 1.01, 0.68, 0.32")
+  (arch "i686")
+  (mhz "1002")
+  (memory "503")
+  (comment)
+  (compiler
+    "Mono JIT compiler version 0.30, (C) 2002-2004 Novell, Inc. www.go-mono.com")
+  (os "Linux 2.4.21")
+  (iterations 5))
+(bague "(cd ./bague/csharp; ./csharp.bat)" 15.655863)
+(fib "(cd ./fib/csharp; ./csharp.bat)" 14.162118)
+(fft "(cd ./fft/csharp; ./csharp.bat)" 22.890428)
+(mbrot "(cd ./mbrot/csharp; ./csharp.bat)" 32.563748)
+(queens "(cd ./queens/csharp; ./csharp.bat)" 90.706598)
+(qsort "(cd ./qsort/csharp; ./csharp.bat)" 24.946618)
+(sieve "(cd ./sieve/csharp; ./csharp.bat)" 44.705071)
+(almabench "(cd ./almabench/csharp; ./csharp.bat)" 11.367497)
+)

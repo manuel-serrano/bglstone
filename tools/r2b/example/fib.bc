@@ -1,0 +1,8 @@
+(barchart
+  #"Fib on Unix"
+  (bar-names (K1000 #"Owens") (K1001 #"Redrock"))
+  (bar-values
+    (#"Fib" (K1000 1.43) (K1001 1.06))
+    (#"Fibfx" (K1000 0.92) (K1001 0.65))
+    (#"Fibfoo" (K1000 0.65) (K1001 0))))
+

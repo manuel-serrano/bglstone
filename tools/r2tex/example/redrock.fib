@@ -1,0 +1,11 @@
+(title "Redrock"
+(CONFIGURATION
+  (DATE #"Wed Jan  3 09:18:56 2001\n")
+  (HOST #"redrock.unice.fr")
+  (UPTIME
+    #"  9:18am  up 13 days, 18:01,  1 user,  load average: 0.28, 0.24, 0.18")
+  (ARCH #"i686")
+  (OS #"Linux 2.2.15-4mdk"))
+(FIB "./fib" 1.06)
+(FIBFX "./fibfx" 0.65)
+)

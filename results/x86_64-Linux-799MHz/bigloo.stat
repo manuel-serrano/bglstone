@@ -1,0 +1,14 @@
+(title "Bigloo"
+(configuration
+  (date "Sat Sep  7 14:08:40 2024")
+  (host #f)
+  (uptime
+    " 14:08:40 up 1 day, 21:34,  2 users,  load average: 0.68, 1.05, 0.90")
+  (arch "x86_64")
+  (processor "unknown")
+  (mhz "2346")
+  (memory "8")
+  (comment)
+  (compiler "Bigloo (4.6a)")
+  (os "Linux 6.10.6-amd64")
+  (iterations 5))

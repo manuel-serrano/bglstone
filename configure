@@ -1,0 +1,334 @@
+#!/bin/sh
+#*=====================================================================*/
+#*    serrano/prgm/project/bglstone/configure                          */
+#*    -------------------------------------------------------------    */
+#*    Author      :  Manuel Serrano                                    */
+#*    Creation    :  Tue Jan 25 16:05:10 1994                          */
+#*    Last change :  Sat Sep  7 13:27:29 2024 (serrano)                */
+#*    Copyright   :  1994-2024 Manuel Serrano, see LICENSE file        */
+#*    -------------------------------------------------------------    */
+#*    The Bigloo configuration file                                    */
+#*    -------------------------------------------------------------    */
+#*    Please, don't tell to me about autoconf. I simply dont want      */
+#*    to hear about it...                                              */
+#*=====================================================================*/
+
+#*---------------------------------------------------------------------*/
+#*    Default configuration                                            */
+#*---------------------------------------------------------------------*/
+# User name for the configuration
+cfgname=
+
+# The name of the hardware configuration
+proc=
+mhz=
+os=
+kernel=
+suffix=
+
+# Bigloo configuration
+cc=gcc
+cflags="-O3 -fomit-frame-pointer -ffast-math"
+bigloo=bigloo
+bflags="-w -Obench"
+bjflags="-no-jvm-jar"
+bwasmflags=""
+bcc=
+bcflags=$cflags
+bjvm=java
+bwasm=node
+afile=bglafile
+jfile=bgljfile
+
+# Gambit
+gambit=
+gflags="-f -prelude \"(declare (ieee-scheme) (block) (not interrupts-enabled) (not safe) (extended-bindings) (standard-bindings) (inlining-limit 1000))\""
+
+# Gcc
+gambitcc=gcc
+gambitcflags="-O3 -fomit-frame-pointer -ffast-math"
+
+#*---------------------------------------------------------------------*/
+#*    Private variables                                                */
+#*---------------------------------------------------------------------*/
+release=0.7
+requiredbigloo=4.6a
+
+mkmf=Makefile.config
+
+bgltools=bigloo
+bgltoolsflags="-O2 -static-bigloo"
+
+cctools=gcc
+cctoolsflags="-O2"
+
+#*---------------------------------------------------------------------*/
+#*    Argument parsing                                                 */
+#*---------------------------------------------------------------------*/
+while : ; do
+  case $1 in
+    "")
+      break;;
+
+    --cfgname=*)
+      cfgname="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --suffix=*)
+      suffix="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --proc=*)
+      proc="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --mhz=*)
+      mhz="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --os=*)
+      os="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --kernel=*)
+      kernel="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --bigloo=*)
+      bigloo="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --bflags=*)
+      bflags="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --bjflags=*)
+      bjflags="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --bcc=*)
+      bcc="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --cc=*)
+      cc="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --cctools=*)
+      cctools="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --bcflags=*)
+      bcflags="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --cflags=*)
+      cflags="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --bjvm=*)
+      bjvm="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --bwasm=*)
+      bwasm="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --bwasmflags=*)
+      bwasmflags="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --bgltools=*)
+      bgltools="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --afile=*)
+      afile="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --jfile=*)
+      jfile="`echo $1 | sed 's/^[^=]*=//'`";;
+ 
+    -*)
+      echo "*** ERROR: Illegal option \"$1\"" >&2
+      echo "" >&2
+      echo "" >&2
+      echo "Usage: configure [options]" >&2;
+      echo "  --cfgname=<configuration name>" >&2;
+      echo "  --suffix=<name suffix>" >&2;
+      echo "  --proc=<proc name>" >&2;
+      echo "  --mhz=<proc mhz>" >&2;
+      echo "  --os=<os name>" >&2;
+      echo "  --kernel=<kernel version>" >&2;
+      echo "  --bigloo=<bigloo compiler>" >&2;
+      echo "  --cc=<C compiler> (for C testing, not for Bigloo)" >&2;
+      echo "  --bflags=<bigloo options>" >&2;
+      echo "  --bjflags=<bigloo JVM additional options>" >&2;
+      echo "  --bwasmflags=<bigloo WASM additional options>" >&2;
+      echo "  --bcc=<bigloo C compiler>" >&2;
+      echo "  --cctools=<C compiler for compiling tools>" >&2;
+      echo "  --bcflags=<bigloo C compiler options>" >&2;
+      echo "  --cflags=<C compiler options>" >&2;
+      echo "  --bjvm=<bigloo JVM>" >&2;
+      echo "" >&2
+      echo "  --gambit=<gambit compiler>" >&2;
+      echo "  --gflags=<gambit compiler>" >&2;
+      echo "  --gambitcc=<gambit C compiler>" >&2;
+      echo "  --gambitcflags=<gambit C compiler options>" >&2;
+      echo "" >&2
+      echo "  --afile=<bigloo afile>" >&2;
+      echo "  --jfile=<bigloo jfile>" >&2;
+      exit 1
+  esac
+  shift
+done
+
+#*---------------------------------------------------------------------*/
+#*    The name of the hardware configuration                           */
+#*---------------------------------------------------------------------*/
+# The processor name
+if [ "$proc " = " " ]; then
+  proc=`uname -m`
+fi
+# The os name
+if [ "$os " = " " ]; then
+  os=`uname -s`
+fi
+# The kernel
+if [ "$kernel " = " " ]; then
+  kernel=`uname -r`
+fi
+# The processor frequency
+if [ "$mhz " = " " ]; then
+   if [ -f /proc/cpuinfo ]; then
+      mhz=`grep -i mhz /proc/cpuinfo | head -n 1 | awk -F"[. ]" '{print $3}'`
+   else
+      mhz=""
+   fi
+fi
+
+# The name of the configuration
+if [ "$cfgname " = " " ]; then
+  name="$proc"-"$os"-"$mhz"MHz
+  if [ "$namesuf " != " " ]; then
+    name="$name"."$namesuf"
+  fi
+else
+  name=$cfgname;
+fi
+
+#*---------------------------------------------------------------------*/
+#*    First check if bigloo exists and if it is recent enough          */
+#*---------------------------------------------------------------------*/
+if [ ! -f $bigloo ]; then
+   which $bigloo > /dev/null 2> /dev/null
+   if [ "$?" != "0" ]; then
+      echo "*** ERROR:configure:bigloo. Aborting"
+      echo "Can't find bigloo."
+      exit 1;
+   fi
+fi
+
+installedbigloo=`autoconf/bversion --bigloo=$bigloo --version=$requiredbigloo`
+
+if [ $? != "0" ]; then
+  echo "*** ERROR:configure:bigloo. Aborting"
+  echo "Your version ($installedbigloo) of Bigloo is too old."
+  echo "Release $requiredbigloo or more recent is required."
+  echo "Bigloo may be downloaded from $http"
+  exit 1;
+fi
+
+#*---------------------------------------------------------------------*/
+#*    bcc                                                              */
+#*---------------------------------------------------------------------*/
+if [ "$bcc " = " " ]; then
+   bcc=`$bigloo -eval '(begin (print *cc*) (exit 0))'`
+fi
+
+#*---------------------------------------------------------------------*/
+#*    Makefile configuration                                           */
+#*---------------------------------------------------------------------*/
+if [ -f $mkmf ]; then
+  echo "*** ERROR: bglstone already configured" >&2;
+  echo "type \`make distclean' to unconfigure bglstone then re-configure it" >&2;
+  exit 2
+fi
+/bin/rm -f $mkmf
+touch $mkmf
+
+echo "RELEASE=$release" >> $mkmf
+echo "NAME=$name" >> $mkmf
+echo "PROC=$proc" >> $mkmf
+echo "OS=$os" >> $mkmf
+echo "KERNEL=$kernel" >> $mkmf
+echo "MHZ=$mhz" >> $mkmf
+echo "SUFFIX=$suffix" >> $mkmf
+echo >> $mkmf
+echo "# CC" >> $mkmf
+echo "CC=$cc" >> $mkmf
+echo >> $mkmf
+target="bigloo"
+echo "CFLAGS=$cflags" >> $mkmf
+echo "# Bigloo" >> $mkmf
+echo "BIGLOO=$bigloo" >> $mkmf
+echo "BFLAGS=$bflags" >> $mkmf
+echo "BJFLAGS=$bjflags" >> $mkmf
+echo "BCC=$bcc" >> $mkmf
+echo "BCFLAGS=$bcflags" >> $mkmf
+echo "BJVM=$bjvm" >> $mkmf
+echo "BWASM=$bwasm" >> $mkmf
+echo "BWASMFLAGS=$bwasmflags" >> $mkmf
+echo "AFILE=$afile" >> $mkmf
+echo "JFILE=$jfile" >> $mkmf
+if [ "$bjvm " != " " ]; then
+  target="$target bigloo-jvm"
+fi
+if [ "$bwasm " != " " ]; then
+  target="$target bigloo-wasm"
+fi
+echo >> $mkmf
+if [ "$gambit " != " " ]; then
+  target="$target gambit"
+  echo "# Gambit" >> $mkmf
+  echo "GAMBIT=$gambit" >> $mkmf
+  echo "GFLAGS=$gflags" >> $mkmf
+  echo "GAMBITCC=$gambitcc" >> $mkmf
+  echo "GAMBITCFLAGS=$gambitcflags" >> $mkmf
+echo >> $mkmf
+fi
+echo "# Misc" >> $mkmf
+echo "TOOLSBIN=`pwd`/bin" >> $mkmf
+echo "BGLTOOLS=$bgltools" >> $mkmf
+echo "BGLTOOLSFLAGS=$bgltoolsflags" >> $mkmf
+echo "CCTOOLS=$cctools" >> $mkmf
+echo "CCTOOLSFLAGS=$cctoolsflags" >> $mkmf
+echo "TARGETS=$target" >> $mkmf
+echo "VERBOSE=-v" >> $mkmf
+
+mkdir -p bin
+mkdir -p results/$name
+
+#*---------------------------------------------------------------------*/
+#*    Installing the heap file for the Bigloo benchmark                */
+#*---------------------------------------------------------------------*/
+echo "-jvm -v -O3 ../src/bench.scm -c -lib-dir ../src" > src/bigloo/RUN-OPTIONS
+
+#*---------------------------------------------------------------------*/
+#*    Summary                                                          */
+#*---------------------------------------------------------------------*/
+echo "** Configuration summary **"
+echo 
+echo "Release number:"
+echo "  Bglstone release number............. $release"
+echo "  Benchmark result name............... $name"
+echo 
+echo "Targets:"
+echo "  $target"
+echo 
+echo "Bigloo:"
+echo "  Bigloo compiler..................... $bigloo"
+echo "  C compiler.......................... $cc"
+echo "  Minimum Bigloo version required..... $requiredbigloo"
+echo "  Installed version .................. $installedbigloo"
+echo "  Bigloo options...................... $bflags"
+echo "  Bigloo JVM additional options....... $bjflags"
+echo "  Bigloo WASM additional options...... $bwasmflags"
+echo "  Bigloo C compiler................... $bcc"
+echo "  Bigloo C compiler options........... $bcflags"
+echo "  Bigloo JVM.......................... $bjvm"
+echo "  Bigloo WASM......................... $bwasm"
+echo "  C compiler options.................. $cflags"
+if [ "$gambit " != " " ]; then
+  echo "Gambit:"
+  echo "  Gambit compiler..................... $gambit"
+  echo "  Gambit options...................... $gflags"
+  echo "  Gambit C compiler................... $gambitcc"
+  echo "  Gambit C compiler options........... $gambitcflags"
+fi
+echo 
+echo "Misc:"
+echo "  Bigloo tools compiler............... $bgltools"
+echo "  C tools compiler.................... $cctools"
+echo "  Tools bin directory................. `pwd`/bin"

@@ -1,0 +1,4033 @@
+
+-,0
+(meta-define define doc-define0,0
+(meta-define define define0,0
+(meta-define define define-struct0,0
+(meta-define define define0,0
+(meta-define define define-inline0,0
+(meta-define define define-generic0,0
+(meta-define define define-macro0,0
+(meta-define define define-expander0,0
+
+Engine/compiler.scm,57
+(define (compiler77,2123
+(define (cc-compiler342,10898
+
+Engine/engine.scm,53
+(define (engine31,1445
+(define (hello-world53,2228
+
+Engine/param.scm,5041
+(define *bigloo-variables*165,4753
+(define (add-doc-variable!170,5003
+(define-macro (doc-define176,5325
+(define (bigloo-variables-usage187,5881
+(doc-define *bigloo-version*215,6933
+(doc-define *bigloo-name*219,7037
+(define *bigloo-cmd-name*222,7137
+(define *bigloo-args*223,7178
+(define *rest-args*224,7219
+(define *bigloo-author*225,7251
+(define *bigloo-email*226,7296
+(define *bigloo-date*227,7350
+(doc-define *bigloo-tmp*229,7412
+(doc-define *bigloo-licensing?*236,7600
+(doc-define *verbose*243,7894
+(doc-define *hello*247,7948
+(doc-define *src-files*255,8244
+(define *tmp-dest*258,8300
+(doc-define *dest*260,8349
+(doc-define *shell*268,8628
+(doc-define *cc*272,8696
+(doc-define *cflags-optim*276,8786
+(doc-define *cflags-prof*280,8903
+(doc-define *stdc*284,9007
+(doc-define *cc-options*288,9080
+(doc-define *rm-c-files*292,9168
+(doc-define *ld-options*296,9256
+(doc-define *ld-relative*300,9326
+(doc-define *strip*304,9421
+(doc-define *default-lib-dir*308,9512
+(doc-define *lib-dir*312,9632
+(doc-define *lib-src-dir*319,9860
+(doc-define *bigloo-lib-base-name*323,9987
+(doc-define *bigloo-lib*327,10100
+(doc-define *gc-lib*331,10194
+(doc-define *static-bigloo?*335,10299
+(doc-define *bigloo-user-lib*339,10400
+(doc-define *additional-bigloo-libraries*343,10517
+(doc-define *additional-bigloo-zips*347,10633
+(doc-define *include-foreign*353,10803
+(doc-define *additional-include-foreign*357,10915
+(doc-define *heap-base-name*361,11030
+(doc-define *heap-name*365,11120
+(doc-define *heap-jvm-name*369,11241
+(doc-define *jvm-foreign-class-id*373,11394
+(doc-define *jvm-foreign-class-name*377,11518
+(doc-define *additional-heap-name*381,11644
+(doc-define *additional-heap-names*385,11771
+(doc-define *indent*389,11873
+(doc-define *compiler-debug*393,11964
+(doc-define *compiler-sharing-debug?*396,12021
+(doc-define *debug-module*400,12118
+(doc-define *c-debug*404,12209
+(doc-define *c-debug-option*408,12283
+(doc-define *bdb-debug*412,12374
+(doc-define *heap-debug*416,12457
+(doc-define *heap-debug-copt*420,12542
+(define *bdb-debug-no-line-directives?*423,12621
+(doc-define *profile-mode*425,12694
+(doc-define *prof-table-name*429,12799
+(doc-define *access-file*436,13103
+(doc-define *access-file-default*439,13163
+(define *access-table*442,13245
+(doc-define *qualified-type-file*444,13272
+(doc-define *qualified-type-file-default*447,13359
+(doc-define *o-files*454,13679
+(doc-define *c-files*457,13742
+(doc-define *with-files*460,13797
+(define *early-with-modules*463,13859
+(doc-define *interpreter*468,14114
+(doc-define *startup-file*471,14190
+(doc-define *call/cc?*474,14265
+(doc-define *reflection?*477,14327
+(doc-define *pass*480,14410
+(doc-define *jvm-jar?*483,14463
+(doc-define *jvm-options*486,14557
+(doc-define *module-checksum-object?*489,14608
+(doc-define *garbage-collector*492,14699
+(doc-define *unsafe-type*499,14989
+(doc-define *unsafe-arity*502,15048
+(doc-define *unsafe-range*505,15114
+(doc-define *unsafe-struct*508,15175
+(doc-define *unsafe-version*511,15244
+(doc-define *unsafe-library*514,15315
+(doc-define *profile-library*517,15388
+(define *module-shape?*520,15464
+(define *key-shape?*521,15503
+(define *type-shape?*522,15542
+(define *access-shape?*523,15581
+(define *location-shape?*524,15620
+(define *user-shape?*525,15659
+(doc-define *max-stack-alloc-size*526,15698
+(define *genericity*529,15786
+(doc-define *shared-cnst?*530,15825
+(doc-define *lib-mode*533,15894
+(doc-define *init-mode*536,15952
+(doc-define *dlopen-init*539,16019
+(doc-define *max-c-token-length*542,16114
+(doc-define *max-c-foreign-arity*545,16181
+(doc-define *trace-name*548,16249
+(doc-define *trace-write-length*551,16308
+(define *additional-traces*554,16378
+(doc-define *optim*559,16637
+(doc-define *optim-stack?*562,16688
+(doc-define *optim-unroll-loop?*565,16768
+(doc-define *optim-loop-inlining?*568,16852
+(doc-define *optim-O-macro?*571,16927
+(doc-define *optim-jvm-inlining*574,17008
+(doc-define *optim-jvm-constructor-inlining*577,17073
+(doc-define *optim-jvm-peephole*580,17167
+(doc-define *optim-jvm-branch*583,17245
+(doc-define *optim-jvm-fasteq*586,17317
+(doc-define *jvm-purify*589,17411
+(doc-define *jvm-env*592,17495
+(doc-define *optim-jvm*595,17598
+(doc-define *optim-cfa-arithmetic?*598,17675
+(doc-define *optim-dataflow?*601,17765
+(doc-define *optim-reduce-beta?*604,17844
+(doc-define *inlining?*607,17919
+(doc-define *user-inlining?*610,17978
+(doc-define *inlining-kfactor*613,18047
+(doc-define *inlining-reduce-kfactor*616,18144
+(doc-define *extend-entry*623,18478
+(doc-define *src-suffix*632,18896
+(doc-define *c-suffix*641,19333
+(doc-define *obj-suffix*650,19755
+(doc-define *mco-suffix*659,20184
+(doc-define *mco-include-path*666,20485
+(doc-define *auto-mode*673,20783
+(doc-define *case-sensitive*682,21133
+(doc-define *user-heap-size*689,21411
+(doc-define *reader*696,21720
+(doc-define *target-language*703,22033
+(doc-define *use-private?*710,22380
+(define *builtin-allocators*719,22828
+
+Engine/interp.scm,59
+(define (interp22,1274
+(define (interp-parse-args51,2232
+
+Engine/link.scm,359
+(define *tmp-main-file-name*39,1799
+(define *link-module*40,1844
+(define *link-package*41,1879
+(define (setup-tmp-main-file-name!46,2134
+(define (link76,3230
+(define (unprof-src-name103,4186
+(define (find-file-for-link116,4683
+(define (find-src-file124,5014
+(define (link-with140,5566
+(define (find-libraries263,9067
+(define (make-tmp-main277,9541
+
+Engine/signals.scm,43
+(define (install-compiler-signals!25,1377
+
+Engine/pass.scm,61
+(define *current-pass*24,1291
+(define (stop-on-pass29,1537
+
+Engine/configure.scm,0
+
+Write/version.scm,140
+(define (revision25,1285
+(define (short-version31,1550
+(define (version37,1817
+(define (horse61,2678
+(define (display-to-column88,3438
+
+Write/expanded.scm,32
+(define (write-expanded27,1345
+
+Write/scheme.scm,80
+(define (write-scheme-file-header23,1324
+(define (write-scheme-comment34,1895
+
+Write/ast.scm,60
+(define (write-ast29,1367
+(define (make-sfun-sinfo84,3026
+
+Read/access.scm,100
+(define (add-access!27,1347
+(define (read-access-file41,2024
+(define (do-read-access-file65,2918
+
+Read/include.scm,135
+(define (read-include26,1316
+(define (include-already-read68,2700
+(define (mark-include-read!74,2985
+(define *include-read*80,3306
+
+Read/src.scm,241
+(define (read-src31,1721
+(define read-handler48,2371
+(define (read-module-clause61,2851
+(define (read-src/port74,3353
+(define (read-src-file89,3827
+(define *port*96,4147
+(define (open-src-file101,4388
+(define (close-src-port121,5026
+
+Read/inline.scm,141
+(define (look-for-inline35,1628
+(define (look-for-inline/exp67,2694
+(define *inline-definitions*94,3571
+(define (inline-finalizer99,3823
+
+Read/load.scm,29
+(define (load-module26,1339
+
+Read/reader.scm,31
+(define (compiler-read23,1320
+
+Read/jvm.scm,221
+(define *jvm-mark*29,1401
+(define (add-qualified-type!34,1650
+(define (read-jfile47,2184
+(define (do-read-jfile70,3151
+(define (add-current-module-qualified-type-name!99,4076
+(define (module->qualified-type122,5003
+
+Ast/build.scm,97
+(define (build-ast36,1561
+(define (build-ast-sans-remove44,2002
+(define (sfun-def->ast60,2748
+
+Ast/venv.scm,775
+(define *Genv*45,1941
+(define (set-Genv!50,2199
+(define (add-Genv!59,2686
+(define *delayed-restored-global*82,3469
+(define (delay-restore-global!87,3726
+(define (additional-heap-restore-globals!93,4049
+(define (restore-global!100,4371
+(define *restored*121,5201
+(define (mark-restored!126,5443
+(define (already-restored?135,5952
+(define-generic (restore-value-types!141,6227
+(define-method (restore-value-types! value::sfun147,6513
+(define-method (restore-value-types! value::cfun182,7598
+(define (get-Genv193,8046
+(define (initialize-Genv!199,8293
+(define (find-global205,8572
+(define (find-global/module229,9267
+(define (bind-global!262,10660
+(define (unbind-global!308,12151
+(define (for-each-global!322,12761
+(define (global-bucket-position329,13113
+
+Ast/glo-decl.scm,195
+(define (declare-global-sfun!73,2675
+(define (declare-global-svar!154,5315
+(define (declare-global-scnst!190,6601
+(define (declare-global-cfun!217,7557
+(define (declare-global-cvar!242,8623
+
+Ast/node.scm,1293
+   (export (class node::object19,928
+	   (class node/effect::node25,1107
+	   (final-class atom::node34,1405
+	   (class var::node39,1498
+	   (class closure::var44,1594
+	   (final-class kwote::node47,1641
+	   (final-class sequence::node/effect52,1742
+	   (final-class app::node/effect56,1837
+	   (final-class app-ly::node63,1993
+	   (final-class funcall::node70,2187
+	   (class extern::node/effect80,2493
+	   (final-class pragma::extern85,2634
+	   (final-class getfield::extern89,2738
+	   (final-class setfield::extern98,3008
+	   (final-class new::extern107,3265
+	   (final-class valloc::extern110,3330
+	   (final-class vref::extern123,3799
+	   (final-class vset!::extern134,4142
+	   (final-class vlength::extern145,4484
+	   (final-class isa::extern152,4695
+	   (class cast::node156,4781
+	   (final-class setq::node161,4867
+	   (final-class conditional::node/effect168,4999
+	   (final-class fail::node177,5169
+	   (final-class select::node/effect184,5311
+	   (final-class let-fun::node/effect193,5534
+	   (final-class let-var::node/effect200,5707
+	   (final-class set-ex-it::node209,5930
+	   (final-class jump-ex-it::node216,6088
+	   (final-class make-box::node/effect223,6247
+	   (final-class box-ref::node/effect227,6322
+	   (final-class box-set!::node231,6394
+
+Ast/unit.scm,604
+(define (unit-sexp*-add!56,2204
+(define (unit->defs64,2578
+(define *unit-list*115,4258
+(define (declare-unit!120,4501
+(define (unit-initializer-id136,5189
+(define (unit-initializers142,5469
+(define (unit-init-calls150,5818
+(define (toplevel*->ast157,6150
+(define (toplevel->ast170,6726
+(define (normalize-progn/error274,10350
+(define (get-global-arity282,10730
+(define (eta-expanse295,11216
+(define (make-sfun-definition331,12425
+(define (make-svar-definition369,13833
+(define (make-sgfun-default379,14336
+(define (make-sgfun-definition409,15539
+(define (make-method-definition471,17479
+
+Ast/dump.scm,1463
+(define-generic (node->sexp29,1328
+(define-method (node->sexp node::atom34,1587
+(define-method (node->sexp node::var42,1979
+(define-method (node->sexp node::closure48,2306
+(define-method (node->sexp node::kwote55,2652
+(define-method (node->sexp node::sequence66,3135
+(define-method (node->sexp node::app74,3494
+(define-method (node->sexp node::app-ly98,4362
+(define-method (node->sexp node::funcall106,4739
+(define-method (node->sexp node::pragma121,5239
+(define-method (node->sexp node::getfield135,5768
+(define-method (node->sexp node::setfield143,6178
+(define-method (node->sexp node::new151,6587
+(define-method (node->sexp node::vlength158,6908
+(define-method (node->sexp node::vref165,7252
+(define-method (node->sexp node::vset!174,7677
+(define-method (node->sexp node::valloc183,8106
+(define-method (node->sexp node::isa192,8506
+(define-method (node->sexp node::cast199,8862
+(define-method (node->sexp node::setq206,9225
+(define-method (node->sexp node::conditional214,9596
+(define-method (node->sexp node::fail223,10026
+(define-method (node->sexp node::select232,10439
+(define-method (node->sexp node::let-fun242,10891
+(define-method (node->sexp node::let-var258,11498
+(define-method (node->sexp node::set-ex-it268,11947
+(define-method (node->sexp node::jump-ex-it275,12301
+(define-method (node->sexp node::make-box282,12662
+(define-method (node->sexp node::box-ref288,12974
+(define-method (node->sexp node::box-set!294,13281
+
+Ast/glo-def.scm,379
+(define (def-global-sfun-no-warning!66,2325
+(define (def-global-sfun!79,3006
+(define (check-sfun-definition142,4974
+(define (def-global-scnst!202,7005
+(define (def-global-svar!222,7674
+(define (check-svar-definition263,9025
+(define (compatible-type?276,9548
+(define (mismatch-error286,9948
+(define (most-defined-type!298,10435
+(define (check-method-definition306,10818
+
+Ast/pragma.scm,66
+(define (pragma/type->node24,1275
+(define (get-max-index55,2273
+
+Ast/var.scm,480
+   (export (class value19,929
+	   (class variable::object21,957
+	   (final-class global::variable40,1605
+	   (final-class local::variable65,2642
+	   (class fun::value71,2832
+	   (final-class sfun::fun85,3318
+	   (final-class cfun::fun102,3963
+	   (final-class svar::value112,4295
+	   (final-class scnst::value116,4430
+	   (final-class cvar::value124,4703
+	   (final-class sexit::value128,4795
+(define (global-read-only?140,5269
+(define (global-set-read-only!147,5609
+
+Ast/find-gdefs.scm,445
+(define-struct def43,2055
+(define *to-be-define*48,2312
+(define (to-be-define!53,2558
+(define (check-to-be-define62,3080
+(define *gdef-key*84,4101
+(define *gdefs-list*89,4360
+(define *all-defined-id*90,4389
+(define (find-global-def95,4637
+(define (bind-global-def!101,4911
+(define (defs->list113,5561
+(define (find-global-defs138,6716
+(define (find-mutations!194,8642
+(define (find-1-mutations!200,8961
+(define (push-args323,13044
+
+Ast/ident.scm,538
+(define 4dots39,1761
+(define (type-ident?44,2016
+(define (make-typed-ident53,2415
+(define (make-typed-formal59,2705
+(define (type-of-id65,2986
+(define (type-of-id/import-location73,3343
+(define (id-of-id81,3742
+(define (fast-id-of-id89,4102
+(define (parse-id/use116,5010
+(define (parse-id/import-location164,6650
+(define (parse-id172,7005
+(define (id->name178,7290
+(define (local-id->name185,7621
+(define (check-id191,7901
+(define (parse-dsssl199,8253
+(define (mark-symbol-non-user!218,9189
+(define (user-symbol?227,9626
+
+Ast/remove.scm,1163
+(define (remove-var-from!30,1478
+(define (remove-var50,2080
+(define-generic (node-remove!96,3800
+(define-method (node-remove! node::atom101,4067
+(define-method (node-remove! node::var107,4335
+(define-method (node-remove! node::kwote113,4601
+(define-method (node-remove! node::sequence119,4876
+(define-method (node-remove! node::app126,5187
+(define-method (node-remove! node::app-ly134,5539
+(define-method (node-remove! node::funcall142,5924
+(define-method (node-remove! node::extern150,6292
+(define-method (node-remove! node::cast157,6599
+(define-method (node-remove! node::setq164,6899
+(define-method (node-remove! node::conditional171,7224
+(define-method (node-remove! node::fail180,7710
+(define-method (node-remove! node::select189,8141
+(define-method (node-remove! node::make-box199,8575
+(define-method (node-remove! node::box-ref206,8912
+(define-method (node-remove! node::box-set!213,9242
+(define-method (node-remove! node::let-fun221,9641
+(define-method (node-remove! node::let-var242,10440
+(define-method (node-remove! node::set-ex-it279,11623
+(define-method (node-remove! node::jump-ex-it288,12064
+(define (node-remove*!296,12475
+
+Ast/local.scm,294
+(define *local-key*30,1525
+(define (get-new-key35,1766
+(define (make-new-local44,2208
+(define (clone-local57,2661
+(define (make-local-svar68,3106
+(define (make-user-local-svar74,3411
+(define (make-local-sexit80,3721
+(define (make-local-sfun88,4165
+(define (make-user-local-sfun96,4606
+
+Ast/sexp.scm,464
+(define (top-level-sexp->node55,1967
+(define *sites*61,2259
+(define (sexp->node71,2883
+(define (sexp*->node501,17289
+(define *cache-name*522,18069
+(define *cache-stack*523,18094
+(define *cache-res*524,18119
+(define (lookup529,18363
+(define (use-variable!550,18965
+(define (error-sexp->node561,19475
+(define (define-primop-ref->node571,19837
+(define (define-primop->node586,20341
+(define (location->node605,20928
+(define (make-anonymous-name620,21432
+
+Ast/labels.scm,95
+(define (labels->node32,1400
+(define (allocate-sfuns58,2382
+(define (labels-binding116,4099
+
+Ast/let.scm,165
+(define (let->node32,1398
+(define (make-generic-let90,3195
+(define (make-smart-generic-let163,6074
+(define (let-or-letrec233,8701
+(define (let->labels278,10310
+
+Ast/exit.scm,65
+(define (set-exit->node33,1703
+(define (jump-exit->node73,3380
+
+Ast/substitute.scm,1271
+(define (substitute!34,1571
+(define-generic (do-substitute!52,2211
+(define-method (do-substitute! node::atom site57,2485
+(define-method (do-substitute! node::var site63,2759
+(define-method (do-substitute! node::kwote site93,3703
+(define-method (do-substitute! node::sequence site99,3985
+(define-method (do-substitute! node::app site106,4310
+(define-method (do-substitute! node::app-ly site114,4685
+(define-method (do-substitute! node::funcall site131,5444
+(define-method (do-substitute! node::extern site156,6266
+(define-method (do-substitute! node::cast site163,6587
+(define-method (do-substitute! node::setq site170,6901
+(define-method (do-substitute! node::conditional site179,7306
+(define-method (do-substitute! node::fail site189,7778
+(define-method (do-substitute! node::select site199,8231
+(define-method (do-substitute! node::let-fun site209,8688
+(define-method (do-substitute! node::let-var site221,9203
+(define-method (do-substitute! node::set-ex-it site231,9668
+(define-method (do-substitute! node::jump-ex-it site238,10020
+(define-method (do-substitute! node::make-box site246,10454
+(define-method (do-substitute! node::box-ref site253,10807
+(define-method (do-substitute! node::box-set! site260,11153
+(define (do-substitute*!268,11577
+
+Ast/alphatize.scm,1627
+(define (alphatize37,1856
+(define *location*54,2456
+(define (get-inline-location63,2989
+(define-generic (do-alphatize75,3377
+(define-method (do-alphatize node::atom80,3644
+(define-method (do-alphatize node::var87,3967
+(define-method (do-alphatize node::closure116,4943
+(define-method (do-alphatize node::kwote136,5677
+(define-method (do-alphatize node::sequence142,6004
+(define-method (do-alphatize node::app150,6389
+(define-method (do-alphatize node::app-ly164,6980
+(define-method (do-alphatize node::funcall184,7784
+(define-method (do-alphatize node::pragma206,8575
+(define-method (do-alphatize node::getfield214,8954
+(define-method (do-alphatize node::setfield222,9339
+(define-method (do-alphatize node::new230,9724
+(define-method (do-alphatize node::vlength237,10045
+(define-method (do-alphatize node::vref245,10427
+(define-method (do-alphatize node::vset!253,10800
+(define-method (do-alphatize node::valloc261,11176
+(define-method (do-alphatize node::isa269,11555
+(define-method (do-alphatize node::cast277,11934
+(define-method (do-alphatize node::setq285,12299
+(define-method (do-alphatize node::conditional312,13272
+(define-method (do-alphatize node::fail322,13764
+(define-method (do-alphatize node::select332,14217
+(define-method (do-alphatize node::make-box344,14719
+(define-method (do-alphatize node::box-ref352,15100
+(define-method (do-alphatize node::box-set!360,15474
+(define-method (do-alphatize node::let-fun369,15901
+(define-method (do-alphatize node::let-var406,17160
+(define-method (do-alphatize node::set-ex-it433,18170
+(define-method (do-alphatize node::jump-ex-it458,19122
+
+Ast/occur.scm,1056
+(define (occur-var27,1289
+(define (occur-node-in!38,1794
+(define *global*45,2099
+(define-generic (occur-node!50,2348
+(define-method (occur-node! node::var56,2616
+(define-method (occur-node! node::sequence67,3136
+(define-method (occur-node! node::app73,3438
+(define-method (occur-node! node::app-ly81,3781
+(define-method (occur-node! node::funcall89,4127
+(define-method (occur-node! node::extern97,4478
+(define-method (occur-node! node::cast103,4776
+(define-method (occur-node! node::setq109,5067
+(define-method (occur-node! node::conditional117,5413
+(define-method (occur-node! node::fail126,5804
+(define-method (occur-node! node::select135,6175
+(define-method (occur-node! node::let-fun145,6578
+(define-method (occur-node! node::let-var162,7258
+(define-method (occur-node! node::set-ex-it173,7711
+(define-method (occur-node! node::jump-ex-it181,8104
+(define-method (occur-node! node::make-box189,8464
+(define-method (occur-node! node::box-ref195,8765
+(define-method (occur-node! node::box-set!201,9062
+(define (occur-node*!209,9416
+
+Ast/app.scm,358
+(define (correct-arity-app?32,1623
+(define (clean-user-node!50,2333
+(define (application->node66,3012
+(define (check-user-app136,5289
+(define (wrong-number-of-arguments164,6139
+(define (make-app-node189,7016
+(define (make-fx-app-node215,8196
+(define (make-va-app-node242,9111
+(define (special-cfun?268,10068
+(define (make-special-app-node281,10702
+
+Ast/apply.scm,329
+(define (applycation->node31,1419
+(define-generic (make-fun-frame58,2238
+(define-method (make-fun-frame fun::sfun63,2499
+(define-method (make-fun-frame fun::cfun83,3187
+(define (known-app-ly->node101,3796
+(define (0-known-app-ly->node116,4402
+(define (fx-known-app-ly->node138,5895
+(define (va-known-app-ly->node223,8685
+
+Ast/lvtype.scm,1176
+(define-generic (lvtype-node!29,1415
+(define-method (lvtype-node! node::atom34,1676
+(define-method (lvtype-node! node::kwote40,1951
+(define-method (lvtype-node! node::var46,2227
+(define-method (lvtype-node! node::closure52,2501
+(define-method (lvtype-node! node::sequence58,2832
+(define-method (lvtype-node! node::app65,3162
+(define-method (lvtype-node! node::app-ly72,3480
+(define-method (lvtype-node! node::funcall80,3829
+(define-method (lvtype-node! node::extern88,4183
+(define-method (lvtype-node! node::cast95,4514
+(define-method (lvtype-node! node::setq102,4836
+(define-method (lvtype-node! node::conditional110,5185
+(define-method (lvtype-node! node::fail119,5583
+(define-method (lvtype-node! node::select128,5963
+(define-method (lvtype-node! node::let-fun138,6369
+(define-method (lvtype-node! node::let-var148,6793
+(define-method (lvtype-node! node::set-ex-it161,7298
+(define-method (lvtype-node! node::jump-ex-it169,7655
+(define-method (lvtype-node! node::make-box177,8019
+(define-method (lvtype-node! node::box-set!184,8348
+(define-method (lvtype-node! node::box-ref192,8705
+(define (lvtype-node*!199,9028
+(define (set-variable-type!205,9312
+
+Ast/hrtype.scm,1188
+(define-generic (hrtype-node!32,1516
+(define-method (hrtype-node! node::atom37,1777
+(define-method (hrtype-node! node::kwote43,2052
+(define-method (hrtype-node! node::var49,2328
+(define-method (hrtype-node! node::closure58,2699
+(define-method (hrtype-node! node::sequence64,3030
+(define-method (hrtype-node! node::app71,3360
+(define-method (hrtype-node! node::app-ly111,4887
+(define-method (hrtype-node! node::funcall119,5236
+(define-method (hrtype-node! node::extern127,5590
+(define-method (hrtype-node! node::cast136,5985
+(define-method (hrtype-node! node::setq143,6307
+(define-method (hrtype-node! node::conditional151,6656
+(define-method (hrtype-node! node::fail160,7054
+(define-method (hrtype-node! node::select169,7434
+(define-method (hrtype-node! node::let-fun179,7840
+(define-method (hrtype-node! node::let-var204,8671
+(define-method (hrtype-node! node::set-ex-it217,9167
+(define-method (hrtype-node! node::jump-ex-it226,9573
+(define-method (hrtype-node! node::make-box234,9937
+(define-method (hrtype-node! node::box-set!241,10266
+(define-method (hrtype-node! node::box-ref249,10623
+(define (hrtype-node*!256,10946
+(define (restore-variable-type!262,11230
+
+Ast/shrinkify.scm,1160
+(define (shrinkify!25,1278
+(define-generic (shrink-variable!37,1758
+(define-generic (shrink-node!46,2177
+(define-method (shrink-node! node::atom51,2451
+(define-method (shrink-node! node::var57,2727
+(define-method (shrink-node! node::kwote63,3001
+(define-method (shrink-node! node::sequence69,3284
+(define-method (shrink-node! node::app76,3603
+(define-method (shrink-node! node::app-ly85,3986
+(define-method (shrink-node! node::funcall94,4375
+(define-method (shrink-node! node::extern103,4769
+(define-method (shrink-node! node::cast111,5118
+(define-method (shrink-node! node::setq118,5418
+(define-method (shrink-node! node::conditional125,5728
+(define-method (shrink-node! node::fail134,6134
+(define-method (shrink-node! node::select143,6509
+(define-method (shrink-node! node::make-box153,6909
+(define-method (shrink-node! node::box-ref161,7269
+(define-method (shrink-node! node::box-set!169,7625
+(define-method (shrink-node! node::let-fun178,8022
+(define-method (shrink-node! node::let-var192,8575
+(define-method (shrink-node! node::set-ex-it204,9053
+(define-method (shrink-node! node::jump-ex-it213,9429
+(define (shrink-node*!221,9791
+
+Ast/check-init.scm,1085
+(define (check-global-initialization34,1633
+(define *globals*63,2881
+(define (init-defined-globals!68,3122
+(define (define-global!74,3396
+(define (global-defined?80,3690
+(define-generic (check-init86,3968
+(define-method (check-init node::var92,4235
+(define-method (check-init node::sequence108,4842
+(define-method (check-init node::app114,5142
+(define-method (check-init node::app-ly121,5461
+(define-method (check-init node::funcall129,5804
+(define-method (check-init node::extern137,6152
+(define-method (check-init node::cast143,6448
+(define-method (check-init node::setq149,6737
+(define-method (check-init node::conditional161,7307
+(define-method (check-init node::fail170,7697
+(define-method (check-init node::select179,8064
+(define-method (check-init node::let-fun192,8683
+(define-method (check-init node::let-var199,9011
+(define-method (check-init node::set-ex-it209,9417
+(define-method (check-init node::jump-ex-it215,9717
+(define-method (check-init node::make-box223,10075
+(define-method (check-init node::box-set!229,10374
+(define (check-init*236,10699
+
+Ast/private.scm,131
+(define (private-sexp?29,1412
+(define (private->node35,1701
+(define *private-stamp*131,4688
+(define (make-private-sexp142,5382
+
+Ast/check-sharing.scm,1224
+(define (check-sharing36,1618
+(define (check-sharing-fun49,2132
+(define *previous*57,2493
+(define-generic (check-node-sharing62,2735
+(define-method (check-node-sharing node::sequence context79,3343
+(define-method (check-node-sharing node::app context86,3693
+(define-method (check-node-sharing node::app-ly context94,4062
+(define-method (check-node-sharing node::funcall context103,4468
+(define-method (check-node-sharing node::extern context112,4879
+(define-method (check-node-sharing node::cast context119,5225
+(define-method (check-node-sharing node::setq context126,5564
+(define-method (check-node-sharing node::conditional context133,5905
+(define-method (check-node-sharing node::fail context143,6371
+(define-method (check-node-sharing node::select context153,6814
+(define-method (check-node-sharing node::let-fun context167,7496
+(define-method (check-node-sharing node::let-var context176,7937
+(define-method (check-node-sharing node::set-ex-it context187,8406
+(define-method (check-node-sharing node::jump-ex-it context194,8756
+(define-method (check-node-sharing node::make-box context203,9177
+(define-method (check-node-sharing node::box-set! context210,9526
+(define (check-node-sharing*218,9901
+
+Cc/exec.scm,79
+(define (exec-fname32,1769
+(define (exec38,2026
+(define (system/kill53,2525
+
+Cc/indent.scm,24
+(define (indent23,1254
+
+Cc/cc.scm,45
+(define (cc25,1281
+(define (unix-cc35,1673
+
+Cc/ld.scm,327
+(define (list-of-string->string26,1302
+(define (ld37,1672
+(define (lib+suffix47,2064
+(define (make-lib-name57,2515
+(define (select-library82,3536
+(define (select-replacement-library96,4012
+(define (select-profile-debug-library110,4496
+(define (select-replacement-profile-debug-library122,4926
+(define (unix-ld140,5804
+
+Foreign/access.scm,46
+(define-generic (make-ctype-accesses!34,1685
+
+Foreign/cenum.scm,71
+(define-method (make-ctype-accesses! what::cenum who::type loc28,1327
+
+Foreign/cptr.scm,70
+(define-method (make-ctype-accesses! what::cptr who::type loc31,1401
+
+Foreign/ctype.scm,604
+   (export  (wide-class calias::type30,1169
+	    (wide-class cenum::type34,1292
+	    (wide-class copaque::type40,1469
+	    (wide-class cfunction::type44,1581
+	    (wide-class cptr::type54,1887
+	    (wide-class cstruct::type62,2136
+	    (wide-class cstruct*::type70,2349
+(define (declare-c-type!83,2875
+(define (declare-c-alias!116,3951
+(define (declare-c-enum!128,4493
+(define (declare-c-opaque!146,5284
+(define (declare-c-function!164,6060
+(define (declare-c-pointer!191,7096
+(define (declare-c-struct!233,8655
+(define (declare-c-struct*!253,9492
+(define (make-foreign-coercers287,10784
+
+Foreign/calias.scm,72
+(define-method (make-ctype-accesses! what::calias who::type loc26,1315
+
+Foreign/cfun.scm,75
+(define-method (make-ctype-accesses! what::cfunction who::type loc30,1362
+
+Foreign/cstruct.scm,147
+(define-method (make-ctype-accesses! what::cstruct who::type loc32,1411
+(define-method (make-ctype-accesses! what::cstruct* who::type loc38,1702
+
+Foreign/copaque.scm,73
+(define-method (make-ctype-accesses! what::copaque who::type loc28,1329
+
+Foreign/library.scm,229
+(define (inline-enabled?29,1422
+(define (make-define-inline35,1724
+(define (make-proto-inline43,2073
+(define *registered-ident*51,2391
+(define (register-foreign-access-idents!56,2641
+(define (prepare-foreign-access!65,3187
+
+Foreign/jtype.scm,152
+   (export  (wide-class jarray::type37,1401
+(define (declare-jvm-type!45,1749
+(define-method (make-ctype-accesses! what::jarray who::type loc66,2610
+
+Heap/restore.scm,147
+(define (restore-heap33,1431
+(define (unbind-call/cc!88,3100
+(define (restore-additional-heaps99,3650
+(define (restore-additional-heap109,4060
+
+Heap/make.scm,137
+(define (make-heap31,1397
+(define (prepare-globals!51,2397
+(define (make-add-heap68,2978
+(define (prepare-additional-globals!94,4102
+
+Module/foreign.scm,598
+(define (make-foreign-compiler44,1841
+(define (make-extern-compiler53,2258
+(define (foreign-producer61,2633
+(define (extern-producer77,3143
+(define (check-c-args?93,3650
+(define (foreign-parser110,4079
+(define (extern-parser174,6338
+(define (parse-c-foreign-type226,8757
+(define (check-c-foreign-type-exp?255,10044
+(define (parse-c-extern-type293,11009
+(define (c-extern-type->c-foreign-type308,11702
+(define *foreign-accesses*356,12977
+(define *foreign-exported*361,13227
+(define (foreign-accesses-add!366,13477
+(define (foreign-finalizer372,13802
+(define (default-c-type404,14911
+
+Module/impuse.scm,642
+(define (make-import-compiler50,1784
+(define (make-use-compiler57,2106
+(define (make-from-compiler65,2458
+(define (impuse-producer75,2862
+(define (import-all-module93,3474
+(define (import-1-module106,4033
+(define (import-with-module!131,4810
+(define (impuse-parser148,5764
+(define-struct imode199,7497
+(define *import-module-list*204,7767
+(define *imported-module-list*214,8384
+(define (get-imported-modules219,8638
+(define (import-finalizer231,9351
+(define (impuse-finalizer287,11669
+(define (import-parser298,12118
+(define (read-imported-module334,13390
+(define (import-everything396,15449
+(define (import-wanted418,16190
+
+Module/main.scm,167
+(define (make-main-compiler32,1618
+(define (correct-main?43,2185
+(define (main-producer54,2657
+(define (main-consumer77,3548
+(define (duplicate-main-error86,3901
+
+Module/prototype.scm,217
+(define (parse-prototype28,1383
+(define (parse-function-prototype44,2057
+(define (parse-variable-prototype65,2725
+(define (parse-class73,3043
+(define (parse-class-slot104,4033
+(define (correct-attribut?123,4691
+
+Module/with.scm,157
+(define (make-with-compiler28,1351
+(define (with-producer34,1658
+(define (with-parser49,2222
+(define (o-name91,3493
+(define (early-with-clauses101,4072
+
+Module/class.scm,564
+(define *object-unit*44,1799
+(define *method-unit*45,1834
+(define (get-object-unit50,2088
+(define (get-method-unit56,2349
+(define (declare-class!62,2611
+(define (declare-wide-class!80,3300
+(define (declare-export-class!94,3889
+(define (declare-import-class!135,5654
+(define (delay-class-accessors!164,6879
+(define *class-accesses*171,7233
+(define *declared-classes*176,7481
+(define (make-add-class!181,7731
+(define (get-class-hash230,9705
+(define (make-class-fields268,10907
+(define (class-finalizer349,13270
+(define (force-class-accesses401,15645
+
+Module/include.scm,545
+(define (make-include-compiler31,1513
+(define *produced-code*40,1912
+(define (include-producer45,2159
+(define *consumed-directive*70,3013
+(define (get-include-consumed-directive75,3265
+(define (reset-include-consumed-directive!81,3548
+(define *consumed-code*87,3845
+(define (get-include-consumed-code92,4092
+(define (reset-include-consumed-code!98,4365
+(define (include-consumer104,4652
+(define *toplevel-unit*135,5658
+(define (get-toplevel-unit140,5904
+(define (get-toplevel-unit-weight147,6222
+(define (include-finalizer153,6482
+
+Module/module.scm,743
+   (export  (class ccomp::object40,1397
+(define *module*70,2586
+(define *module-clause*71,2638
+(define *main*72,2709
+(define *module-checksum*73,2776
+(define *module-location*74,2846
+(define (produce-module!86,3645
+(define (produce-library-clauses122,4921
+(define (finalize-clause-compilations141,5547
+(define (produce-module-clause!156,6063
+(define *clause-compilers*169,6526
+(define (install-clauses-compiler!174,6776
+(define (find-clause-producer198,7619
+(define (module-initialization-id216,8186
+(define (consume-module!222,8468
+(define (consume-module-clause!247,9298
+(define (find-clause-consumer260,9780
+(define (legal-module-name?278,10354
+(define (checksum-module284,10645
+(define (module-checksum-object301,11221
+
+Module/statexp.scm,277
+(define (make-static-compiler35,1488
+(define (make-export-compiler42,1810
+(define (statexp-producer51,2205
+(define (export-consumer70,2815
+(define (statexp-parser84,3281
+(define *local-classes*143,4849
+(define (to-be-declare!148,5096
+(define (statexp-finalizer160,5834
+
+Module/eval.scm,366
+(define (make-eval-compiler35,1477
+(define (eval-producer43,1827
+(define (eval-parser57,2310
+(define *eval-exported*77,3130
+(define (remember-eval-exported!82,3377
+(define *all-eval?*88,3731
+(define *all-export-eval?*89,3754
+(define *one-eval?*94,4003
+(define (eval-finalizer99,4245
+(define (set-eval-types!133,5393
+(define (get-evaluated-globals148,5934
+
+Module/load.scm,96
+(define (make-load-compiler30,1352
+(define (load-producer37,1667
+(define (load-parser50,2140
+
+Module/pragma.scm,245
+(define (make-pragma-compiler31,1398
+(define (pragma-producer41,1835
+(define (pragma-parser57,2348
+(define *pragma-list*67,2830
+(define (pragma-finalizer72,3075
+(define (set-pragma-properties!97,3914
+(define (set-pragma-property!104,4269
+
+Module/type.scm,210
+(define (make-type-compiler33,1489
+(define (type-producer/consumer42,1909
+(define (type-parser53,2370
+(define (type-finalizer134,5145
+(define *tvector-accesses*143,5468
+(define (tvector-finalizer148,5718
+
+Module/library.scm,128
+(define (library-finalizer29,1366
+(define *needed-modules*80,3112
+(define *key*85,3360
+(define (need-library-module!90,3606
+
+Module/checksum.scm,269
+(define (module-checksum25,1485
+(define (include-checksum31,1802
+(define (clause-checksum53,2480
+(define (symbol->number80,3305
+(define (keyword->number101,3939
+(define (atom->number107,4196
+(define (list->number133,5185
+(define (extern-clause-checksum148,5682
+
+Module/option.scm,71
+(define (make-option-compiler25,1312
+(define (option-producer33,1635
+
+Module/alibrary.scm,140
+(define (use-library!29,1434
+(define (make-alibrary-compiler50,2472
+(define (alibrary-producer58,2800
+(define (make-library-name69,3250
+
+Module/java.scm,746
+   (static  (class jklass43,1475
+	    (class jmethod54,1848
+(define (make-java-compiler64,2269
+(define (java-error73,2671
+(define (java-producer84,3040
+(define (java-parser97,3477
+(define *jklasses*124,4715
+(define *jexported*129,4957
+(define (find-jklass134,5200
+(define (bind-jklass!140,5473
+(define (java-finalizer150,6041
+(define (java-parse-class200,7892
+(define (java-declare-class216,8455
+(define (java-refine-class242,9566
+(define (java-declare-component255,10088
+(define (declare-jklass330,12622
+(define (declare-java-method!375,14364
+(define (declare-java-class!387,14902
+(define *java-classes*418,16008
+(define (register-java-class!423,16254
+(define (find-java-class429,16616
+(define (java-declare-array438,16961
+
+Type/cache.scm,953
+(define (install-type-cache!56,1693
+(define *obj*94,3330
+(define *cobj*95,3366
+(define *cell*96,3402
+(define *magic*97,3438
+(define *void*98,3474
+(define *bint*99,3510
+(define *int*100,3546
+(define *long*101,3582
+(define *blong*102,3618
+(define *bool*103,3654
+(define *bbool*104,3690
+(define *real*105,3726
+(define *breal*106,3762
+(define *char*107,3798
+(define *bchar*108,3834
+(define *string*109,3870
+(define *bstring*110,3906
+(define *symbol*111,3942
+(define *keyword*112,3978
+(define *pair*113,4014
+(define *epair*114,4050
+(define *pair-nil*115,4086
+(define *bnil*116,4122
+(define *vector*117,4158
+(define *struct*118,4194
+(define *procedure*119,4230
+(define *unspec*120,4266
+(define *exit*121,4302
+(define *object*122,4338
+(define *_*123,4374
+(define *default-type*124,4410
+(define (get-default-type133,4957
+(define (set-default-type!139,5220
+(define (get-object-type145,5501
+(define (get-default-c-type158,6009
+
+Type/tenv.scm,662
+(define *Tenv*60,2327
+(define (set-Tenv!65,2585
+(define (add-Tenv!71,2850
+(define (get-Tenv172,6687
+(define (initialize-Tenv!178,6934
+(define (find-type185,7241
+(define (type-exists?196,7765
+(define (bind-type!205,8121
+(define (use-type!223,8849
+(define (use-type/import-loc!238,9420
+(define (use-foreign-type!261,10513
+(define (use-foreign-type/import-loc!283,11720
+(define (declare-type!299,12521
+(define (declare-subtype!316,13291
+(define (declare-aliastype!330,13937
+(define (for-each-type!339,14369
+(define (uninitialized-types347,14818
+(define *types-already-checked?*357,15203
+(define (check-types368,15896
+(define (sub-type?410,17280
+
+Type/type.scm,108
+   (export (final-class type::object19,996
+(define (get-aliased-type57,2434
+(define (bigloo-type?66,2782
+
+Type/coercion.scm,129
+(define (find-coercer31,1607
+(define (add-coercion!77,4389
+(define (check-coercion?134,6569
+(define (coercer-exists?162,7215
+
+Type/tools.scm,225
+(define (string-sans-$33,1776
+(define (type-name-sans-$48,2273
+(define ($-in-name?59,2761
+(define (*-name?74,3299
+(define (replace-$80,3603
+(define (make-typed-declaration106,4433
+(define (make-pointer-to-name117,4831
+
+Type/typeof.scm,59
+(define (typeof-atom25,1333
+(define (typeof-kwote47,1866
+
+Type/pptype.scm,111
+(define (type-id->string24,1323
+(define (function-type->string32,1665
+(define (variable-type->string52,2339
+
+Expand/eps.scm,488
+(define *macro*41,1851
+(define (add-macro-definition!46,2090
+(define *identifier-aliasing*52,2383
+(define (add-identifier-alias!57,2645
+(define (unalias-identifier63,2979
+(define *lexical-stack*74,3640
+(define (lexical-stack79,3887
+(define (with-lexical85,4148
+(define (expand-units99,4831
+(define (comptime-expand141,6499
+(define (comptime-expand-once147,6786
+(define (initial-expander153,7078
+(define (*identifier-expander*195,8238
+(define (*application-expander*206,8624
+
+Expand/assert.scm,85
+(define (expand-assert26,1345
+(define (make-one-assert45,2108
+(define (dup75,3055
+
+Expand/case.scm,181
+(define (expand-case34,1864
+(define (case-type65,3268
+(define (do-typed-case132,5148
+(define (do-cnst-case177,6725
+(define (type-test196,7435
+(define (do-generic-case217,8171
+
+Expand/define.scm,368
+(define (expand-define44,1976
+(define (expand-external-define55,2428
+(define (expand-internal-define76,3267
+(define (expand-set!143,5456
+(define (expand-method171,6454
+(define (expand-inline188,7021
+(define (expand-generic207,7654
+(define (do-external-define-lambda224,8246
+(define (do-external-define-value246,9156
+(define (do-inline/generic/method262,9896
+
+Expand/expander.scm,171
+(define *Oenv*27,1440
+(define (initialize-Oenv!32,1678
+(define (install-O-comptime-expander42,2249
+(define (find-O-expander57,2996
+(define (unbind-O-expander!63,3303
+
+Expand/garith.scm,250
+(define (expand-g+29,1512
+(define (expand-g-47,2001
+(define (expand-g*69,2552
+(define (expand-g/87,3041
+(define (expand-g=103,3518
+(define (expand-g<119,4007
+(define (expand-g>135,4496
+(define (expand-g<=151,4991
+(define (expand-g>=167,5492
+
+Expand/iarith.scm,337
+(define (expand-i+32,1614
+(define (expand-i-51,2110
+(define (expand-i*72,2645
+(define (expand-i/91,3142
+(define (expand-i=108,3628
+(define (expand-i<122,4073
+(define (expand-i>136,4518
+(define (expand-i<=150,4968
+(define (expand-i>=164,5424
+(define (expand-eq?178,5874
+(define (expand-+fx188,6268
+(define (expand--fx202,6729
+
+Expand/farith.scm,88
+(define (expand-fmax25,1348
+(define (expand-fmin42,1878
+(define (expand-fatan59,2408
+
+Expand/if.scm,375
+(define (expand-or/bool25,1333
+(define (expand-and/bool46,1966
+(define (expand-test67,2609
+(define (expand-if101,3699
+(define *case-enabled?*137,4916
+(define (expand-if-with142,5162
+(define (find-case-exp158,5920
+(define (is-case?182,7123
+(define (is-a-valid-constant?247,8838
+(define (if->case!259,9446
+(define (make-clause286,10467
+(define (expand-not298,10914
+
+Expand/initial.scm,42
+(define (install-initial-expander44,1666
+
+Expand/lambda.scm,173
+(define internal-definition?30,1478
+(define (expand-lambda35,1729
+(define (internal-begin-expander55,2455
+(define (begin-bindings77,3153
+(define (lambda-defines99,3787
+
+Expand/let.scm,121
+(define (expand-let*31,1511
+(define (expand-let64,2537
+(define (expand-letrec147,4951
+(define (expand-labels190,6295
+
+Expand/map.scm,62
+(define (expand-map26,1338
+(define (expand-for-each174,7125
+
+Expand/struct.scm,31
+(define (expand-struct23,1275
+
+Expand/exit.scm,140
+(define (expand-jump-exit36,1605
+(define (expand-set-exit47,2052
+(define (expand-bind-exit58,2495
+(define (expand-unwind-protect84,3408
+
+Expand/object.scm,651
+(define (expand-with-access39,1683
+(define (class-split-slots98,3520
+(define (make-with-access-body128,4432
+(define (with-access-expander164,5947
+(define (expand-instantiate190,6886
+(define (instantiate->make207,7546
+(define (instantiate->fill217,7953
+(define (expand-co-instantiate321,10938
+(define (co-instantiate->let331,11369
+(define (expand-duplicate420,13805
+(define (duplicate->make448,15032
+(define (expand-widen!551,18074
+(define (make-widening567,18718
+(define (expand-shrink!707,22899
+(define (make-a-shrink!717,23283
+(define (make-virtual-set745,24233
+(define (object-epairify761,24804
+(define (find-slot-offset771,25198
+
+Expand/syntax.scm,37
+(define (syntax-expand-units28,1493
+
+Expand/srfi-0.scm,101
+(define *srfi-list*35,2106
+(define (add-supported-srfi!47,2508
+(define (expand-cond-expand53,2815
+
+Inline/walk.scm,213
+(define (inline-walk!34,1516
+(define *inlined-calls*66,2723
+(define *non-inlined-calls*67,2749
+(define (reset-stat!72,2998
+(define (show-stat!79,3297
+(define (inline-setup!87,3683
+(define *kfactor*100,4147
+
+Inline/inline.scm,1422
+	    (wide-class isfun::sfun25,1176
+(define (inline-sfun!33,1565
+(define-generic (inline-node61,2601
+(define-method (inline-node node::atom kfactor stack66,2887
+(define-method (inline-node node::var kfactor stack72,3167
+(define-method (inline-node node::kwote kfactor stack88,3818
+(define-method (inline-node node::sequence kfactor stack94,4106
+(define-method (inline-node node::app kfactor stack101,4444
+(define-method (inline-node node::app-ly kfactor stack108,4799
+(define-method (inline-node node::funcall kfactor stack117,5219
+(define-method (inline-node node::extern kfactor stack127,5742
+(define-method (inline-node node::cast kfactor stack134,6076
+(define-method (inline-node node::setq kfactor stack141,6402
+(define-method (inline-node node::conditional kfactor stack148,6753
+(define-method (inline-node node::fail kfactor stack158,7251
+(define-method (inline-node node::select kfactor stack168,7722
+(define-method (inline-node node::let-fun kfactor stack178,8195
+(define-method (inline-node node::let-var kfactor stack188,8646
+(define-method (inline-node node::set-ex-it kfactor stack198,9127
+(define-method (inline-node node::jump-ex-it kfactor stack205,9491
+(define-method (inline-node node::make-box kfactor stack214,9929
+(define-method (inline-node node::box-ref kfactor stack221,10292
+(define-method (inline-node node::box-set! kfactor stack228,10648
+(define (inline-node*!237,11078
+
+Inline/app.scm,57
+(define (inline-app34,1508
+(define (inline-app?60,2457
+
+Inline/size.scm,1502
+   (static  (wide-class sized-sequence::sequence (size::long read-only19,1002
+	    (wide-class sized-select::select (size::long read-only20,1074
+	    (wide-class sized-let-fun::let-fun (size::long read-only21,1135
+	    (wide-class sized-let-var::let-var (size::long read-only22,1198
+(define-generic (node-size29,1534
+(define-method (node-size node::atom34,1798
+(define-method (node-size node::var40,2059
+(define-method (node-size node::kwote46,2319
+(define-method (node-size node::sequence52,2588
+(define-method (node-size node::sized-sequence64,3057
+(define-method (node-size node::app70,3353
+(define-method (node-size node::app-ly80,3773
+(define-method (node-size node::funcall86,4108
+(define-method (node-size node::cast96,4540
+(define-method (node-size node::extern103,4851
+(define-method (node-size node::setq113,5251
+(define-method (node-size node::conditional119,5548
+(define-method (node-size node::fail128,6031
+(define-method (node-size node::select137,6477
+(define-method (node-size node::sized-select153,7087
+(define-method (node-size node::let-fun159,7379
+(define-method (node-size node::sized-let-fun174,7957
+(define-method (node-size node::let-var180,8251
+(define-method (node-size node::sized-let-var193,8772
+(define-method (node-size node::set-ex-it199,9066
+(define-method (node-size node::jump-ex-it205,9372
+(define-method (node-size node::make-box213,9727
+(define-method (node-size node::box-ref219,10032
+(define-method (node-size node::box-set!225,10296
+
+Inline/simple.scm,35
+(define (inline-app-simple42,1847
+
+Inline/recursion.scm,1346
+(define (inline-app-recursive40,1605
+(define (inline-app-labels60,2570
+(define (plain-call141,5690
+(define (unroll-call161,6471
+(define (is-recursive?196,7726
+(define-generic (find-recursive-calls219,8551
+(define-method (find-recursive-calls node::sequence var225,8840
+(define-method (find-recursive-calls node::app var234,9387
+(define-method (find-recursive-calls node::app-ly var244,9851
+(define-method (find-recursive-calls node::funcall var251,10240
+(define-method (find-recursive-calls node::extern var259,10640
+(define-method (find-recursive-calls node::cast var265,10964
+(define-method (find-recursive-calls node::setq var271,11281
+(define-method (find-recursive-calls node::conditional var277,11600
+(define-method (find-recursive-calls node::fail var286,12057
+(define-method (find-recursive-calls node::select var295,12491
+(define-method (find-recursive-calls node::let-fun var307,12996
+(define-method (find-recursive-calls node::let-var var321,13524
+(define-method (find-recursive-calls node::set-ex-it var333,14038
+(define-method (find-recursive-calls node::jump-ex-it v339,14366
+(define-method (find-recursive-calls node::make-box var346,14763
+(define-method (find-recursive-calls node::box-ref var352,15090
+(define-method (find-recursive-calls node::box-set! v358,15413
+(define (find-recursive-calls*365,15804
+
+Inline/variant.scm,232
+   (export  (wide-class local/variant::local variant::bool20,1049
+(define (invariant-args34,1807
+(define (variant-args76,3312
+(define (substitutions91,3841
+(define (shrink-args!118,4694
+(define (remove-invariant-args!132,5520
+
+Inline/loop.scm,2304
+(define (is-loop?39,1713
+(define (inner-loop?49,2279
+(define-generic (find-let-fun?55,2585
+(define-method (find-let-fun? node::sequence61,2852
+(define-method (find-let-fun? node::app67,3158
+(define-method (find-let-fun? node::app-ly74,3478
+(define-method (find-let-fun? node::funcall81,3830
+(define-method (find-let-fun? node::extern89,4189
+(define-method (find-let-fun? node::cast95,4491
+(define-method (find-let-fun? node::setq101,4786
+(define-method (find-let-fun? node::conditional107,5083
+(define-method (find-let-fun? node::fail116,5484
+(define-method (find-let-fun? node::select125,5862
+(define-method (find-let-fun? node::let-fun138,6315
+(define-method (find-let-fun? node::let-var144,6584
+(define-method (find-let-fun? node::set-ex-it157,7045
+(define-method (find-let-fun? node::jump-ex-it163,7351
+(define-method (find-let-fun? node::make-box170,7717
+(define-method (find-let-fun? node::box-ref176,8022
+(define-method (find-let-fun? node::box-set!182,8323
+(define (find-let-fun?*189,8683
+(define-generic (nest-loop!202,9064
+(define-method (nest-loop! node::atom var nester207,9360
+(define-method (nest-loop! node::kwote var nester213,9636
+(define-method (nest-loop! node::var var nester219,9913
+(define-method (nest-loop! node::sequence var nester225,10188
+(define-method (nest-loop! node::app var nester233,10546
+(define-method (nest-loop! node::app-ly var nester243,10966
+(define-method (nest-loop! node::funcall var nester252,11374
+(define-method (nest-loop! node::extern var nester261,11776
+(define-method (nest-loop! node::cast var nester268,12101
+(define-method (nest-loop! node::setq var nester275,12419
+(define-method (nest-loop! node::conditional var nester282,12739
+(define-method (nest-loop! node::fail var nester292,13221
+(define-method (nest-loop! node::select var nester302,13676
+(define-method (nest-loop! node::let-fun var nester313,14149
+(define-method (nest-loop! node::let-var var nester328,14694
+(define-method (nest-loop! node::set-ex-it var nester339,15174
+(define-method (nest-loop! node::jump-ex-it v nester347,15543
+(define-method (nest-loop! node::make-box var nester356,15962
+(define-method (nest-loop! node::box-ref v nester364,16332
+(define-method (nest-loop! node::box-set! v nester372,16690
+(define (nest-loop!*381,17102
+
+User/user.scm,27
+(define (user-walk27,1342
+
+Hgen/walk.scm,27
+(define (hgen-walk28,1335
+
+Coerce/walk.scm,30
+(define (coerce-walk!34,1440
+
+Coerce/pproto.scm,244
+(define (reset-ppmarge!31,1452
+(define (inc-ppmarge!37,1718
+(define (dec-ppmarge!43,1999
+(define *pp-marge*49,2280
+(define old-marge50,2307
+(define old-marge-string51,2335
+(define (pfunction-proto56,2582
+(define (pvariable-proto72,3177
+
+Coerce/coerce.scm,1478
+(define (coerce-function!37,1546
+(define-generic (coerce!48,2057
+(define-method (coerce! node::atom caller to53,2335
+(define-method (coerce! node::kwote caller to59,2636
+(define-method (coerce! node::var caller to65,2937
+(define-method (coerce! node::closure caller to73,3297
+(define-method (coerce! node::sequence caller to79,3636
+(define-method (coerce! node::extern caller to95,4234
+(define-method (coerce! node::getfield caller to109,4747
+(define-method (coerce! node::setfield caller to120,5323
+(define-method (coerce! node::new caller to129,5798
+(define-method (coerce! node::valloc caller to136,6124
+(define-method (coerce! node::vref caller to144,6525
+(define-method (coerce! node::vset! caller to160,7439
+(define-method (coerce! node::vlength caller to172,8051
+(define-method (coerce! node::cast caller to180,8454
+(define-method (coerce! node::setq caller to188,8836
+(define-method (coerce! node::conditional caller to196,9249
+(define-method (coerce! node::fail caller to206,9715
+(define-method (coerce! node::select caller to216,10186
+(define-method (coerce! node::let-fun caller to246,11397
+(define-method (coerce! node::let-var caller to257,11841
+(define-method (coerce! node::set-ex-it caller to275,12519
+(define-method (coerce! node::jump-ex-it caller to285,12972
+(define-method (coerce! node::make-box caller to294,13389
+(define-method (coerce! node::box-ref caller to302,13754
+(define-method (coerce! node::box-set! caller to309,14088
+
+Coerce/typeof.scm,976
+(define-generic (typeof27,1327
+(define-method (typeof node::atom32,1588
+(define-method (typeof node::kwote39,1903
+(define-method (typeof node::var46,2220
+(define-method (typeof node::closure60,2732
+(define-method (typeof node::sequence66,3003
+(define-method (typeof node::extern73,3338
+(define-method (typeof node::cast80,3640
+(define-method (typeof node::setq87,3938
+(define-method (typeof node::conditional93,4203
+(define-method (typeof node::fail104,4652
+(define-method (typeof node::select111,4961
+(define-method (typeof node::let-fun124,5462
+(define-method (typeof node::let-var131,5775
+(define-method (typeof node::set-ex-it138,6089
+(define-method (typeof node::jump-ex-it144,6356
+(define-method (typeof node::make-box150,6624
+(define-method (typeof node::box-ref156,6890
+(define-method (typeof node::box-set!162,7155
+(define-method (typeof node::app-ly168,7424
+(define-method (typeof node::funcall174,7688
+(define-method (typeof node::app180,7953
+
+Coerce/app.scm,293
+(define-method (coerce! node::app caller to29,1351
+(define (coerce-foreign-app!40,1885
+(define (coerce-foreign-fx-app!52,2457
+(define (coerce-foreign-va-app!64,3008
+(define (coerce-bigloo-app!87,3846
+(define (coerce-bigloo-intern-app!101,4565
+(define (coerce-bigloo-extern-app!127,5621
+
+Coerce/funcall.scm,128
+(define-method (coerce! node::funcall caller to35,1455
+(define (make-error-node83,3046
+(define (coerce-funcall-args!115,3992
+
+Coerce/apply.scm,88
+(define-method (coerce! node::app-ly caller to34,1438
+(define (make-error-node92,3392
+
+Coerce/convert.scm,357
+(define (type-error/location43,1702
+(define (type-warning/location55,2126
+(define (runtime-type-error67,2566
+(define (convert-error111,4341
+(define (convert!131,5301
+(define (make-one-conversion183,7153
+(define (skip-let-var193,7683
+(define (make-one-type-conversion201,8005
+(define (make-one-class-conversion242,9451
+(define (do-convert290,11138
+
+Globalize/walk.scm,33
+(define (globalize-walk!28,1422
+
+Globalize/ginfo.scm,225
+   (export  (wide-class sfun/Ginfo::sfun19,1006
+	    (wide-class svar/Ginfo::svar57,2244
+	    (wide-class sexit/Ginfo::sexit67,2518
+	    (wide-class local/Ginfo::local77,2805
+	    (wide-class global/Ginfo::global81,2925
+
+Globalize/escape.scm,1410
+(define-generic (escape-fun!27,1340
+(define-method (escape-fun! variable::global38,1806
+(define-method (escape-fun! variable::local47,2219
+(define-generic (set-escaping-fun!55,2578
+(define-method (set-escaping-fun! variable::global63,2938
+(define-method (set-escaping-fun! variable::global/Ginfo69,3256
+(define-method (set-escaping-fun! variable::local/Ginfo75,3575
+(define-generic (escape!81,3892
+(define-method (escape! node::atom86,4148
+(define-method (escape! node::kwote92,4411
+(define-method (escape! node::var98,4675
+(define-method (escape! node::closure104,4937
+(define-method (escape! node::sequence110,5241
+(define-method (escape! node::app116,5535
+(define-method (escape! node::app-ly123,5845
+(define-method (escape! node::funcall131,6179
+(define-method (escape! node::extern139,6518
+(define-method (escape! node::cast145,6808
+(define-method (escape! node::setq151,7091
+(define-method (escape! node::conditional158,7402
+(define-method (escape! node::fail167,7780
+(define-method (escape! node::select176,8135
+(define-method (escape! node::let-fun190,8818
+(define-method (escape! node::let-var212,9621
+(define-method (escape! node::set-ex-it223,10071
+(define-method (escape! node::jump-ex-it231,10454
+(define-method (escape! node::make-box239,10803
+(define-method (escape! node::box-set!245,11096
+(define-method (escape! node::box-ref252,11415
+(define (escape*!259,11728
+
+Globalize/gn.scm,1231
+(define (Gn!41,2329
+(define-generic (E56,2830
+(define-method (E node::atom caller::variable g61,3099
+(define-method (E node::kwote caller::variable g67,3371
+(define-method (E node::var caller::variable g73,3644
+(define-method (E node::closure caller::variable g79,3915
+(define-method (E node::sequence caller g94,4505
+(define-method (E node::app caller g100,4805
+(define-method (E node::app-ly caller g108,5168
+(define-method (E node::funcall caller g115,5504
+(define-method (E node::extern caller g122,5845
+(define-method (E node::cast caller g129,6167
+(define-method (E node::setq caller g136,6480
+(define-method (E node::conditional caller g143,6797
+(define-method (E node::fail caller g150,7170
+(define-method (E node::select caller g157,7523
+(define-method (E node::let-fun caller g168,7981
+(define-method (E node::let-var caller g182,8478
+(define-method (E node::set-ex-it caller g194,8949
+(define-method (E node::jump-ex-it caller g201,9274
+(define-method (E node::make-box caller g208,9624
+(define-method (E node::box-ref caller g215,9949
+(define-method (E node::box-set! caller g222,10268
+(define (E*229,10612
+(define (save-app!240,10985
+(define (save-fun!260,11680
+(define (G-from-cto277,12315
+
+Globalize/node.scm,1545
+(define (node-globalize!38,1846
+(define (celled-bindings58,2634
+(define (cell-formals79,3371
+(define (a-make-cell99,3973
+(define (celled?108,4463
+(define-generic (glo!118,4962
+(define-method (glo! node::atom integrator123,5242
+(define-method (glo! node::kwote integrator129,5513
+(define-method (glo! node::var integrator135,5784
+(define-method (glo! node::closure integrator156,6404
+(define-method (glo! node::sequence integrator167,6849
+(define-method (glo! node::app integrator175,7195
+(define-method (glo! node::app-ly integrator240,9435
+(define-method (glo! node::funcall integrator249,9825
+(define-method (glo! node::extern integrator258,10209
+(define-method (glo! node::cast integrator266,10551
+(define-method (glo! node::setq integrator274,10884
+(define-method (glo! node::conditional integrator309,12109
+(define-method (glo! node::fail integrator319,12563
+(define-method (glo! node::select integrator329,12994
+(define-method (glo! node::let-fun integrator340,13449
+(define-method (glo! node::let-var integrator373,14573
+(define-method (glo! node::set-ex-it integrator391,15224
+(define-method (glo! node::jump-ex-it integrator406,15850
+(define-method (glo! node::make-box integrator415,16257
+(define-method (glo! node::box-ref integrator423,16615
+(define-method (glo! node::box-set! integrator431,16965
+(define (glo*!440,17370
+(define (make-escaping-bindings451,17769
+(define (globalize-local-fun!487,18899
+(define (a-make-procedure506,19686
+(define (make-sets537,20696
+(define (a-procedure-set!560,21358
+
+Globalize/free.scm,1448
+(define *round*38,1624
+(define (mark-variable!43,1861
+(define (bind-variable!56,2364
+(define (free-variable?64,2783
+(define (get-free-vars84,3616
+(define *integrator*97,4203
+(define (internal-get-free-vars!105,4675
+(define-generic (node-free119,5320
+(define-method (node-free node::var free125,5590
+(define-method (node-free node::closure free139,6024
+(define-method (node-free node::sequence free154,6508
+(define-method (node-free node::app free161,6842
+(define-method (node-free node::app-ly free177,7416
+(define-method (node-free node::funcall free184,7761
+(define-method (node-free node::extern free191,8111
+(define-method (node-free node::cast free198,8441
+(define-method (node-free node::setq free205,8762
+(define-method (node-free node::conditional free212,9107
+(define-method (node-free node::fail free219,9490
+(define-method (node-free node::select free226,9853
+(define-method (node-free node::let-fun free237,10326
+(define-method (node-free node::let-var free262,11205
+(define-method (node-free node::set-ex-it free276,11755
+(define-method (node-free node::jump-ex-it free284,12146
+(define-method (node-free node::make-box free291,12505
+(define-method (node-free node::box-ref free298,12838
+(define-method (node-free node::box-set! free305,13165
+(define (node-free*312,13518
+(define (the-closure323,13905
+(define (the-global-closure331,14274
+(define (the-local-closure385,16040
+(define (free-from399,16684
+
+Globalize/kapture.scm,121
+(define (set-kaptured!36,1494
+(define (set-one-kaptured!53,2301
+(define *union-round*136,5189
+(define (union141,5432
+
+Globalize/integration.scm,189
+(define (set-integration!30,1470
+(define (set-cfrom*!66,2869
+(define (get-new-tg110,4368
+(define (get-new-fg145,5508
+(define (set-integrators!162,6215
+(define (get-integrator210,7832
+
+Globalize/new-body.scm,1347
+(define (set-globalized-new-bodies!31,1429
+(define (set-globalized-new-body!42,1993
+(define (is-in?119,4825
+(define *round*134,5253
+(define-generic (rem!139,5490
+(define-method (rem! node::atom owner current144,5763
+(define-method (rem! node::kwote owner current150,6036
+(define-method (rem! node::var owner current156,6310
+(define-method (rem! node::sequence owner current162,6582
+(define-method (rem! node::app owner current170,6934
+(define-method (rem! node::app-ly owner current178,7277
+(define-method (rem! node::funcall owner current187,7676
+(define-method (rem! node::extern owner current196,8069
+(define-method (rem! node::cast owner current204,8417
+(define-method (rem! node::setq owner current212,8756
+(define-method (rem! node::conditional owner current220,9112
+(define-method (rem! node::fail owner current230,9578
+(define-method (rem! node::select owner current240,10021
+(define-method (rem! node::let-fun owner current251,10485
+(define-method (rem! node::let-var owner current304,12476
+(define-method (rem! node::set-ex-it owner current315,12947
+(define-method (rem! node::jump-ex-it owner current323,13310
+(define-method (rem! node::make-box owner current332,13726
+(define-method (rem! node::box-ref owner current340,14090
+(define-method (rem! node::box-set! owner current348,14446
+(define (rem*!357,14860
+
+Globalize/loc2glo.scm,214
+(define (default-type38,1552
+(define (local->global44,1827
+(define (fix-escaping-definition60,2565
+(define (make-escaping-body120,4763
+(define (fix-non-escaping-definition162,5885
+(define (the-global194,7267
+
+Globalize/gloclo.scm,165
+(define (global-closure39,1600
+(define (make-global-closure46,1926
+(define *foreign-closures*110,3932
+(define (foreign-closures115,4182
+(define (gloclo123,4510
+
+Globalize/clocto.scm,41
+(define (cto-transitive-closure!36,1959
+
+Globalize/globalize.scm,127
+(define *E*40,1599
+(define *G0*41,1616
+(define *G1*42,1633
+(define (globalize!47,1869
+(define (verb-globalization107,3892
+
+Cnst/walk.scm,253
+(define (cnst-walk!33,1425
+(define (unsafe!50,2110
+(define (safe!65,2703
+(define *old-unsafe-type*75,3157
+(define *old-unsafe-arity*76,3189
+(define *old-unsafe-range*77,3221
+(define *old-unsafe-struct*78,3253
+(define *old-unsafe-version*79,3285
+
+Cnst/cache.scm,569
+(define *cache-started?*41,1592
+(define *cnst-table-ref*43,1627
+(define *cnst-table-set!*44,1662
+(define *cons*45,1697
+(define *btrue*46,1732
+(define *bfalse*47,1767
+(define *string->bstring*48,1802
+(define *string->symbol*49,1837
+(define *string->keyword*50,1872
+(define *bool->bbool*51,1907
+(define *long->int*52,1942
+(define *make-fx-procedure*53,1977
+(define *make-va-procedure*54,2012
+(define *double->real*55,2047
+(define *list->vector*56,2082
+(define *vector-tag-set!*57,2117
+(define (start-cnst-cache!62,2371
+(define (stop-cnst-cache!100,3714
+
+Cnst/alloc.scm,1063
+(define-struct cnst-info52,2048
+(define-struct procedure-info53,2090
+(define *cnst-table*58,2353
+(define *cnst-offset*59,2392
+(define (get-cnst-offset64,2640
+(define (get-cnst-set70,2901
+(define (get-cnst-table76,3158
+(define (get-cnst-sexp82,3417
+(define (add-cnst-sexp!88,3687
+(define (cnst-info-create94,3985
+(define *string-env*102,4314
+(define *real-env*103,4342
+(define *symbol-env*104,4370
+(define *keyword-env*105,4398
+(define *list-env*106,4426
+(define *vector-env*107,4454
+(define *global-set*108,4482
+(define *global-sexp*109,4510
+(define *old-debug*114,4757
+(define (cnst-table-id119,5009
+(define (typed-cnst-table-id125,5269
+(define (start-cnst-alloc!131,5561
+(define (stop-cnst-alloc!156,6606
+(define (make-cnst-table-ref169,7114
+(define (cnst-alloc-string189,7956
+(define (cnst-alloc-symbol216,8808
+(define (cnst-alloc-keyword269,10518
+(define (cnst-alloc-procedure322,12256
+(define (cnst-alloc-real336,12716
+(define (cnst-alloc-list370,13604
+(define (cnst-alloc-vector439,15600
+(define (cnst-alloc-tvector538,18267
+
+Cnst/node.scm,1252
+   (static  (wide-class local/bvalue::local31,1334
+(define-generic (cnst!37,1638
+(define-method (cnst! node::atom42,1901
+(define-method (cnst! node::kwote53,2274
+(define-method (cnst! node::var80,3133
+(define-method (cnst! node::closure86,3392
+(define-method (cnst! node::sequence92,3717
+(define-method (cnst! node::extern100,4043
+(define-method (cnst! node::cast108,4365
+(define-method (cnst! node::setq116,4678
+(define-method (cnst! node::conditional124,5008
+(define-method (cnst! node::fail134,5422
+(define-method (cnst! node::select144,5813
+(define-method (cnst! node::let-fun155,6238
+(define-method (cnst! node::let-var167,6709
+(define-method (cnst! node::set-ex-it182,7295
+(define-method (cnst! node::jump-ex-it190,7636
+(define-method (cnst! node::make-box199,8013
+(define-method (cnst! node::box-ref207,8351
+(define-method (cnst! node::box-set!215,8681
+(define-method (cnst! node::app-ly224,9051
+(define-method (cnst! node::funcall233,9411
+(define (cnst*!242,9767
+(define-method (cnst! node::app253,10141
+(define-generic (get-node-atom-value299,11636
+(define-method (get-node-atom-value node::atom305,11923
+(define-method (get-node-atom-value node::var311,12210
+(define-method (get-node-atom-value node::app320,12612
+
+Cnst/initialize.scm,360
+(define (initialize-ast40,1706
+(define (lib-initialize!66,2428
+(define (read-initialize!73,2739
+(define (read-empty-cnst-initialize!81,3089
+(define (read-full-cnst-initialize!88,3412
+(define (cnst-set->cnst-string119,4697
+(define (intern-initialize!135,5252
+(define (intern-empty-cnst-initialize!143,5608
+(define (intern-full-cnst-initialize!150,5933
+
+Cfa/app.scm,289
+(define-method (cfa!::approx node::app33,1432
+(define-generic (app!41,1846
+(define-method (app! fun::intern-sfun/Cinfo var::var args-approx49,2213
+(define-method (app! fun::extern-sfun/Cinfo var::var args-approx65,2898
+(define-method (app! fun::cfun/Cinfo var::var args-approx77,3495
+
+Cfa/cinfo.scm,1321
+    (class approx23,1062
+    (wide-class cfun/Cinfo::cfun40,1711
+    (wide-class extern-sfun/Cinfo::sfun42,1777
+    (wide-class intern-sfun/Cinfo::sfun44,1850
+    (wide-class scnst/Cinfo::scnst49,1981
+    (wide-class pre-clo-env::svar53,2074
+    (wide-class svar/Cinfo::svar54,2108
+    (wide-class cvar/Cinfo::cvar60,2368
+    (wide-class sexit/Cinfo::sexit64,2460
+    (wide-class reshaped-local::local68,2565
+    (wide-class reshaped-global::global70,2648
+    (wide-class atom/Cinfo::atom73,2713
+    (wide-class kwote/node::kwote75,2779
+    (wide-class kwote/Cinfo::kwote77,2842
+    (wide-class app-ly/Cinfo::app-ly79,2910
+    (wide-class funcall/Cinfo::funcall81,2980
+    (wide-class setq/Cinfo::setq86,3209
+    (wide-class conditional/Cinfo::conditional88,3275
+    (wide-class fail/Cinfo::fail90,3355
+    (wide-class select/Cinfo::select92,3421
+    (wide-class set-ex-it/Cinfo::set-ex-it94,3491
+    (wide-class jump-ex-it/Cinfo::jump-ex-it96,3567
+    (wide-class pre-make-box::make-box100,3661
+    (wide-class make-box/Cinfo::make-box101,3700
+    (wide-class make-box/O-Cinfo::make-box103,3774
+    (wide-class box-set!/Cinfo::box-set!106,3877
+    (wide-class box-ref/Cinfo::box-ref108,3951
+    (wide-class box-set!/O-Cinfo::box-set!110,4023
+    (wide-class box-ref/O-Cinfo::box-ref112,4099
+
+Cfa/iterate.scm,437
+(define (cfa-iterate-to-fixpoint!37,1575
+(define (cfa-iterate!63,2487
+(define-generic (cfa-export-var!77,3049
+(define-method (cfa-export-var! value::svar/Cinfo owner82,3321
+(define-method (cfa-export-var! value::intern-sfun/Cinfo owner96,3930
+(define (cfa-intern-sfun!121,5002
+(define *cfa-continue?*135,5600
+(define *cfa-stamp*136,5637
+(define (continue-cfa!141,5883
+(define (continue-cfa?149,6235
+(define (stop-cfa!155,6496
+
+Cfa/set.scm,419
+(define-struct meta-set38,1615
+(define-struct large-set39,1661
+(define max-large-size44,1918
+(define (declare-set!49,2170
+(define (make-set!79,3046
+(define (set?90,3502
+(define (set-extend!96,3759
+(define-inline (set-member?110,4261
+(define (set-union-2!123,4941
+(define (set-union!153,6182
+(define (set-for-each170,6694
+(define (set-length188,7298
+(define (set->list209,7988
+(define (set->vector226,8547
+
+Cfa/approx.scm,624
+(define *alloc-set*47,1909
+(define (declare-approx-sets!52,2165
+(define-inline (node-key58,2479
+(define-inline (node-key-set!64,2767
+(define (union-approx!70,3073
+(define (approx-set-type!87,3811
+(define (approx-set-top!107,4414
+(define (make-empty-approx116,4762
+(define (make-type-approx125,5119
+(define (make-alloc-approx135,5510
+(define (make-type-alloc-approx145,5898
+(define-method (shape exp::approx156,6333
+(define (for-each-approx-alloc175,7083
+(define-generic (get-node-atom-value184,7583
+(define-method (get-node-atom-value node::atom190,7870
+(define-method (get-node-atom-value node::var196,8157
+
+Cfa/collect.scm,1531
+(define (collect-all-approx!45,1616
+(define (collect-sfun!52,1962
+(define-generic (node-collect!58,2275
+(define-method (node-collect! node::atom owner63,2553
+(define-method (node-collect! node::kwote owner69,2835
+(define (monomorphic-vector?84,3454
+(define-method (node-collect! node::var owner117,4203
+(define-method (node-collect! node::sequence owner134,4900
+(define-method (node-collect! node::app owner140,5218
+(define-method (node-collect! node::valloc owner196,7156
+(define-method (node-collect! node::app-ly owner207,7610
+(define-method (node-collect! node::funcall owner215,7980
+(define-method (node-collect! node::extern owner224,8377
+(define-method (node-collect! node::cast owner231,8717
+(define-method (node-collect! node::setq owner238,9048
+(define-method (node-collect! node::conditional owner245,9388
+(define-method (node-collect! node::fail owner254,9814
+(define-method (node-collect! node::select owner263,10222
+(define-method (node-collect! node::let-fun owner273,10649
+(define-method (node-collect! node::let-var owner284,11103
+(define-method (node-collect! node::set-ex-it owner294,11536
+(define-method (node-collect! node::jump-ex-it owner301,11883
+(define-method (node-collect! node::make-box owner309,12268
+(define-method (node-collect! node::box-set! owner319,12673
+(define-method (node-collect! node::box-ref owner327,13051
+(define (node-collect*!334,13388
+(define *used-alloc*340,13706
+(define (use-alloc!345,13950
+(define (used-alloc?351,14244
+(define (get-allocs357,14519
+
+Cfa/loose.scm,292
+(define *looser*38,1675
+(define (set-looser!43,1916
+(define (loose!50,2236
+(define (cfa-loose!59,2656
+(define-generic (loose-alloc!70,3105
+(define (stack-loose!75,3366
+(define-generic (stack-loose-alloc!83,3733
+(define (global-loose!94,4444
+(define (stack-intern-sfun-loose!109,4997
+
+Cfa/show.scm,216
+(define (show-cfa-nb-iterations35,1470
+(define (show-cfa-results41,1791
+(define-method (shape local::reshaped-local77,2886
+(define-method (shape global::reshaped-global85,3264
+(define (cfa-variable-shape93,3648
+
+Cfa/walk.scm,27
+(define (cfa-walk!61,2824
+
+Cfa/setup.scm,1947
+(define (set-initial-approx!36,1501
+(define-generic (node-setup!53,2144
+(define-method (node-setup! node::atom58,2404
+(define-method (node-setup! node::kwote66,2778
+(define-method (node-setup! kwote::kwote/node74,3159
+(define-method (node-setup! node::var81,3499
+(define (alloc-type?97,4347
+(define-generic (variable-value-setup!111,4734
+(define-method (variable-value-setup! value::sfun var116,5025
+(define-method (variable-value-setup! value::svar var124,5422
+(define-method (variable-value-setup! value::pre-clo-env var137,6046
+(define-method (variable-value-setup! value::sexit var145,6465
+(define-method (variable-value-setup! value::scnst/Cinfo var152,6823
+(define-method (variable-value-setup! value::scnst var158,7123
+(define-method (variable-value-setup! value::cvar var180,8134
+(define-method (node-setup! node::closure189,8581
+(define-method (node-setup! node::sequence195,8910
+(define-method (node-setup! node::app202,9238
+(define-generic (fun-setup!212,9712
+(define-method (fun-setup! fun::sfun var220,10081
+(define-method (fun-setup! fun::cfun var234,10746
+(define-method (node-setup! node::app-ly245,11234
+(define-method (node-setup! node::funcall256,11698
+(define-method (node-setup! node::pragma268,12210
+(define-method (node-setup! node::getfield278,12656
+(define-method (node-setup! node::setfield288,13110
+(define-method (node-setup! node::new298,13564
+(define-method (node-setup! node::isa307,13966
+(define-method (node-setup! node::cast317,14400
+(define-method (node-setup! node::setq324,14715
+(define-method (node-setup! node::conditional335,15192
+(define-method (node-setup! node::fail346,15656
+(define-method (node-setup! node::select357,16098
+(define-method (node-setup! node::let-fun369,16564
+(define-method (node-setup! node::let-var386,17188
+(define-method (node-setup! node::set-ex-it411,18228
+(define-method (node-setup! node::jump-ex-it423,18755
+(define (node-setup*!434,19242
+
+Cfa/vector.scm,1090
+(define (vector-optim?41,1652
+(define-method (node-setup! node::pre-make-vector-app47,1914
+(define-method (node-setup! node::pre-valloc/Cinfo65,2669
+(define-method (node-setup! node::valloc83,3394
+(define-method (node-setup! node::vlength96,3932
+(define-method (node-setup! node::vref106,4371
+(define-method (node-setup! node::vset!126,5041
+(define-method (cfa!::approx node::make-vector-app136,5496
+(define-method (cfa!::approx node::valloc/Cinfo+optim147,6026
+(define-method (cfa!::approx node::valloc/Cinfo156,6465
+(define-method (cfa!::approx node::vlength/Cinfo165,6916
+(define-method (cfa!::approx node::vref/Cinfo176,7414
+(define-method (cfa!::approx node::vset!/Cinfo220,8909
+(define-method (loose-alloc! alloc::make-vector-app265,10666
+(define-method (loose-alloc! alloc::valloc/Cinfo+optim284,11628
+(define-method (stack-loose-alloc! alloc::make-vector-app cowner300,12371
+(define-method (stack-loose-alloc! alloc::valloc/Cinfo+optim cowner324,13329
+(define-method (stack! node::make-vector-app348,14293
+(define-method (stack! node::valloc/Cinfo+optim357,14789
+
+Cfa/cfa.scm,1582
+(define-generic (cfa!36,1502
+(define-method (cfa! node::atom/Cinfo42,1833
+(define-method (cfa! node::kwote/Cinfo49,2145
+(define-method (cfa! knode::kwote/node56,2460
+(define-method (cfa! node::var65,2868
+(define-method (cfa! node::closure72,3215
+(define-generic (cfa-variable-value-approx78,3530
+(define-method (cfa-variable-value-approx value::svar/Cinfo83,3806
+(define-method (cfa-variable-value-approx value::scnst/Cinfo90,4144
+(define-method (cfa-variable-value-approx value::cvar/Cinfo97,4484
+(define-method (cfa-variable-value-approx value::sexit/Cinfo104,4829
+(define-method (cfa-variable-value-approx value::intern-sfun/Cinfo115,5461
+(define-method (cfa! node::sequence122,5820
+(define-method (cfa! node::app-ly/Cinfo133,6235
+(define-method (cfa! node::pragma/Cinfo142,6620
+(define-method (cfa! node::getfield/Cinfo150,7000
+(define-method (cfa! node::setfield/Cinfo158,7384
+(define-method (cfa! node::new/Cinfo166,7768
+(define-method (cfa! node::isa/Cinfo173,8078
+(define-method (cfa! node::cast180,8394
+(define-method (cfa! node::setq/Cinfo187,8695
+(define-method (cfa! node::conditional/Cinfo201,9279
+(define-method (cfa! node::fail/Cinfo213,9782
+(define-method (cfa! node::select/Cinfo223,10198
+(define-method (cfa! node::let-fun237,10734
+(define-method (cfa! node::let-var244,11043
+(define-method (cfa! node::set-ex-it/Cinfo275,12262
+(define-method (cfa! node::jump-ex-it/Cinfo283,12620
+(define-method (cfa! node::make-box/Cinfo293,13033
+(define-method (cfa! node::box-set!/Cinfo302,13455
+(define-method (cfa! node::box-ref/Cinfo311,13833
+
+Cfa/funcall.scm,150
+(define-method (cfa! node::funcall/Cinfo42,1992
+(define (funcall!93,3804
+(define (funcall-type-error128,5032
+(define (funcall-arity-error142,5600
+
+Cfa/procedure.scm,659
+(define (disable-X-T!37,1486
+(define-method (node-setup! node::pre-make-procedure-app49,1954
+(define-method (node-setup! node::pre-procedure-ref-app99,3736
+(define-method (node-setup! node::pre-procedure-set!-app110,4227
+(define-method (cfa!::approx node::make-procedure-app121,4724
+(define-method (cfa!::approx node::procedure-ref-app142,5565
+(define-method (cfa!::approx node::procedure-set!-app190,7207
+(define-method (loose-alloc! alloc::make-procedure-app244,9219
+(define-method (stack-loose-alloc! alloc::make-procedure-app cowner265,10261
+(define (stack-loose-procedure-env!288,11337
+(define-method (stack! node::make-procedure-app304,12054
+
+Cfa/struct.scm,551
+(define-method (node-setup! node::pre-make-struct-app37,1571
+(define-method (node-setup! node::pre-struct-ref-app54,2300
+(define-method (node-setup! node::pre-struct-set!-app63,2750
+(define-method (cfa!::approx node::make-struct-app72,3206
+(define-method (cfa!::approx node::struct-ref-app88,4101
+(define-method (cfa!::approx node::struct-set!-app110,4981
+(define-method (loose-alloc! alloc::make-struct-app137,6228
+(define-method (stack-loose-alloc! alloc::make-struct-app cowner152,6898
+(define-method (stack! node::make-struct-app174,7778
+
+Cfa/stack.scm,1389
+(define (stack-optimization?38,1585
+(define (heap->stack!44,1869
+(define-generic (node-heap->stack!67,2652
+(define-method (node-heap->stack! node::app stackable?72,2923
+(define-method (node-heap->stack! node::valloc stackable?94,3733
+(define *statistics*107,4197
+(define (stack-stat-succeed112,4441
+(define (stack-stat-fail121,4868
+(define (verb-stat130,5292
+(define-generic (stack!141,5725
+(define-method (stack! node::atom146,5986
+(define-method (stack! node::kwote152,6247
+(define-method (stack! node::var158,6509
+(define-method (stack! node::closure164,6769
+(define-method (stack! node::sequence170,7033
+(define-method (stack! node::app-ly178,7361
+(define-method (stack! node::funcall187,7724
+(define-method (stack! node::extern196,8081
+(define-method (stack! node::cast204,8405
+(define-method (stack! node::setq212,8720
+(define-method (stack! node::conditional221,9085
+(define-method (stack! node::fail231,9507
+(define-method (stack! node::select241,9907
+(define-method (stack! node::let-fun252,10335
+(define-method (stack! node::let-var264,10809
+(define-method (stack! node::set-ex-it275,11244
+(define-method (stack! node::jump-ex-it284,11616
+(define-method (stack! node::make-box293,11996
+(define-method (stack! node::box-set!301,12336
+(define-method (stack! node::box-ref310,12709
+(define-method (stack! node::app318,13041
+(define (stack*!326,13361
+
+Cfa/type.scm,1631
+(define (type-settings!38,1475
+(define (type-fun!44,1758
+(define (get-approx-type61,2488
+(define-generic (type-variable!93,3537
+(define-method (type-variable! value::svar/Cinfo variable102,3948
+(define-method (type-variable! value::scnst/Cinfo variable109,4332
+(define-method (type-variable! value::cvar/Cinfo variable115,4625
+(define-method (type-variable! value::sexit/Cinfo variable122,5007
+(define-method (type-variable! value::intern-sfun/Cinfo variable132,5589
+(define (set-variable-type!143,6253
+(define-generic (type-node!164,7194
+(define-method (type-node! node::atom169,7453
+(define-method (type-node! node::kwote175,7726
+(define-method (type-node! node::var181,8000
+(define-method (type-node! node::closure189,8426
+(define-method (type-node! node::sequence195,8753
+(define-method (type-node! node::app202,9079
+(define-method (type-node! node::app-ly209,9402
+(define-method (type-node! node::funcall217,9745
+(define-method (type-node! node::extern225,10093
+(define-method (type-node! node::cast232,10420
+(define-method (type-node! node::setq239,10733
+(define-method (type-node! node::conditional247,11076
+(define-method (type-node! node::fail256,11466
+(define-method (type-node! node::select265,11838
+(define-method (type-node! node::let-fun275,12238
+(define-method (type-node! node::let-var283,12599
+(define-method (type-node! node::set-ex-it296,13099
+(define-method (type-node! node::jump-ex-it306,13522
+(define-method (type-node! node::make-box314,13880
+(define-method (type-node! node::box-set!321,14205
+(define-method (type-node! node::box-ref329,14556
+(define (type-node*!336,14875
+
+Cfa/closure.scm,1034
+(define (closure-optimization?50,2315
+(define (closure-optimization!56,2585
+(define (X!118,4862
+(define (T-fix-point!168,6724
+(define (make-procedure->function217,8248
+(define (light-closure!224,8604
+(define (light-make-procedure!237,9276
+(define (light-funcall!283,10944
+(define (light-access!314,12016
+(define (show-X-T345,13215
+(define *funcall-list*373,14073
+(define *make-procedure-list*374,14107
+(define *procedure-ref-list*375,14141
+(define (add-funcall!380,14394
+(define (add-make-procedure!387,14725
+(define (add-procedure-ref!394,15077
+(define *procedure-ref*401,15426
+(define *procedure-set!*402,15459
+(define *procedure-l-ref*403,15492
+(define *procedure-l-set!*404,15525
+(define *procedure-el-ref*405,15558
+(define *procedure-el-set!*406,15591
+(define *procedure-1-el-ref*407,15624
+(define *procedure-1-el-set!*408,15657
+(define *make-el-procedure*409,15690
+(define *make-el-procedure-1*410,15723
+(define *make-l-procedure*411,15756
+(define (start-cache416,16008
+(define (stop-cache432,17093
+
+Cfa/tvector.scm,1981
+(define (tvector-optimization?60,2217
+(define (patch-vector-set!69,2729
+(define (unpatch-vector-set!100,3932
+(define (vector->tvector!128,4880
+(define *make-vector-list*155,5748
+(define (add-make-vector!160,5998
+(define (get-tvectors170,6562
+(define-generic (get-vector-item-type188,7222
+(define-method (get-vector-item-type app::make-vector-app193,7492
+(define-method (get-vector-item-type node::valloc/Cinfo+optim202,7890
+(define (show-tvector211,8299
+(define (declare-tvectors224,8761
+(define (patch-tree!255,10011
+(define (patch-fun!261,10292
+(define-generic (patch!270,10749
+(define-method (patch! node::atom275,11004
+(define-method (patch! node::kwote281,11265
+(define-method (patch! knode::kwote/node287,11527
+(define-method (patch! node::var299,12045
+(define-method (patch! node::closure305,12306
+(define-method (patch! node::sequence311,12625
+(define-method (patch! node::app-ly319,12953
+(define-method (patch! node::funcall328,13316
+(define-method (patch! node::extern337,13673
+(define-method (patch! node::cast345,14002
+(define-method (patch! node::setq353,14317
+(define-method (patch! node::conditional362,14682
+(define-method (patch! node::fail372,15104
+(define-method (patch! node::select382,15504
+(define-method (patch! node::let-fun393,15932
+(define-method (patch! node::let-var402,16308
+(define-method (patch! node::set-ex-it414,16768
+(define-method (patch! node::jump-ex-it423,17129
+(define-method (patch! node::make-box432,17509
+(define-method (patch! node::box-set!440,17849
+(define-method (patch! node::box-ref449,18222
+(define (patch*!457,18554
+(define-method (patch! node::app468,18935
+(define-method (patch! node::vlength489,19605
+(define (patch-vector?!507,20318
+(define (patch-vector->list!522,20804
+(define-method (patch! node::make-vector-app540,21430
+(define-method (patch! node::valloc/Cinfo+optim562,22195
+(define-method (patch! node::vref/Cinfo584,22976
+(define-method (patch! node::vset!/Cinfo601,23623
+
+Cfa/box.scm,508
+(define-method (node-setup! node::make-box36,1446
+(define-method (node-setup! node::pre-make-box46,1895
+(define-method (node-setup! node::box-set!60,2474
+(define-method (node-setup! node::box-ref73,3005
+(define-method (cfa!::approx node::make-box/O-Cinfo87,3555
+(define-method (cfa!::approx node::box-ref/O-Cinfo97,4068
+(define-method (cfa!::approx node::box-set!/O-Cinfo117,4758
+(define-method (loose-alloc! alloc::make-box145,5902
+(define-method (stack-loose-alloc! alloc::make-box cowner151,6182
+
+Cfa/specialize.scm,1811
+   (static  (wide-class specialized-global::global33,1485
+(define (arithmetic-operator?42,1887
+(define (arithmetic-spec-types55,2587
+(define *specializations*79,3409
+(define *c-eq?*140,5429
+(define (specialize-optimization?145,5677
+(define (show-specialize151,5973
+(define *specialize*167,6618
+(define *specialized-types*168,6660
+(define *specialized-eq-types*169,6702
+(define *boxed-eq?*170,6744
+(define (install-specialized-type!175,7014
+(define (add-specialized-type!185,7515
+(define (add-specialized-eq-type!196,7971
+(define (install-specialize!206,8433
+(define (uninstall-specializes!261,10076
+(define (specialize!269,10421
+(define (patch-tree!283,10898
+(define (patch-fun!289,11179
+(define-generic (patch!296,11521
+(define-method (patch! node::atom301,11776
+(define-method (patch! node::kwote307,12037
+(define-method (patch! node::var313,12305
+(define-method (patch! node::closure319,12566
+(define-method (patch! node::sequence325,12885
+(define-method (patch! node::app-ly333,13213
+(define-method (patch! node::funcall342,13576
+(define-method (patch! node::extern351,13933
+(define-method (patch! node::cast359,14262
+(define-method (patch! node::setq367,14577
+(define-method (patch! node::conditional376,14942
+(define-method (patch! node::fail386,15364
+(define-method (patch! node::select396,15764
+(define-method (patch! node::let-fun407,16192
+(define-method (patch! node::let-var416,16568
+(define-method (patch! node::set-ex-it428,17028
+(define-method (patch! node::jump-ex-it437,17389
+(define-method (patch! node::make-box446,17769
+(define-method (patch! node::box-set!454,18109
+(define-method (patch! node::box-ref463,18482
+(define (patch*!471,18814
+(define-method (patch! node::app482,19195
+(define (specialize-app!496,19657
+(define (specialize-eq?527,20812
+
+Cfa/cinfo2.scm,877
+           (wide-class pre-arithmetic-app::app25,1137
+	   (wide-class arithmetic-app::app27,1219
+	   (wide-class pre-make-procedure-app::app32,1350
+	   (wide-class pre-procedure-ref-app::app35,1458
+	   (wide-class pre-procedure-set!-app::app36,1501
+	   (wide-class make-procedure-app::app38,1549
+	   (wide-class procedure-ref-app::app (approx::approx read-only58,2455
+	   (wide-class procedure-set!-app::app (approx::approx read-only59,2521
+	   (wide-class pre-make-vector-app::app62,2601
+	   (wide-class make-vector-app::app66,2710
+	   (wide-class pre-make-struct-app::app92,3749
+	   (wide-class pre-struct-ref-app::app95,3854
+	   (wide-class pre-struct-set!-app::app96,3894
+	   (wide-class make-struct-app::app98,3939
+	   (wide-class struct-ref-app::app (approx::approx read-only113,4546
+	   (wide-class struct-set!-app::app (approx::approx read-only114,4609
+
+Cfa/cinfo3.scm,634
+           (wide-class pragma/Cinfo::pragma (approx::approx read-only25,1140
+	   (wide-class getfield/Cinfo::getfield (approx::approx read-only26,1211
+	   (wide-class setfield/Cinfo::setfield (approx::approx read-only27,1279
+	   (wide-class new/Cinfo::new (approx::approx read-only28,1347
+	   (wide-class isa/Cinfo::isa (approx::approx read-only29,1405
+	   (wide-class vref/Cinfo::vref32,1487
+	   (wide-class vset!/Cinfo::vset!35,1589
+	   (wide-class vlength/Cinfo::vlength38,1693
+	   (wide-class pre-valloc/Cinfo::valloc43,1832
+	   (wide-class valloc/Cinfo::valloc45,1907
+	   (wide-class valloc/Cinfo+optim::valloc47,1977
+
+Cfa/arithmetic.scm,198
+(define (cleanup-arithmetic-nodes!53,2652
+(define *arithmetic-nodes*92,3729
+(define-method (node-setup! node::pre-arithmetic-app97,3979
+(define-method (cfa!::approx node::arithmetic-app142,5437
+
+Integrate/walk.scm,33
+(define (integrate-walk!28,1366
+
+Integrate/definition.scm,76
+(define (integrate-definition!56,2885
+(define (verb-globalization105,4622
+
+Integrate/iinfo.scm,132
+   (export (wide-class svar/Iinfo::svar21,1025
+	   (wide-class sexit/Iinfo::sexit31,1351
+	   (wide-class sfun/Iinfo::sfun41,1672
+
+Integrate/a.scm,1331
+(define *phi*32,1546
+(define (A40,2011
+(define (initialize-fun!53,2453
+(define *kont*64,2917
+(define (get-new-kont69,3164
+(define (trace-A76,3446
+(define-generic (node-A94,3999
+(define-method (node-A node::atom host k A99,4278
+(define-method (node-A node::kwote host k A105,4545
+(define-method (node-A node::var host k A111,4813
+(define-method (node-A node::closure host k A117,5079
+(define-method (node-A node::sequence host k A123,5407
+(define-method (node-A node::app host k A137,5911
+(define-method (node-A node::app-ly host k A158,6520
+(define-method (node-A node::funcall host k A165,6897
+(define-method (node-A node::extern host k A180,7396
+(define-method (node-A node::cast host k A192,7835
+(define-method (node-A node::setq host k A199,8171
+(define-method (node-A node::conditional host k A206,8511
+(define-method (node-A node::fail host k A214,8932
+(define-method (node-A node::select host k A227,9389
+(define-method (node-A node::let-fun host k A242,9900
+(define-method (node-A node::let-var host k A263,10645
+(define-method (node-A node::set-ex-it host k A279,11262
+(define-method (node-A node::jump-ex-it host k A300,12118
+(define-method (node-A node::make-box host k A307,12509
+(define-method (node-A node::box-set! host k A314,12857
+(define-method (node-A node::box-ref host k A321,13209
+
+Integrate/kk.scm,112
+(define (K!44,2466
+(define (K.1!58,3193
+(define (K.2!83,3981
+(define (K*!134,5952
+(define (trace-K164,6925
+
+Integrate/u.scm,45
+(define (U!28,1334
+(define (trace-U40,1773
+
+Integrate/g.scm,75
+(define (G!32,1634
+(define (integrate-remaining-local-functions!143,5147
+
+Integrate/ctn.scm,51
+(define (Cn&Ct!31,1567
+(define (trace-ctn73,2851
+
+Integrate/cto.scm,1148
+(define-generic (set-cto!28,1365
+(define-method (set-cto! node::atom local33,1635
+(define-method (set-cto! node::kwote local39,1912
+(define-method (set-cto! node::var local45,2190
+(define-method (set-cto! node::closure local51,2466
+(define-method (set-cto! node::sequence local57,2795
+(define-method (set-cto! node::app local64,3160
+(define-method (set-cto! node::app-ly local94,4286
+(define-method (set-cto! node::funcall local102,4641
+(define-method (set-cto! node::extern local114,5083
+(define-method (set-cto! node::cast local121,5444
+(define-method (set-cto! node::setq local128,5765
+(define-method (set-cto! node::conditional local136,6120
+(define-method (set-cto! node::fail local145,6523
+(define-method (set-cto! node::select local154,6906
+(define-method (set-cto! node::let-fun local166,7378
+(define-method (set-cto! node::let-var local181,7953
+(define-method (set-cto! node::set-ex-it local193,8434
+(define-method (set-cto! node::jump-ex-it local200,8771
+(define-method (set-cto! node::make-box local208,9140
+(define-method (set-cto! node::box-set! local215,9473
+(define-method (set-cto! node::box-ref local223,9836
+
+Integrate/kaptured.scm,121
+(define (set-kaptured!31,1529
+(define (set-one-kaptured!48,2511
+(define *union-round*135,5515
+(define (union140,5758
+
+Integrate/let-fun.scm,1564
+(define *stamp*30,1455
+(define (bind-fun!35,1692
+(define (free-fun?43,2088
+(define (displace-let-fun!50,2474
+(define-generic (displace-let-fun-node!113,4930
+(define-method (displace-let-fun-node! node::atom host118,5220
+(define-method (displace-let-fun-node! node::kwote host124,5510
+(define-method (displace-let-fun-node! node::var host130,5801
+(define-method (displace-let-fun-node! node::closure host136,6090
+(define-method (displace-let-fun-node! node::sequence host142,6445
+(define-method (displace-let-fun-node! node::app host149,6836
+(define-method (displace-let-fun-node! node::app-ly host160,7265
+(define-method (displace-let-fun-node! node::funcall host168,7659
+(define-method (displace-let-fun-node! node::extern host180,8140
+(define-method (displace-let-fun-node! node::cast host187,8527
+(define-method (displace-let-fun-node! node::setq host194,8874
+(define-method (displace-let-fun-node! node::conditional host201,9229
+(define-method (displace-let-fun-node! node::fail host210,9684
+(define-method (displace-let-fun-node! node::select host219,10119
+(define-method (displace-let-fun-node! node::let-fun host231,10630
+(define-method (displace-let-fun-node! node::let-var host260,11648
+(define-method (displace-let-fun-node! node::set-ex-it host274,12226
+(define-method (displace-let-fun-node! node::jump-ex-it host281,12585
+(define-method (displace-let-fun-node! node::make-box host289,12993
+(define-method (displace-let-fun-node! node::box-set! host296,13352
+(define-method (displace-let-fun-node! node::box-ref host302,13646
+
+Integrate/loc2glo.scm,125
+(define (local->global35,1486
+(define symbol-quote65,2582
+(define (local-id->global-id72,2989
+(define (the-global82,3420
+
+Integrate/node.scm,1406
+(define (globalize!35,1704
+(define (celled-bindings58,2601
+(define (cell-formals78,3292
+(define (a-make-cell98,3894
+(define (integrate-celled?109,4475
+(define-generic (glo!128,5383
+(define-method (glo! node::atom integrator133,5663
+(define-method (glo! node::kwote integrator139,5934
+(define-method (glo! node::var integrator145,6205
+(define-method (glo! node::closure integrator166,6835
+(define-method (glo! node::sequence integrator172,7174
+(define-method (glo! node::app integrator180,7520
+(define-method (glo! node::app-ly integrator223,8980
+(define-method (glo! node::funcall integrator232,9370
+(define-method (glo! node::extern integrator241,9754
+(define-method (glo! node::cast integrator249,10096
+(define-method (glo! node::setq integrator257,10429
+(define-method (glo! node::conditional integrator291,11617
+(define-method (glo! node::fail integrator301,12071
+(define-method (glo! node::select integrator311,12502
+(define-method (glo! node::let-fun integrator322,12957
+(define-method (glo! node::let-var integrator333,13402
+(define-method (glo! node::set-ex-it integrator351,14063
+(define-method (glo! node::jump-ex-it integrator359,14424
+(define-method (glo! node::make-box integrator368,14831
+(define-method (glo! node::box-ref integrator376,15189
+(define-method (glo! node::box-set! integrator385,15598
+(define (glo*!395,16063
+(define (globalize-local-fun!406,16462
+
+Integrate/free.scm,1340
+(define *round*36,1510
+(define (mark-variable!41,1747
+(define (bind-variable!52,2179
+(define (free-variable?60,2598
+(define (get-free-vars78,3346
+(define *integrator*91,3933
+(define (internal-get-free-vars!99,4405
+(define-generic (node-free111,4951
+(define-method (node-free node::var free117,5221
+(define-method (node-free node::closure free131,5655
+(define-method (node-free node::sequence free137,5993
+(define-method (node-free node::app free144,6327
+(define-method (node-free node::app-ly free151,6655
+(define-method (node-free node::funcall free158,7000
+(define-method (node-free node::extern free165,7350
+(define-method (node-free node::cast free172,7680
+(define-method (node-free node::setq free179,8001
+(define-method (node-free node::conditional free186,8346
+(define-method (node-free node::fail free193,8729
+(define-method (node-free node::select free200,9092
+(define-method (node-free node::let-fun free211,9565
+(define-method (node-free node::let-var free228,10223
+(define-method (node-free node::set-ex-it free242,10773
+(define-method (node-free node::jump-ex-it free250,11164
+(define-method (node-free node::make-box free257,11523
+(define-method (node-free node::box-ref free264,11856
+(define-method (node-free node::box-set! free271,12183
+(define (node-free*278,12536
+(define (free-from289,12923
+
+Cgen/walk.scm,62
+(define (cgen-walk45,1651
+(define (ast+initializers105,3675
+
+Cgen/emit.scm,422
+(define *dest-prefix*38,1602
+(define *c-port*39,1627
+(define (start-emission!44,1871
+(define (stop-emission!65,2688
+(define *max-col*80,3167
+(define (emit-comment85,3407
+(define (emit-license105,4154
+(define (emit-header117,4602
+(define (emit-garbage-collector-selection133,5195
+(define (emit-include149,5831
+(define (emit-debug-activation161,6364
+(define (emit-main169,6720
+(define (emit-dlopen-init196,7843
+
+Cgen/proto.scm,965
+(define (emit-prototypes44,1625
+(define (emit-cnsts67,2648
+(define-generic (emit-prototype82,3265
+(define-method (emit-prototype value::svar variable87,3549
+(define-method (emit-prototype value::scnst variable93,3866
+(define (emit-prototype/svar/scnst99,4184
+(define-method (emit-prototype value::sfun variable123,4982
+(define (emit-prototype-formal-types142,5649
+(define (emit-prototype-formals157,6163
+(define-method (emit-prototype value::cfun variable173,6740
+(define-method (emit-prototype value::cvar variable206,7720
+(define (emit-cnst214,8143
+(define (emit-cnst-string233,8769
+(define (emit-cnst-real273,10189
+(define (emit-cnst-sfun287,10615
+(define (emit-cnst-sgfun293,10920
+(define (emit-cnst-sfun/sgfun299,11226
+(define (emit-cnst-stvector337,12442
+(define-generic (get-c-scope361,13133
+(define-method (get-c-scope variable::global366,13410
+(define-method (get-c-scope variable::local381,13875
+(define (set-variable-name!387,14150
+
+Cgen/main.scm,34
+(define (make-bigloo-main31,1370
+
+Cgen/init.scm,97
+(define *module-init*35,1430
+(define (get-module-init40,1684
+(define (make-module-init48,2031
+
+Cgen/cop.scm,891
+   (export (class cop21,1016
+	   (class clabel::cop25,1131
+	   (class cgoto::cop30,1255
+	   (class block::cop33,1309
+	   (class creturn::cop36,1359
+	   (class cvoid::cop39,1412
+	   (class catom::cop42,1463
+	   (class varc::cop45,1513
+	   (class cpragma::cop48,1575
+	   (class ccast::cop52,1656
+	   (class csequence::cop56,1738
+	   (class nop::cop60,1831
+	   (class stop::cop62,1851
+	   (class csetq::cop65,1901
+	   (class cif::cop69,1980
+	   (class local-var::cop74,2089
+	   (class cfuncall::cop77,2142
+	   (class capply::cop82,2256
+	   (class capp::cop86,2333
+	   (class cfail::cop90,2404
+	   (class cswitch::cop95,2508
+	   (class cmake-box::cop99,2586
+	   (class cbox-ref::cop102,2641
+	   (class cbox-set!::cop105,2693
+	   (class cset-ex-it::cop109,2779
+	   (class cjump-ex-it::cop114,2896
+	   (wide-class sfun/c::sfun118,2981
+	   (class bdb-block::cop122,3065
+
+Cgen/emit-cop.scm,1514
+(define-generic (emit-cop44,2029
+(define-method (emit-cop cop::clabel49,2291
+(define-method (emit-cop cop::cgoto61,2729
+(define-method (emit-cop cop::block70,3110
+(define-method (emit-cop cop::creturn91,3851
+(define-method (emit-cop cop::catom102,4271
+(define-method (emit-cop cop::cvoid110,4599
+(define-method (emit-cop cop::varc117,4912
+(define-method (emit-cop cop::cpragma125,5261
+(define-method (emit-cop cop::ccast151,6118
+(define-method (emit-cop cop::csequence164,6600
+(define-method (emit-cop cop::nop207,7848
+(define-method (emit-cop cop::stop216,8223
+(define-method (emit-cop cop::csetq229,8742
+(define-method (emit-cop cop::cif243,9313
+(define-method (emit-cop cop::local-var256,9796
+(define-method (emit-cop cop::bdb-block279,10503
+(define-method (emit-cop cop::cfuncall290,11013
+(define-method (emit-cop cop::capply382,13866
+(define-method (emit-cop cop::capp395,14336
+(define *bfalse*434,15604
+(define-method (emit-cop cop::cfail439,15843
+(define-method (emit-cop cop::cswitch470,16851
+(define-method (emit-cop cop::cmake-box509,18108
+(define-method (emit-cop cop::cbox-ref520,18533
+(define-method (emit-cop cop::cbox-set!531,18951
+(define-method (emit-cop cop::cset-ex-it544,19428
+(define-method (emit-cop cop::cjump-ex-it564,20198
+(define (emit-atom-value577,20685
+(define (untrigraph658,23370
+(define *bdb-loc*711,25280
+(define (reset-bdb-loc!716,25530
+(define (get-current-bdb-loc722,25806
+(define (emit-bdb-loc733,26432
+(define (emit-bdb-loc-comment761,27607
+
+Cgen/cgen.scm,1854
+(define (cgen48,1800
+(define *the-global*125,4743
+(define (sfun->c130,4996
+(define *return-kont*156,5808
+(define *id-kont*173,6327
+(define *void-kont*178,6589
+(define *stop-kont*185,6883
+(define (block-kont192,7176
+(define *fail-kont*204,7528
+(define *exit-kont*209,7786
+(define (make-setq-kont214,8044
+(define-generic (node->cop236,8690
+(define-method (node->cop node::atom kont241,8969
+(define-method (node->cop node::kwote kont253,9447
+(define-method (node->cop node::var kont262,9885
+(define-method (node->cop node::closure kont277,10518
+(define-method (node->cop node::sequence kont286,10962
+(define (extern->cop317,11961
+(define-method (node->cop node::pragma kont333,12544
+(define-method (node->cop node::getfield kont343,12988
+(define-method (node->cop node::setfield kont355,13526
+(define-method (node->cop node::vlength kont368,14111
+(define-method (node->cop node::vref kont378,14587
+(define-method (node->cop node::vset! kont388,15054
+(define-method (node->cop node::valloc kont398,15524
+(define-method (node->cop node::cast kont408,16084
+(define-method (node->cop node::setq kont424,16652
+(define-method (node->cop node::conditional kont439,17306
+(define-method (node->cop node::fail kont475,18523
+(define-method (node->cop node::select kont493,19162
+(define-method (node->cop node::let-fun kont527,20298
+(define-method (node->cop node::let-var kont564,21696
+(define (bdb-let-var590,22576
+(define-method (node->cop node::set-ex-it kont600,22944
+(define-method (node->cop node::jump-ex-it kont651,24323
+(define-method (node->cop node::make-box kont729,26687
+(define-method (node->cop node::box-ref kont760,27685
+(define-method (node->cop node::box-set! kont772,28192
+(define (node-setq789,28821
+(define (make-local-svar/name802,29296
+(define (no-bdb-newline813,29881
+(define (node-args->cop820,30177
+
+Cgen/capp.scm,327
+(define-method (node->cop node::app-ly kont33,1399
+(define-method (node->cop node::funcall kont113,3762
+(define-method (node->cop node::app kont195,6213
+(define (node-non-tail-app->cop209,6831
+(define (node-sfun-non-tail-app->cop222,7345
+(define (node-cfun-non-tail-app->cop294,9700
+(define (node-tail-app->cop367,12268
+
+Tvector/tvector.scm,192
+   (export  (wide-class tvec::type23,1083
+(define *tvector-type-list*33,1509
+(define (declare-tvector-type!38,1760
+(define (emit-tvector-types61,2774
+(define (make-coercion-clause78,3551
+
+Tvector/access.scm,39
+(define (make-tvector-accesses30,1399
+
+Tvector/cnst.scm,105
+(define (tvector-C-static?30,1603
+(define (tvector-c-printer44,2119
+(define (tvector->c-vector65,2916
+
+Trace/walk.scm,2031
+(define (trace-walk!35,1522
+(define (trace-id60,2881
+(define (trace-fun!71,3500
+(define (find-last-sexp109,5009
+(define-generic (find-last-node126,5653
+(define-method (find-last-node node::sequence132,5923
+(define-method (find-last-node node::app141,6302
+(define-method (find-last-node node::app-ly150,6668
+(define-method (find-last-node node::funcall156,6969
+(define-method (find-last-node node::extern165,7363
+(define-method (find-last-node node::setq174,7738
+(define-method (find-last-node node::conditional180,8037
+(define-method (find-last-node node::fail186,8350
+(define-method (find-last-node node::select192,8647
+(define-method (find-last-node node::let-var201,9050
+(define-method (find-last-node node::let-fun207,9354
+(define-method (find-last-node node::set-ex-it213,9658
+(define-method (find-last-node node::jump-ex-it219,9966
+(define (make-traced-node225,10277
+(define-generic (trace-node253,11402
+(define-method (trace-node node::sequence259,11674
+(define-method (trace-node node::app266,11982
+(define-method (trace-node node::app-ly273,12280
+(define-method (trace-node node::funcall282,12655
+(define-method (trace-node node::extern291,13025
+(define-method (trace-node node::cast298,13329
+(define-method (trace-node node::setq305,13625
+(define-method (trace-node node::conditional312,13946
+(define-method (trace-node node::fail322,14384
+(define-method (trace-node node::select332,14795
+(define-method (trace-node node::let-fun343,15235
+(define-method (trace-node node::let-var352,15619
+(define-method (trace-node node::set-ex-it363,16066
+(define-method (trace-node node::jump-ex-it370,16400
+(define-method (trace-node node::make-box379,16793
+(define-method (trace-node node::box-ref386,17126
+(define-method (trace-node node::box-set!393,17452
+(define (trace-node*!402,17837
+(define-generic (toplevel-trace-node412,18208
+(define-method (toplevel-trace-node node::sequence418,18489
+(define-method (toplevel-trace-node node::setq430,19180
+(define (toplevel-trace-node*!447,19803
+
+Callcc/walk.scm,1223
+   (static  (wide-class local/cell::local24,1196
+(define (callcc-walk!30,1495
+(define (callcc-fun!41,1933
+(define (celled-bindings58,2597
+(define (cell-formals75,3189
+(define (a-make-cell95,3803
+(define (celled?104,4265
+(define-generic (callcc!110,4579
+(define-method (callcc! node::atom115,4841
+(define-method (callcc! node::kwote121,5103
+(define-method (callcc! node::var127,5366
+(define-method (callcc! node::sequence152,6056
+(define-method (callcc! node::app159,6357
+(define-method (callcc! node::app-ly167,6677
+(define-method (callcc! node::funcall176,7043
+(define-method (callcc! node::extern185,7403
+(define-method (callcc! node::cast192,7700
+(define-method (callcc! node::setq199,7990
+(define-method (callcc! node::conditional232,9023
+(define-method (callcc! node::fail242,9449
+(define-method (callcc! node::select252,9848
+(define-method (callcc! node::let-fun263,10279
+(define-method (callcc! node::let-var272,10658
+(define-method (callcc! node::set-ex-it290,11285
+(define-method (callcc! node::jump-ex-it297,11613
+(define-method (callcc! node::make-box306,11997
+(define-method (callcc! node::box-ref313,12324
+(define-method (callcc! node::box-set!319,12589
+(define (callcc*!327,12931
+
+Fail/walk.scm,1125
+(define *error*28,1363
+(define (fail-walk!33,1611
+(define (fail-fun!41,1940
+(define-generic (fail-node!52,2385
+(define-method (fail-node! node::atom57,2650
+(define-method (fail-node! node::kwote63,2915
+(define-method (fail-node! node::var69,3181
+(define-method (fail-node! node::sequence75,3445
+(define-method (fail-node! node::app82,3752
+(define-method (fail-node! node::app-ly90,4077
+(define-method (fail-node! node::funcall99,4452
+(define-method (fail-node! node::extern108,4821
+(define-method (fail-node! node::setq115,5124
+(define-method (fail-node! node::conditional122,5445
+(define-method (fail-node! node::fail132,5883
+(define-method (fail-node! node::select151,6495
+(define-method (fail-node! node::let-fun162,6935
+(define-method (fail-node! node::let-var171,7318
+(define-method (fail-node! node::cast182,7765
+(define-method (fail-node! node::set-ex-it190,8099
+(define-method (fail-node! node::jump-ex-it197,8433
+(define-method (fail-node! node::make-box206,8826
+(define-method (fail-node! node::box-ref213,9159
+(define-method (fail-node! node::box-set!219,9427
+(define (fail-node*!227,9775
+
+Reduce/walk.scm,30
+(define (reduce-walk!35,1461
+
+Reduce/cond.scm,1165
+(define (reduce-conditional!28,1356
+(define *cond-reduced*42,1902
+(define-generic (node-cond!47,2146
+(define-method (node-cond! node::atom52,2411
+(define-method (node-cond! node::kwote58,2676
+(define-method (node-cond! node::var64,2942
+(define-method (node-cond! node::closure70,3206
+(define-method (node-cond! node::sequence76,3474
+(define-method (node-cond! node::app84,3810
+(define-method (node-cond! node::app-ly92,4135
+(define-method (node-cond! node::funcall101,4510
+(define-method (node-cond! node::extern110,4879
+(define-method (node-cond! node::cast118,5211
+(define-method (node-cond! node::setq126,5534
+(define-method (node-cond! node::conditional135,5911
+(define-method (node-cond! node::fail152,6548
+(define-method (node-cond! node::select162,6964
+(define-method (node-cond! node::let-fun173,7404
+(define-method (node-cond! node::let-var185,7890
+(define-method (node-cond! node::set-ex-it196,8337
+(define-method (node-cond! node::jump-ex-it205,8721
+(define-method (node-cond! node::make-box214,9113
+(define-method (node-cond! node::box-set!222,9461
+(define-method (node-cond! node::box-ref231,9846
+(define (node-cond*!239,10186
+
+Reduce/typec.scm,1235
+(define (reduce-type-check!34,1457
+(define *type-checks-remaining*50,2071
+(define *type-checks-removed*51,2105
+(define-generic (node-typec!56,2358
+(define-method (node-typec! node::atom61,2624
+(define-method (node-typec! node::kwote67,2890
+(define-method (node-typec! node::var73,3157
+(define-method (node-typec! node::closure79,3422
+(define-method (node-typec! node::sequence85,3691
+(define-method (node-typec! node::app-ly93,4029
+(define-method (node-typec! node::funcall102,4407
+(define-method (node-typec! node::extern111,4779
+(define-method (node-typec! node::cast119,5118
+(define-method (node-typec! node::setq127,5443
+(define-method (node-typec! node::conditional136,5823
+(define-method (node-typec! node::fail146,6265
+(define-method (node-typec! node::select156,6685
+(define-method (node-typec! node::let-fun167,7128
+(define-method (node-typec! node::let-var179,7617
+(define-method (node-typec! node::set-ex-it190,8067
+(define-method (node-typec! node::jump-ex-it199,8454
+(define-method (node-typec! node::make-box208,8849
+(define-method (node-typec! node::box-set!216,9199
+(define-method (node-typec! node::box-ref225,9587
+(define (node-typec*!233,9929
+(define-method (node-typec! node::app249,10685
+
+Reduce/copy.scm,1162
+(define (reduce-copy!34,1455
+(define *copy-removed*50,2020
+(define-generic (node-copy!55,2264
+(define-method (node-copy! node::atom60,2529
+(define-method (node-copy! node::kwote66,2794
+(define-method (node-copy! node::var72,3060
+(define-method (node-copy! node::closure82,3506
+(define-method (node-copy! node::sequence88,3774
+(define-method (node-copy! node::app-ly96,4110
+(define-method (node-copy! node::funcall105,4485
+(define-method (node-copy! node::extern114,4854
+(define-method (node-copy! node::cast122,5186
+(define-method (node-copy! node::setq130,5520
+(define-method (node-copy! node::conditional139,5898
+(define-method (node-copy! node::fail149,6336
+(define-method (node-copy! node::select159,6752
+(define-method (node-copy! node::let-fun170,7192
+(define-method (node-copy! node::let-var182,7678
+(define-method (node-copy! node::set-ex-it221,9129
+(define-method (node-copy! node::jump-ex-it230,9513
+(define-method (node-copy! node::make-box239,9905
+(define-method (node-copy! node::box-set!247,10253
+(define-method (node-copy! node::box-ref256,10638
+(define-method (node-copy! node::app264,10978
+(define (node-copy*!272,11306
+
+Reduce/cse.scm,1325
+(define (reduce-cse!35,1484
+(define *cse-removed*52,2098
+(define-generic (node-cse!59,2487
+(define-method (node-cse! node::atom stack64,2751
+(define-method (node-cse! node::kwote stack70,3033
+(define-method (node-cse! node::var stack76,3316
+(define-method (node-cse! node::closure stack82,3597
+(define-method (node-cse! node::sequence stack88,3882
+(define-method (node-cse! node::app-ly stack95,4232
+(define-method (node-cse! node::funcall stack108,4750
+(define-method (node-cse! node::extern stack116,5121
+(define-method (node-cse! node::cast stack124,5492
+(define-method (node-cse! node::setq stack134,5889
+(define-method (node-cse! node::conditional stack144,6300
+(define-method (node-cse! node::fail stack161,6982
+(define-method (node-cse! node::select stack179,7692
+(define-method (node-cse! node::let-fun stack198,8421
+(define-method (node-cse! node::set-ex-it stack217,9138
+(define-method (node-cse! node::jump-ex-it stack227,9552
+(define-method (node-cse! node::make-box stack241,10130
+(define-method (node-cse! node::box-set! stack251,10545
+(define-method (node-cse! node::box-ref stack261,10964
+(define-method (node-cse! node::app stack267,11249
+(define-method (node-cse! node::let-var stack293,12292
+(define (node-cse*!348,13842
+(define-struct call371,14540
+(define (find-stack380,14847
+
+Reduce/same.scm,1160
+(define-generic (same-node?26,1341
+(define-method (same-node? node::atom node2::node alias32,1630
+(define-method (same-node? node::kwote node2::node alias43,2137
+(define-method (same-node? node::var node2::node alias54,2649
+(define-method (same-node? node::sequence node2::node alias67,3271
+(define-method (same-node? node::app-ly node2::node alias77,3695
+(define-method (same-node? node::funcall node2::node alias86,4150
+(define-method (same-node? node::app node2::node alias95,4614
+(define-method (same-node? node::extern node2::node alias104,5054
+(define-method (same-node? node::pragma node2::node alias115,5582
+(define-method (same-node? node::getfield node2::node alias124,6040
+(define-method (same-node? node::setfield node2::node alias132,6422
+(define-method (same-node? node::valloc node2::node alias140,6803
+(define-method (same-node? node::cast node2::node alias146,7086
+(define-method (same-node? node::conditional node2::node alias154,7477
+(define-method (same-node? node::fail node2::node alias167,8165
+(define-method (same-node? node::let-var node2::node alias180,8784
+(define (same-node*?214,10060
+(define (aliased?228,10520
+
+Reduce/1occ.scm,1319
+(define (reduce-1occ!35,1520
+(define *variable-removed*56,2362
+(define-generic (node-1occ!65,2902
+(define-method (node-1occ! node::atom 1-exp*70,3168
+(define-method (node-1occ! node::kwote 1-exp*76,3452
+(define-method (node-1occ! node::var 1-exp*82,3737
+(define-method (node-1occ! node::closure 1-exp*95,4279
+(define-method (node-1occ! node::sequence 1-exp*101,4566
+(define-method (node-1occ! node::app-ly 1-exp*108,4920
+(define-method (node-1occ! node::funcall 1-exp*121,5444
+(define-method (node-1occ! node::extern 1-exp*132,6038
+(define-method (node-1occ! node::cast 1-exp*138,6341
+(define-method (node-1occ! node::setq 1-exp*148,6742
+(define-method (node-1occ! node::conditional 1-exp*158,7157
+(define-method (node-1occ! node::fail 1-exp*175,7849
+(define-method (node-1occ! node::select 1-exp*193,8568
+(define-method (node-1occ! node::let-fun 1-exp*212,9305
+(define-method (node-1occ! node::let-var 1-exp*231,10027
+(define-method (node-1occ! node::set-ex-it 1-exp*318,12533
+(define-method (node-1occ! node::jump-ex-it 1-exp*328,12953
+(define-method (node-1occ! node::make-box 1-exp*342,13539
+(define-method (node-1occ! node::box-set! 1-exp*352,13958
+(define-method (node-1occ! node::box-ref 1-exp*362,14381
+(define-method (node-1occ! node::app 1-exp*368,14668
+(define (node-1occ*!381,15192
+
+Reduce/sbeta.scm,1306
+(define (reduce-beta!46,2220
+(define *removed*75,3362
+(define *c-fixnum?*80,3601
+(define *c-flonum?*81,3634
+(define *predicates*82,3667
+(define-generic (node-beta!87,3911
+(define (any?93,4183
+(define (every?105,4540
+(define (find-actual-expression117,4901
+(define (is-argument?128,5349
+(define (argument?141,5766
+(define (make-args-list154,6160
+(define (dangerous?169,6612
+(define (side-effect-safe?200,7813
+(define (dangerous-binding?220,8497
+(define (same-variable?226,8782
+(define-method (node-beta! node::let-var244,9983
+(define-method (node-beta! node::sequence326,13071
+(define-method (node-beta! node::app-ly334,13407
+(define-method (node-beta! node::funcall343,13782
+(define-method (node-beta! node::cast351,14114
+(define-method (node-beta! node::setq359,14448
+(define-method (node-beta! node::conditional367,14792
+(define-method (node-beta! node::select377,15226
+(define-method (node-beta! node::let-fun390,15736
+(define-method (node-beta! node::set-ex-it404,16283
+(define-method (node-beta! node::jump-ex-it412,16634
+(define-method (node-beta! node::make-box421,17026
+(define-method (node-beta! node::box-set!429,17374
+(define-method (node-beta! node::app437,17722
+(define (predicate?447,18101
+(define (node-beta-predicate!458,18554
+(define (node-beta*!489,19473
+
+Effect/effect.scm,592
+(define-generic (side-effect?26,1558
+(define-method (side-effect? node::node31,1819
+(define-method (side-effect? node::var37,2084
+(define-method (side-effect? node::node/effect43,2401
+(define-method (side-effect? node::setq52,2762
+(define-method (side-effect? node::fail58,3027
+(define-method (side-effect? node::set-ex-it64,3292
+(define-method (side-effect? node::jump-ex-it70,3562
+(define-method (side-effect? node::box-set!76,3833
+(define-method (side-effect? node::app-ly82,4102
+(define-method (side-effect? node::funcall88,4369
+(define-method (side-effect? node::cast94,4637
+
+Effect/walk.scm,69
+(define (effect-walk!29,1375
+(define (iterate-to-fix-point!57,2471
+
+Effect/cgraph.scm,1651
+   (export  (wide-class local/from::local from20,1060
+	    (wide-class global/from::global from21,1107
+(define (fun-call-graph!30,1474
+(define-generic (call-graph!37,1836
+(define-method (call-graph! node::sequence owner43,2120
+(define-method (call-graph! node::app owner49,2434
+(define-method (call-graph! node::app-ly owner59,2907
+(define-method (call-graph! node::funcall owner68,3302
+(define-method (call-graph! node::extern owner77,3702
+(define-method (call-graph! node::cast owner86,4102
+(define-method (call-graph! node::setq owner97,4721
+(define-method (call-graph! node::conditional owner107,5172
+(define-method (call-graph! node::fail owner116,5587
+(define-method (call-graph! node::select owner126,6013
+(define-method (call-graph! node::let-fun owner136,6434
+(define-method (call-graph! node::let-var owner146,6845
+(define-method (call-graph! node::set-ex-it owner156,7272
+(define-method (call-graph! node::jump-ex-it owner164,7658
+(define-method (call-graph! node::make-box owner173,8067
+(define-method (call-graph! node::box-ref owner179,8380
+(define-method (call-graph! node::box-set! owner187,8835
+(define (call-graph*!197,9294
+(define-generic (save-call!203,9608
+(define-method (save-call! callee::global owner208,9889
+(define-method (save-call! callee::global/from owner220,10410
+(define-method (save-call! callee::local owner228,10792
+(define-method (save-call! callee::local/from owner234,11119
+(define (get-var/side-effect242,11499
+(define *var/side-effect*248,11768
+(define (get-var/all253,12017
+(define *var/all*259,12270
+(define (reset-effect-tables!264,12511
+(define (mark-side-effect!271,12815
+
+Effect/spread.scm,1129
+(define-generic (spread-side-effect!23,1297
+(define-method (spread-side-effect! node::var29,1576
+(define-method (spread-side-effect! node::sequence35,1900
+(define-method (spread-side-effect! node::app43,2284
+(define-method (spread-side-effect! node::app-ly53,2743
+(define-method (spread-side-effect! node::funcall62,3121
+(define-method (spread-side-effect! node::extern71,3504
+(define-method (spread-side-effect! node::cast80,3919
+(define-method (spread-side-effect! node::setq87,4250
+(define-method (spread-side-effect! node::conditional95,4593
+(define-method (spread-side-effect! node::fail107,5154
+(define-method (spread-side-effect! node::select117,5606
+(define-method (spread-side-effect! node::let-fun131,6153
+(define-method (spread-side-effect! node::let-var143,6656
+(define-method (spread-side-effect! node::set-ex-it157,7192
+(define-method (spread-side-effect! node::jump-ex-it164,7535
+(define-method (spread-side-effect! node::make-box173,7927
+(define-method (spread-side-effect! node::box-set!182,8327
+(define-method (spread-side-effect! node::box-ref194,8970
+(define (spread-side-effect*!201,9307
+
+Object/class.scm,578
+   (export  (wide-class tclass::type29,1166
+	    (wide-class jclass::type49,1843
+(define *class-type-list*75,2957
+(define (get-class-list80,3206
+(define (heap-add-class!89,3689
+(define (declare-class-type!103,4591
+(define (declare-java-class-type!150,6579
+(define (cross-name175,7588
+(define (dump-class-types183,7922
+(define (emit-class-types207,8826
+(define (emit-bdb-class-types248,10405
+(define (final-class?264,11106
+(define (wide-class?272,11546
+(define (type-subclass?278,11841
+(define (find-class-constructors305,12876
+(define (tclass-all-slots319,13376
+
+Object/generic.scm,123
+(define (make-generic-body31,1421
+(define (make-object-generic-body51,2281
+(define (make-non-object-generic-body69,3100
+
+Object/method.scm,64
+(define (make-method-body30,1403
+(define (method-error84,3224
+
+Object/getter.scm,471
+(define (gen-class-slots-access!61,3219
+(define (gen-java-class-slots-access!113,5072
+(define (slot-inherited?125,5649
+(define (gen-class-slots-alias131,5949
+(define (slot-ref151,6781
+(define (first-virtual-slot?176,7782
+(define (slot-virtual-ref185,8200
+(define (slot-direct-ref228,9859
+(define (slot-indexed-ref248,10726
+(define (slot-set!284,12215
+(define (slot-virtual-set!303,12880
+(define (slot-direct-set!347,14656
+(define (slot-indexed-set!372,15690
+
+Object/plain-access.scm,216
+(define (gen-plain-class-accessors!49,2169
+(define (import-plain-class-accessors!72,3288
+(define (heap-plain-class-accessors!94,4341
+(define (set-plain-class-slots!110,5233
+(define (correct-plain-class?136,6504
+
+Object/wide-access.scm,212
+(define (gen-wide-class-accessors!50,2181
+(define (import-wide-class-accessors!76,3447
+(define (heap-wide-class-accessors!100,4659
+(define (set-wide-class-slots!123,5891
+(define (correct-wide-class?149,7158
+
+Object/java-access.scm,167
+(define (import-java-class-accessors!49,2086
+(define (heap-java-class-accessors!72,3152
+(define (correct-java-class?85,3872
+(define (set-java-class-slots!108,4741
+
+Object/struct.scm,337
+(define (gen-plain-class<->struct37,1522
+(define (gen-wide-class<->struct47,1978
+(define (save-slot55,2401
+(define (slots-length93,3499
+(define (gen-plain-class->struct107,3924
+(define (gen-wide-class->struct141,4848
+(define (restore-slot177,5969
+(define (gen-struct->plain-class234,8324
+(define (gen-struct->wide-class261,9111
+
+Object/slots.scm,515
+   (export  (class slot28,1182
+(define *slot-no-default-value-mark*66,2740
+(define (slot-no-default-value-mark73,3103
+(define (slot-default?79,3390
+(define (slot-virtual?85,3707
+(define (ensure-type-defined!91,3990
+(define (make-class-slots98,4353
+(define (make-java-class-slots303,10323
+(define (find-slot-type360,12191
+(define (scheme-symbol->c-string368,12551
+(define (get-local-virtual-slots-number385,13558
+(define (make-class-make-formals403,14112
+(define (make-class-make-typed-formals419,14642
+
+Object/tools.scm,658
+(define (class->obj-id45,2038
+(define (obj->class-id51,2316
+(define (class?-id57,2590
+(define (class->super-id63,2856
+(define (super->class-id69,3147
+(define (make-pragma-direct-ref75,3438
+(define (make-pragma-direct-ref/widening89,3992
+(define (make-pragma-direct-set!97,4408
+(define (make-pragma-direct-set!/widening111,4978
+(define (make-pragma-indexed-ref119,5412
+(define (make-pragma-indexed-ref/widening146,6208
+(define (c-allocate-indexed-slot154,6645
+(define (jvm-allocate-indexed-slot166,7175
+(define (make-pragma-indexed-init-set!172,7532
+(define (make-pragma-indexed-set!199,8447
+(define (make-pragma-indexed-set!/widening232,9415
+
+Object/coercion.scm,322
+(define (gen-class-coercions!46,2014
+(define (gen-java-class-coercions!54,2389
+(define (gen-coercion-clause!70,3353
+(define (c-make-coercion-clause81,3771
+(define (jvm-make-coercion-clause104,4678
+(define (gen-class-coercers!146,6642
+(define (c-gen-class-coercers!156,7023
+(define (jvm-gen-class-coercers!182,8143
+
+Object/predicate.scm,180
+(define (inline-pred?49,2301
+(define (gen-class-pred!60,2883
+(define (import-class-pred!90,4121
+(define (gen-java-class-pred!112,5160
+(define (import-java-class-pred!135,6074
+
+Object/creator.scm,527
+(define (inline-creators?53,2503
+(define (gen-plain-class-creators62,2887
+(define (gen-wide-class-creators74,3493
+(define (gen-java-class-creator88,4236
+(define (import-plain-class-creators100,4781
+(define (import-wide-class-creators123,5824
+(define (import-java-class-creator152,7165
+(define (gen-java-class-constructors158,7475
+(define (gen-class-fill!191,8897
+(define (gen-class-make!224,10433
+(define (make-class-slot-make!293,13041
+(define (gen-class-allocate!345,14594
+(define (gen-wide-class-make!389,16218
+
+Tools/args.scm,210
+(define (arity38,2146
+(define (args*->args-list55,2677
+(define (args-list->args*68,3083
+(define (sound-arity?84,3580
+(define (make-args-list93,3941
+(define (make-n-proto104,4443
+(define (+-arity125,5136
+
+Tools/location.scm,135
+(define (find-location26,1438
+(define (find-location/loc47,2090
+(define (location-full-fname56,2431
+(define (location-shape73,3028
+
+Tools/progn.scm,33
+(define (normalize-progn26,1396
+
+Tools/trace.scm,223
+(define *trace-port*27,1357
+(define *pass*28,1381
+(define *level*29,1408
+(define *trace-mode*30,1431
+(define (start-trace35,1674
+(define (stop-trace49,2221
+(define (trace-satisfy?57,2556
+(define (print-trace65,2915
+
+Tools/speek.scm,48
+(define (speek22,1249
+(define (verbose31,1607
+
+Tools/error.scm,390
+(define *nb-error-on-pass*38,1762
+(define (internal-error43,2010
+(define (user-warning/location58,2660
+(define (user-warning71,3096
+(define (no-warning77,3410
+(define (user-error87,3771
+(define (user-error/location96,4202
+(define *sfun-stack*142,5680
+(define (enter-function147,5933
+(define (leave-function153,6227
+(define (current-function159,6512
+(define sharp-symbol165,6779
+
+Tools/shape.scm,238
+(define (local-string-downcase28,1415
+(define-generic (shape36,1741
+(define-method (shape var::global80,2951
+(define-method (shape var::local130,4431
+(define-method (shape type::type160,5388
+(define-method (shape node::node174,5881
+
+Tools/misc.scm,127
+(define (replace!24,1327
+(define (epairify40,2067
+(define (epairify*48,2403
+(define (build-path-from-shell-variable61,2812
+
+Tools/date.scm,26
+(define (bigloo-date4,87
+
+Tools/dsssl.scm,281
+(define (dsssl-named-constant?31,1662
+(define (dsssl-defaulted-formal?45,2207
+(define (dsssl-default-formal57,2674
+(define (dsssl-find-first-formal63,2940
+(define (dsssl-formals-skeleton85,3697
+(define (dsssl-formals-encoding103,4225
+(define (dsssl-args*->args-list120,4781
+
+Tools/license.scm,29
+(define (bigloo-license4,93
+
+Bdb/setting.scm,59
+(define *bdb-module*26,1299
+(define (bdb-setting!33,1692
+
+Bdb/walk.scm,27
+(define (bdb-walk!30,1378
+
+Bdb/initialize.scm,32
+(define (initialize-ast42,1739
+
+Bdb/emit.scm,995
+(define (emit-bdb-info40,1572
+(define (bdb-global-sfun!99,3672
+(define (bdb-global-svar!128,4780
+(define (bdb-sfun!144,5443
+(define *c-port*152,5785
+(define (bdb-local-variable?159,6180
+(define (bdb-emit-local-info!178,6915
+(define-generic (bdb!189,7371
+(define-method (bdb! node::sequence195,7642
+(define-method (bdb! node::extern202,7956
+(define-method (bdb! node::cast209,8266
+(define-method (bdb! node::setq216,8567
+(define-method (bdb! node::conditional223,8872
+(define-method (bdb! node::fail232,9235
+(define-method (bdb! node::select241,9578
+(define-method (bdb! node::let-fun249,9955
+(define-method (bdb! node::let-var259,10348
+(define-method (bdb! node::set-ex-it271,10822
+(define-method (bdb! node::jump-ex-it278,11135
+(define-method (bdb! node::make-box286,11474
+(define-method (bdb! node::box-set!293,11787
+(define-method (bdb! node::app-ly300,12100
+(define-method (bdb! node::funcall308,12425
+(define (bdb*!316,12757
+(define-method (bdb! node::app327,13113
+
+Bdb/spread-obj.scm,1086
+(define (bdb-spread-obj!30,1388
+(define (spread-obj-fun!38,1744
+(define-generic (spread-obj-node!57,2406
+(define-method (spread-obj-node! node::sequence63,2678
+(define-method (spread-obj-node! node::app69,2990
+(define-method (spread-obj-node! node::app-ly75,3292
+(define-method (spread-obj-node! node::funcall83,3653
+(define-method (spread-obj-node! node::extern91,4019
+(define-method (spread-obj-node! node::cast97,4327
+(define-method (spread-obj-node! node::setq103,4628
+(define-method (spread-obj-node! node::conditional109,4931
+(define-method (spread-obj-node! node::fail118,5342
+(define-method (spread-obj-node! node::select127,5733
+(define-method (spread-obj-node! node::let-fun137,6151
+(define-method (spread-obj-node! node::let-var145,6530
+(define-method (spread-obj-node! node::set-ex-it159,7116
+(define-method (spread-obj-node! node::jump-ex-it165,7428
+(define-method (spread-obj-node! node::make-box174,7814
+(define-method (spread-obj-node! node::box-ref180,8125
+(define-method (spread-obj-node! node::box-set!186,8432
+(define (spread-obj-node*!194,8801
+
+Prof/unit.scm,32
+(define (make-prof-unit30,1380
+
+Prof/emit.scm,32
+(define (emit-prof-info37,1517
+
+Jas/lib.scm,148
+(define (u210,136
+(define (u414,216
+(define (w220,355
+(define (w424,437
+(define (f231,654
+(define (f434,722
+(define (string->shortlist37,792
+
+Jas/classfile.scm,1297
+    (class type4,51
+    (class basic::type8,114
+    (class vect::type type::type10,137
+    (class fun::type tret::type targs12,170
+    (class classe::type14,212
+    (class field-or-method19,393
+    (class field::field-or-method30,913
+    (class method::field-or-method32,947
+    (class attribute34,982
+    (class classfile40,1048
+(define (jas-error81,2461
+(define (jas-warning84,2580
+(define basic-encoded-type92,2779
+(define pourquoi_tant_de_haine103,3249
+(define (as-type110,3437
+(define (get-vect-type128,3988
+(define (as-funtype138,4201
+(define (type-size149,4506
+(define (as-assign162,4743
+(define (declared?168,4966
+(define (declared173,5116
+(define (declared-class177,5242
+(define (declared-field183,5406
+(define (declared-method189,5569
+(define (pool-size-item198,5756
+(define (pool-add203,5827
+(define (pool-get210,6038
+(define (pool-get!222,6394
+(define (pool-name229,6562
+(define (pool-int232,6629
+(define (pool-float235,6694
+(define (pool-long238,6761
+(define (pool-double241,6827
+(define (pool-class244,6895
+(define (pool-class-by-name253,7120
+(define (pool-class-by-reftype256,7222
+(define (pool-string262,7439
+(define (pool-field265,7535
+(define (pool-method268,7613
+(define (pool-interface-method271,7694
+(define (pool-field-method274,7784
+
+Jas/opcode.scm,327
+(define *cop-list*10,150
+(define (init-cop-value54,3371
+(define (get-cop-name63,3558
+(define (get-cop-value66,3614
+(define (clean-cop-value71,3755
+(define (resolve-opcodes75,3855
+(define (resolve-args86,4219
+(define (syntax-error194,8469
+(define (slot?198,8614
+(define (get-type-num202,8737
+(define (v-index211,9022
+
+Jas/peep.scm,499
+(define **aspeephole**5,96
+(define **last-number-of-locals**7,122
+(define (peep9,158
+(define (load?21,515
+(define (load2?25,612
+(define (store?29,707
+(define (store2?33,805
+(define (goto?37,901
+(define (iinc?41,975
+(define (ret?45,1049
+(define (nocont?49,1122
+(define (huge?55,1260
+(define (single-lab?59,1356
+(define (branch?65,1498
+(define (keeplocals74,1663
+(define (packlocals141,3528
+(define (simplematch183,4808
+(define (removebranch221,5891
+(define (removesequence255,6941
+
+Jas/wide.scm,49
+(define (resolve-wide8,129
+(define (wide12,244
+
+Jas/labels.scm,139
+(define (resolve-labels8,101
+(define (padding53,1603
+(define *opcode-size*63,1764
+(define (size-ins78,2418
+(define (resolve-pc98,2872
+
+Jas/stack.scm,151
+(define *pop*8,137
+(define (nbpop23,1009
+(define *push*41,1589
+(define (nbpush56,2462
+(define (stk-analysis68,2859
+(define (make-stk-env123,4694
+
+Jas/produce.scm,595
+(define (outchar8,108
+(define (outbyte11,163
+(define (outshort14,245
+(define (outint18,346
+(define (produce22,450
+(define (produce-pool38,1022
+(define (produce-cpinfo42,1158
+(define (sref53,1521
+(define (UTF8-length56,1576
+(define (UTF8-length164,1762
+(define (produce-UTF871,1873
+(define (produce-UTF8-180,2081
+(define (produce-interfaces95,2569
+(define (produce-fields99,2717
+(define (produce-field103,2862
+(define (produce-methods110,3111
+(define (produce-method114,3263
+(define (produce-attributes121,3511
+(define (produce-attribute126,3689
+(define (produce-code147,4389
+
+Jas/as.scm,569
+(define (jvm-asfile10,204
+(define (jvm-as17,465
+(define (as24,593
+(define (set-field-method-type45,1420
+(define (scan-infos54,1698
+(define (srcfile72,2317
+(define (as-declare82,2525
+(define (pathname108,3388
+(define (as-class-modifiers123,3720
+(define (as-field-modifiers137,4152
+(define (as-method-modifiers153,4682
+(define (as-field173,5278
+(define (as-method183,5541
+(define (as-code195,5966
+(define (make-line-attribute221,6989
+(define (get-handlers228,7204
+(define (get-lines233,7359
+(define (line-compress240,7624
+(define (get-bytecode246,7800
+
+Jvm/extern.scm,614
+(define (manu-tu-fixes-global-tvector37,913
+(define (get-sourcefile52,1192
+(define *jvm-debug*55,1238
+(define (get-line-number57,1261
+(define (qualified-module-name66,1421
+(define (get-classes-to-be-compiled72,1519
+(define (qualified-class-name84,1848
+(define (on-package92,2132
+(define (mangle99,2302
+(define (tclass-id-mangling104,2402
+(define (super-package111,2625
+(define (class-package126,3117
+(define (qualified-type-name136,3272
+(define (real-field-name148,3541
+(define (real-sfun-name159,3927
+(define (real-cfun-name168,4182
+(define (patch173,4334
+(define (global-to-be-declared180,4530
+
+Jvm/env.scm,887
+    (class env9,200
+(define *longislong*46,1426
+(define **basic-type**51,1476
+(define (compile-type69,1833
+(define (env-declare108,3105
+(define (env-declare-current-module115,3277
+(define (env-declare-module121,3453
+(define (env-declare-class138,3973
+(define (env-declare-init152,4447
+(define (env-declare-type165,4758
+(define (env-declare-field183,5320
+(define (env-declare-field!196,5817
+(define (get-global-name213,6390
+(define (env-declare-local223,6638
+(define (env-alloc-local232,6942
+(define (env-set-name!240,7175
+(define (env-new-procedure251,7446
+(define (env-new-getset261,7738
+(define (env-get-procedures272,8009
+(define **jlib-common**278,8131
+(define **jlib32**381,13153
+(define **jlib64**386,13307
+(define (jlib-declare391,13463
+(define (jlib-rec-decl404,13892
+(define (jlib-declare-type417,14306
+(define (every?429,14540
+(define (any?434,14631
+
+Jvm/instr.scm,2294
+(define (push91,2295
+(define (pop95,2410
+(define (cpop104,2636
+(define (simple-type113,2879
+(define (env-code!122,3065
+(define (env-new-label!127,3172
+(define (_ACONST_NULL137,3410
+(define (_PUSH141,3493
+(define (_DUP175,4334
+(define (_DUP2181,4449
+(define (_SWAP190,4624
+(define (_POP197,4767
+(define (_LOAD208,4994
+(define (_LOAD_NAME211,5103
+(define (_STORE221,5376
+(define (_STORE_NAME224,5487
+(define (_GETSTATIC235,5791
+(define (_GETSTATIC2239,5887
+(define (_PUTSTATIC243,6055
+(define (_IADD248,6160
+(define (_ISUB249,6226
+(define (_IMUL250,6292
+(define (_IDIV251,6358
+(define (_IREM252,6424
+(define (_INEG253,6490
+(define (_IOR254,6540
+(define (_IAND255,6605
+(define (_IXOR256,6671
+(define (_ISHL257,6737
+(define (_ISHR258,6803
+(define (_IUSHR259,6869
+(define (_LADD261,6936
+(define (_LSUB262,7003
+(define (_LMUL263,7070
+(define (_LDIV264,7137
+(define (_LREM265,7204
+(define (_LNEG266,7271
+(define (_LOR267,7321
+(define (_LAND268,7388
+(define (_LXOR269,7455
+(define (_LSHL270,7522
+(define (_LSHR271,7589
+(define (_LUSHR272,7656
+(define (_DADD274,7724
+(define (_DSUB275,7793
+(define (_DMUL276,7862
+(define (_DDIV277,7931
+(define (_DREM278,8000
+(define (_DNEG279,8069
+(define (_LCMP281,8119
+(define (_DCMPG287,8228
+(define (_DCMPL293,8342
+(define (_I2L299,8456
+(define (_I2B300,8512
+(define (_I2D301,8567
+(define (_L2I302,8625
+(define (_L2D303,8681
+(define (_D2I304,8740
+(define (_D2L305,8798
+(define (_D2F306,8857
+(define (_F2D307,8917
+(define (convert309,8977
+(define (_LABEL315,9086
+(define (_IF320,9196
+(define (_IF_ICMP332,9473
+(define (_IF_ACMP345,9808
+(define (_GOTO354,10033
+(define (_SWITCH357,10102
+(define (flat378,10766
+(define (_NEW388,11022
+(define (_INSTANCEOF392,11108
+(define (_CHECKCAST397,11218
+(define (_GETFIELD402,11391
+(define (_PUTFIELD407,11518
+(define (_NEWARRAY413,11633
+(define (_ALOAD422,11841
+(define (_ASTORE437,12154
+(define (_ARRAYLENGTH452,12456
+(define (_INVOKESTATIC458,12565
+(define (_INVOKESPECIAL465,12803
+(define (_INVOKEVIRTUAL472,13043
+(define (_RETURN479,13283
+(define (_ATHROW490,13532
+(define (_HANDLER495,13627
+(define (_COMMENT499,13750
+(define *last-line*502,13819
+(define (_LINE503,13842
+(define (create-string509,13970
+(define (split-string513,14112
+
+Jvm/inline.scm,762
+(define **sinline**7,211
+(define **inline**8,234
+(define **inlinepred**9,256
+(define (false-and-true-at14,306
+(define (if_acmp-return-boolean-for23,550
+(define (if_icmp-return-boolean28,686
+(define (lcomp-if-return-boolean34,851
+(define (dcomp-if-return-boolean42,1047
+(define (ifcompare48,1217
+(define (acompare52,1300
+(define (icompare56,1387
+(define (lcompare60,1474
+(define (bint-value67,1639
+(define *special-inline*73,1803
+(define-macro (def-special-inline75,1845
+(define (special-inline-call?80,1982
+(define *inline*99,2505
+(define-macro (def-inline101,2539
+(define (inline-call?104,2650
+(define *inlinepred*121,3033
+(define-macro (def-inlinepred123,3071
+(define (inline-pred?128,3200
+(define (dop1525,14755
+(define (dop2528,14844
+
+Jvm/peephole.scm,427
+    (class peep-env3,31
+(define **peephole**11,135
+(define (jvm_peephole16,180
+(define (peep-method21,256
+(define (peep-all27,471
+(define *kind-of-goto*36,645
+(define *single-lab-cop*40,762
+(define *huge-cop*47,948
+(define (make-env53,1016
+(define (peep-result60,1194
+(define (get-handlers64,1315
+(define (remove-handlers73,1484
+(define (alias85,1671
+(define (removebranch97,1941
+(define (removesequence132,3056
+
+Jvm/lisp.scm,1287
+(define-generic (compile-lisp5,99
+(define-method (compile-lisp e::atom7,138
+(define-method (compile-lisp e::var10,194
+(define-method (compile-lisp e::let-var16,324
+(define-method (compile-lisp e::setq23,536
+(define-method (compile-lisp e::sequence27,666
+(define-method (compile-lisp e::conditional31,786
+(define-method (compile-lisp e::select35,956
+(define-method (compile-lisp e::let-fun40,1121
+(define (compile-sfun46,1310
+(define-method (compile-lisp e::app52,1463
+(define-method (compile-lisp e::app-ly56,1589
+(define-method (compile-lisp e::funcall60,1723
+(define-method (compile-lisp e::getfield64,1865
+(define-method (compile-lisp e::setfield67,1960
+(define-method (compile-lisp e::new70,2055
+(define-method (compile-lisp e::valloc73,2140
+(define-method (compile-lisp e::vref76,2235
+(define-method (compile-lisp e::vset!79,2322
+(define-method (compile-lisp e::vlength82,2410
+(define-method (compile-lisp e::isa85,2503
+(define-method (compile-lisp e::cast88,2603
+(define-method (compile-lisp e::set-ex-it92,2716
+(define-method (compile-lisp e::jump-ex-it96,2857
+(define-method (compile-lisp e::fail100,3002
+(define-method (compile-lisp e::make-box104,3154
+(define-method (compile-lisp e::box-ref108,3272
+(define-method (compile-lisp e::box-set!112,3383
+
+Jvm/prelude.scm,865
+(define (compile-prelude5,106
+(define-generic (prelude8,155
+(define-method (prelude e::atom11,204
+(define-method (prelude e::var14,244
+(define-method (prelude e::let-var19,410
+(define-method (prelude e::setq24,566
+(define-method (prelude e::sequence28,653
+(define-method (prelude e::conditional41,964
+(define-method (prelude e::select47,1115
+(define-method (prelude e::let-fun52,1267
+(define-method (prelude e::app61,1498
+(define-method (prelude e::app-ly68,1729
+(define-method (prelude e::funcall73,1842
+(define-method (prelude e::extern78,1982
+(define-method (prelude e::cast82,2099
+(define-method (prelude e::set-ex-it86,2182
+(define-method (prelude e::jump-ex-it90,2281
+(define-method (prelude e::fail95,2405
+(define-method (prelude e::make-box101,2536
+(define-method (prelude e::box-ref105,2631
+(define-method (prelude e::box-set!108,2674
+
+Jvm/compress.scm,1083
+(define-generic (compile-compress7,155
+(define (compress*9,204
+(define-method (compile-compress e::atom14,330
+(define-method (compile-compress e::var17,377
+(define *safe-functions*20,423
+(define-method (compile-compress e::let-var24,515
+(define-method (compile-compress e::setq77,2341
+(define-method (compile-compress e::sequence82,2466
+(define-method (compile-compress e::conditional90,2672
+(define-method (compile-compress e::select97,2903
+(define-method (compile-compress e::let-fun103,3114
+(define-method (compile-compress e::app113,3403
+(define-method (compile-compress e::app-ly118,3508
+(define-method (compile-compress e::funcall124,3677
+(define-method (compile-compress e::extern130,3829
+(define-method (compile-compress e::cast135,3938
+(define-method (compile-compress e::set-ex-it140,4057
+(define-method (compile-compress e::jump-ex-it145,4193
+(define-method (compile-compress e::fail151,4376
+(define-method (compile-compress e::make-box158,4584
+(define-method (compile-compress e::box-ref163,4717
+(define-method (compile-compress e::box-set!166,4767
+
+Jvm/init.scm,499
+(define (compile-init16,430
+(define (env-declare-global35,1018
+(define (global-declaration49,1531
+(define (global-var-declaration61,1903
+(define (declare-field-modifiers70,2174
+(define (global-sfun-declaration79,2424
+(define (global-cfun-declaration93,2881
+(define (analyse-init112,3431
+(define (emit-cnst-string152,4573
+(define (emit-cnst-real156,4684
+(define (emit-cnst-sfun160,4824
+(define (emit-cnst-sgfun175,5322
+(define (emit-cnst-stvector191,5840
+(define (stvector-init200,6131
+
+Jvm/constr.scm,80
+(define (jvm-constructors10,260
+(define (constr19,464
+(define (clinit35,1026
+
+Jvm/closure.scm,296
+(define (jvm-funcallers11,299
+(define (funcalli23,631
+(define (make-list39,1282
+(define (compile-funi46,1400
+(define (compile-lab-for-funcalli59,1841
+(define (compile-for-funcalli68,2107
+(define (compile-apply103,2808
+(define (compile-dispatch114,3211
+(define (compile-for-apply130,3579
+
+Jvm/compiler.scm,1376
+(define (compiler-body44,1798
+(define (out-line50,1916
+(define (check_type58,2090
+(define (check_type_vector66,2343
+(define (same-type74,2661
+(define (same-type?80,2891
+(define (get-type85,3085
+(define (set-type90,3217
+(define (compiler-atom96,3374
+(define (compiler-var134,4604
+(define (compile-procedure-entry145,4894
+(define (compiler-let151,5115
+(define (compiler-setq163,5442
+(define (compiler-sequence176,5826
+(define (compiler-if189,6155
+(define (compiler-select212,6923
+(define (select-int225,7435
+(define (compiler-labels259,8427
+(define *labdone*265,8632
+(define (compile-label-call266,8654
+(define (compiler-app306,10159
+(define (type-args324,10673
+(define (how-to-call331,10857
+(define (special-call?347,11449
+(define (compiler-apply414,13504
+(define (compiler-funcall423,13780
+(define (compiler-pragma464,15284
+(define (compiler-getfield475,15603
+(define (compiler-setfield488,15980
+(define (compiler-new500,16417
+(define (compiler-valloc512,16829
+(define (compiler-vref519,17018
+(define (compiler-vset529,17302
+(define (compiler-vlength541,17664
+(define (compiler-isa549,17899
+(define (compiler-cast556,18082
+(define (compiler-setexit562,18205
+(define (compiler-jump-exit590,19121
+(define (compiler-fail598,19364
+(define (compiler-make-box608,19636
+(define (compiler-box-ref619,19964
+(define (compiler-box-set!627,20205
+
+Jvm/tail.scm,1544
+(define-generic (compile-tail8,216
+(define-method (compile-tail e::atom env::env10,264
+(define-method (compile-tail e::var env::env13,336
+(define-method (compile-tail e::let-var env::env16,406
+(define-method (compile-tail e::setq env::env19,493
+(define-method (compile-tail e::sequence env::env23,616
+(define-method (compile-tail e::conditional env::env26,709
+(define-method (compile-tail e::select env::env29,799
+(define-method (compile-tail e::let-fun env::env32,888
+(define-method (compile-tail e::app env::env35,978
+(define-method (compile-tail e::app-ly env::env49,1456
+(define-method (compile-tail e::funcall env::env52,1531
+(define-method (compile-tail e::pragma env::env55,1609
+(define-method (compile-tail e::getfield env::env58,1685
+(define-method (compile-tail e::setfield env::env61,1765
+(define-method (compile-tail e::new env::env65,1896
+(define-method (compile-tail e::valloc env::env68,1966
+(define-method (compile-tail e::vref env::env71,2042
+(define-method (compile-tail e::vset! env::env74,2114
+(define-method (compile-tail e::vlength env::env78,2238
+(define-method (compile-tail e::isa env::env81,2316
+(define-method (compile-tail e::cast env::env84,2386
+(define-method (compile-tail e::set-ex-it env::env87,2471
+(define-method (compile-tail e::jump-ex-it env::env90,2564
+(define-method (compile-tail e::fail env::env93,2647
+(define-method (compile-tail e::make-box env::env96,2719
+(define-method (compile-tail e::box-ref env::env99,2799
+(define-method (compile-tail e::box-set! env::env102,2877
+
+Jvm/effect.scm,1624
+(define (default9,265
+(define-generic (compile-effect13,358
+(define-method (compile-effect e::atom env::env15,408
+(define-method (compile-effect e::var env::env18,464
+(define-method (compile-effect e::let-var env::env21,519
+(define-method (compile-effect e::setq env::env24,610
+(define-method (compile-effect e::sequence env::env27,684
+(define-method (compile-effect e::conditional env::env30,781
+(define-method (compile-effect e::select env::env33,875
+(define-method (compile-effect e::let-fun env::env36,968
+(define-method (compile-effect e::app env::env39,1062
+(define-method (compile-effect e::app-ly env::env43,1178
+(define-method (compile-effect e::funcall env::env46,1248
+(define-method (compile-effect e::pragma env::env49,1319
+(define-method (compile-effect e::getfield env::env52,1389
+(define-method (compile-effect e::setfield env::env55,1491
+(define-method (compile-effect e::new env::env58,1573
+(define-method (compile-effect e::valloc env::env61,1628
+(define-method (compile-effect e::vref env::env64,1726
+(define-method (compile-effect e::vset! env::env69,1885
+(define-method (compile-effect e::vlength env::env72,1960
+(define-method (compile-effect e::isa env::env75,2060
+(define-method (compile-effect e::cast env::env78,2152
+(define-method (compile-effect e::set-ex-it env::env81,2241
+(define-method (compile-effect e::jump-ex-it env::env84,2314
+(define-method (compile-effect e::fail env::env87,2388
+(define-method (compile-effect e::make-box env::env90,2456
+(define-method (compile-effect e::box-ref env::env93,2552
+(define-method (compile-effect e::box-set! env::env96,2611
+
+Jvm/predicate.scm,2284
+(define (default9,306
+(define (direct16,540
+(define-generic (compile-predicate21,697
+(define-method (compile-predicate e::atom t::symbol f::symbol env::env23,770
+(define-method (compile-predicate e::var t::symbol f::symbol env::env30,1004
+(define-method (compile-predicate e::let-var t::symbol f::symbol env::env33,1098
+(define-method (compile-predicate e::setq t::symbol f::symbol env::env37,1256
+(define-method (compile-predicate e::sequence t::symbol f::symbol env::env40,1348
+(define-method (compile-predicate e::conditional t::symbol f::symbol env::env44,1512
+(define-method (compile-predicate e::select t::symbol f::symbol env::env48,1673
+(define-method (compile-predicate e::let-fun t::symbol f::symbol env::env52,1833
+(define-method (compile-predicate e::app t::symbol f::symbol env::env56,1994
+(define-method (compile-predicate e::app-ly t::symbol f::symbol env::env63,2231
+(define-method (compile-predicate e::funcall t::symbol f::symbol env::env66,2331
+(define-method (compile-predicate e::pragma t::symbol f::symbol env::env69,2429
+(define-method (compile-predicate e::getfield t::symbol f::symbol env::env72,2526
+(define-method (compile-predicate e::setfield t::symbol f::symbol env::env75,2625
+(define-method (compile-predicate e::new t::symbol f::symbol env::env78,2721
+(define-method (compile-predicate e::valloc t::symbol f::symbol env::env81,2812
+(define-method (compile-predicate e::vref t::symbol f::symbol env::env84,2906
+(define-method (compile-predicate e::vset! t::symbol f::symbol env::env87,3001
+(define-method (compile-predicate e::vlength t::symbol f::symbol env::env90,3094
+(define-method (compile-predicate e::isa t::symbol f::symbol env::env93,3192
+(define-method (compile-predicate e::cast t::symbol f::symbol env::env96,3286
+(define-method (compile-predicate e::set-ex-it t::symbol f::symbol env::env100,3442
+(define-method (compile-predicate e::jump-ex-it t::symbol f::symbol env::env103,3542
+(define-method (compile-predicate e::fail t::symbol f::symbol env::env106,3643
+(define-method (compile-predicate e::make-box t::symbol f::symbol env::env109,3738
+(define-method (compile-predicate e::box-ref t::symbol f::symbol env::env112,3834
+(define-method (compile-predicate e::box-set! t::symbol f::symbol env::env115,3932
+
+Jvm/expr.scm,1538
+(define-generic (compile-expr8,225
+(define-method (compile-expr e::atom env::env10,273
+(define-method (compile-expr e::var env::env13,345
+(define-method (compile-expr e::let-var env::env16,415
+(define-method (compile-expr e::setq env::env19,502
+(define-method (compile-expr e::sequence env::env23,625
+(define-method (compile-expr e::conditional env::env26,718
+(define-method (compile-expr e::select env::env29,808
+(define-method (compile-expr e::let-fun env::env32,897
+(define-method (compile-expr e::app env::env35,987
+(define-method (compile-expr e::app-ly env::env38,1057
+(define-method (compile-expr e::funcall env::env41,1132
+(define-method (compile-expr e::pragma env::env44,1210
+(define-method (compile-expr e::getfield env::env47,1286
+(define-method (compile-expr e::setfield env::env50,1366
+(define-method (compile-expr e::new env::env54,1497
+(define-method (compile-expr e::valloc env::env57,1567
+(define-method (compile-expr e::vref env::env60,1643
+(define-method (compile-expr e::vset! env::env63,1715
+(define-method (compile-expr e::vlength env::env67,1839
+(define-method (compile-expr e::isa env::env70,1917
+(define-method (compile-expr e::cast env::env73,1987
+(define-method (compile-expr e::set-ex-it env76,2072
+(define-method (compile-expr e::jump-ex-it env::env79,2160
+(define-method (compile-expr e::fail env::env82,2243
+(define-method (compile-expr e::make-box env::env85,2315
+(define-method (compile-expr e::box-ref env::env88,2395
+(define-method (compile-expr e::box-set! env::env91,2473
+
+Jvm/compile.scm,353
+(define (jvm-compile14,362
+(define (compile21,442
+(define (compile-class28,601
+(define (compile-class-fields47,1236
+(define (get-slot-type60,1641
+(define (compile-module66,1743
+(define (compile-main85,2393
+(define (compile-fields102,2837
+(define (compile-globalfun117,3146
+(define (compile-globalfun1122,3257
+(define (compile-formals149,4187
+
+Jvm/jdump.scm,214
+(define (jvm-dump95,5564
+(define (jvm-check-package146,7579
+(define *jvm-dir-name*177,8475
+(define (jvmasdump179,8502
+(define (addsuffix187,8711
+(define (jasname197,8865
+(define (start-jvm-emission!205,9191
+
+Jvm/jld.scm,325
+(define (jvm-ld31,1422
+(define (find-path50,2172
+(define (find-jvm-main70,2717
+(define (objects->classes97,3735
+(define (jvm-jar177,6081
+(define (make-manifest-name194,6725
+(define (generate-jvm-manifest203,7083
+(define (generate-jvm-script224,7794
+(define (user-library292,9755
+(define (list->path-string310,10291
+
+Init/parse-args.scm,288
+(define *extended-done?*36,1492
+(define *library-init*37,1520
+(define *trace-level*38,1549
+(define (parse-args43,1795
+(define (do-parse-args153,5595
+(define (parse-shape-args716,28140
+(define (parse-unsafe-args753,29325
+(define (parse-optim-args789,30347
+(define (query831,31724
+
+Init/setrc.scm,142
+(define (setup-default-values25,1320
+(define (setup-library-values37,1757
+(define *library-init*48,2335
+(define (load-library-init53,2581
+
+Init/extend.scm,29
+(define (load-extend23,1323
+
+Init/main.scm,81
+(define *exit-bigloo*29,1527
+(define (main34,1790
+(define (exit-bigloo50,2366

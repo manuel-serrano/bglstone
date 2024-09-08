@@ -1,0 +1,3 @@
+This directory contains adapter and shell scripts to run the Bigloo
+version of the benchmarks with various Scheme implementations. The
+shell script run the evaluators, not the compilers.

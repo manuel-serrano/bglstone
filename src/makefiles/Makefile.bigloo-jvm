@@ -1,0 +1,31 @@
+include ../../../Makefile.config
+include Makefile.objects
+
+CLASSES=$(OBJECTS:%.o=%.class)
+
+FLAGS=-jvm $(BJFLAGS) -jvm-java $(BJVM) $(BFLAGS)
+
+compile: bigloo-jvm.bat
+
+bigloo-jvm.bat: .afile .jfile $(CLASSES)
+	$(BIGLOO) $(FLAGS) $(BENCHJFLAGS) $(CLASSES) -o $@
+
+clean:
+	-@/bin/rm -f bigloo-jvm.bat 2> /dev/null
+	-@/bin/rm -rf $(CLASSES) 2> /dev/null
+	-@/bin/rm -rf *.class 2> /dev/null
+	-@/bin/rm -rf */*.class 2> /dev/null
+	-@/bin/rm -f .afile .jfile 2> /dev/null
+
+.SUFFIXES:
+.SUFFIXES: .scm .class
+
+.afile: 
+	$(AFILE) -o .afile $(CLASSES:%.class=%.scm)
+
+.jfile: 
+	$(JFILE) -o .jfile $(CLASSES:%.class=%.scm)
+
+.scm.class:
+	$(BIGLOO) $(BENCHJFLAGS) $(FLAGS) $*.scm -o $*.class -c
+

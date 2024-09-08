@@ -1,0 +1,14 @@
+(title "Bigloo.WASM"
+(configuration
+  (date "Sat Sep  7 14:24:41 2024")
+  (host #f)
+  (uptime
+    " 14:24:41 up 1 day, 21:50,  2 users,  load average: 0.63, 0.69, 0.81")
+  (arch "x86_64")
+  (processor "unknown")
+  (mhz "1638")
+  (memory "8")
+  (comment)
+  (compiler "Bigloo (4.6a)")
+  (os "Linux 6.10.6-amd64")
+  (iterations 5))

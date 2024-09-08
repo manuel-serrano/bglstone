@@ -1,0 +1,17 @@
+(title "Bigloo.NET"
+(configuration
+  (date "Wed Feb 18 21:19:48 2004")
+  (host "tahoe")
+  (uptime
+    " 21:19:48 up 50 days, 10:16, 10 users,  load average: 3.55, 2.24, 1.03")
+  (arch "i686")
+  (mhz "1412")
+  (memory "503")
+  (comment)
+  (compiler
+    "Bigloo (2.6c) Unknown command line option: '-version'")
+  (os "Linux 2.4.21")
+  (iterations 5))
+(earley "(cd ./earley/bigloo-dotnet; ./bigloo-dotnet.bat)" 36.703718)
+(peval "(cd ./peval/bigloo-dotnet; ./bigloo-dotnet.bat)" 0.750201)
+)

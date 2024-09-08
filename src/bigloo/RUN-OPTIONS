@@ -1,0 +1,1 @@
+-jvm -v -O3 ../src/bench.scm -c -lib-dir ../src

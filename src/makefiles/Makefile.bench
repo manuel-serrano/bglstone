@@ -1,0 +1,68 @@
+#*=====================================================================*/
+#*    serrano/diffusion/article/bjvm/bench/makes/Makefile.bench        */
+#*    -------------------------------------------------------------    */
+#*    Author      :  Manuel Serrano                                    */
+#*    Creation    :  Fri Jan 12 09:45:29 2001                          */
+#*    Last change :  Fri Jan 12 10:36:59 2001 (serrano)                */
+#*    Copyright   :  2001 Manuel Serrano                               */
+#*    -------------------------------------------------------------    */
+#*    The standard Makefile to compile benchmarks                      */
+#*=====================================================================*/
+
+#*---------------------------------------------------------------------*/
+#*    Benchit                                                          */
+#*---------------------------------------------------------------------*/
+BENCHITDIR=/users/serrano/prgm/utils/benchit
+RUNIT=$(BENCHITDIR)/runit/bin/runit
+R2B=$(BENCHITDIR)/r2b/bin/r2b
+R2T=$(BENCHITDIR)/r2tex/bin/r2tex
+
+#*---------------------------------------------------------------------*/
+#*    Barchart                                                         */
+#*---------------------------------------------------------------------*/
+BARCHART=barchart
+BARFLAGS=-s s
+
+#*---------------------------------------------------------------------*/
+#*    Misc                                                             */
+#*---------------------------------------------------------------------*/
+BENCH=
+
+#*---------------------------------------------------------------------*/
+#*    Entries                                                          */
+#*---------------------------------------------------------------------*/
+all: c-stat jvm-stat
+
+#*--- Benchmark stats -------------------------------------------------*/
+c-stat: $(BENCH).c-stat
+jvm-stat: $(BENCH).jvm-stat
+
+$(BENCH).c-stat: $(BENCH).runit bgl 
+	$(RUNIT) $(BENCH).runit > $(BENCH).c-stat
+
+#*--- $(BENCH).runit --------------------------------------------------*/
+$(BENCH).runit:
+	@ echo "(title \"$(BENCH)\"" > $(BENCH).runit
+	@ echo "   (configuration)" >> $(BENCH).runit
+	@ echo "   (C \"./bgl/$(BENCH).bgl-c\")" >> $(BENCH).runit
+	@ echo "   (JVM \"./bgl/$(BENCH).bgl-jvm\")" >> $(BENCH).runit
+	@ echo "   )" >> $(BENCH).runit
+
+#*--- bgl entry -------------------------------------------------------*/
+bgl: bgl/$(BENCH).bgl-c bgl/$(BENCH).bgl-jvm
+
+bgl/$(BENCH).bgl-jvm: bgl/$(BENCH).scm
+	(cd bgl; $(MAKE) -f ../../makes/Makefile.bgl BENCH=$(BENCH) bgl-jvm)
+
+bgl/$(BENCH).bgl-c: bgl/$(BENCH).scm
+	(cd bgl; $(MAKE) -f ../../makes/Makefile.bgl BENCH=$(BENCH) bgl-c)
+
+#*--- cleaning --------------------------------------------------------*/
+clean:
+	(cd bgl; $(MAKE) -f ../../makes/Makefile.bgl BENCH=$(BENCH) clean)
+	/bin/rm -f $(BENCH).runit
+
+cleanall: clean
+	/bin/rm -f $(BENCH).stat
+
+

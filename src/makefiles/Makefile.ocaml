@@ -1,0 +1,23 @@
+include ../../../Makefile.config
+include Makefile.object
+
+OCAML=ocamlopt
+FLAGS=-unsafe -noassert -inline 2
+
+compile: a.ocaml
+
+a.ocaml: $(OBJECTS)
+	$(OCAML) $(FLAGS) $(OBJECTS:%.o=%.cmx) -o a.ocaml
+
+clean:
+	-@/bin/rm -f a.ocaml 2> /dev/null
+	-@/bin/rm -rf $(OBJECTS) 2> /dev/null
+	-@/bin/rm -rf *.cmi *.cmx 2> /dev/null
+
+
+.SUFFIXES:
+.SUFFIXES: .ml .o
+
+.ml.o:
+	$(OCAML) $(FLAGS) $*.ml -o $*.o -c
+

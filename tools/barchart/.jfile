@@ -1,0 +1,7 @@
+;; /users/serrano/tex/tools/barchart1
+;; Wed Jan 17 00:32:05 2001
+
+(
+  (barchart "barchart")
+)
+

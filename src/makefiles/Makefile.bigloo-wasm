@@ -1,0 +1,26 @@
+include ../../../Makefile.config
+include Makefile.objects
+
+FLAGS=$(BFLAGS) -wasm -init-lib
+
+WASMS=$(OBJECTS:%.o=%.wat)
+
+compile: bigloo-wasm.sh
+
+bigloo-wasm.sh: .afile $(WASMS)
+	$(BIGLOO) $(FLAGS) $(BENCHFLAGS) $(WASMS) -o $@
+
+clean:
+	-@/bin/rm -f bigloo-wasm.sh 2> /dev/null
+	-@/bin/rm -rf $(WASMS) 2> /dev/null
+	-@/bin/rm -f .afile 2> /dev/null
+
+.SUFFIXES:
+.SUFFIXES: .scm .wat
+
+.afile: 
+	$(AFILE) -o .afile $(WASMS:%.o=%.scm)
+
+.scm.wat:
+	$(BIGLOO) $(FLAGS) $(BENCHFLAGS) $*.scm -o $*.wat -c
+

@@ -1,0 +1,24 @@
+include ../../../Makefile.config
+include Makefile.objects
+
+FLAGS=$(BFLAGS) -cc $(BCC) -copt "$(BCFLAGS)" -saw -fsaw-bbv
+
+compile: bigloo-saw.exe
+
+bigloo-saw.exe: .afile $(OBJECTS)
+	$(BIGLOO) $(FLAGS) $(BENCHFLAGS) $(OBJECTS) -o $@
+
+clean:
+	-@/bin/rm -f bigloo.exe 2> /dev/null
+	-@/bin/rm -rf $(OBJECTS) 2> /dev/null
+	-@/bin/rm -f .afile 2> /dev/null
+
+.SUFFIXES:
+.SUFFIXES: .scm .o
+
+.afile: 
+	$(AFILE) -o .afile $(OBJECTS:%.o=%.scm)
+
+.scm.o:
+	$(BIGLOO) $(FLAGS) $(BENCHFLAGS) $*.scm -o $*.o -c
+

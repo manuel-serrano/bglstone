@@ -1,0 +1,23 @@
+
+-,0
+(meta-define define define0,0
+(meta-define define define-struct0,0
+(meta-define define define0,0
+(meta-define define define-inline0,0
+(meta-define define define-generic0,0
+(meta-define define define-macro0,0
+(meta-define define define-expander0,0
+
+runit.scm,146
+(define *repetition*24,1401
+(define *fin*25,1424
+(define *fout*26,1441
+(define *verbose*27,1459
+(define (timeit32,1698
+(define (main64,2800
+
+timeit.c,95
+timeit_cmd_once(20,1114
+timeit_cmd(49,1902
+timeit_thunk_once(93,3023
+timeit_thunk(125,3915

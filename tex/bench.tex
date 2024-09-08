@@ -1,0 +1,97 @@
+\documentclass[10pt]{article}
+\usepackage{epsf}
+\usepackage{a4,fullpage}
+
+
+\begin{document}
+\title{Bigloo Jvm Performance}
+\maketitle
+
+
+%*--- C/JVM -----------------------------------------------------------*/
+\section{Bigloo C / Bigloo Jvm}
+
+\begin{center}
+\begin{footnotesize}
+\input{../bglc-bglj.tex}
+\end{footnotesize}
+
+\vspace{1cm}
+
+\epsfxsize=\linewidth
+\epsfbox{../bglc-bglj.ps}
+
+\end{center}
+
+%*--- C/c32/jvm--------------------------------------------------------*/
+\section{Bigloo C / Bigloo C (32 bits) / Bigloo Jvm}
+
+\begin{center}
+\begin{footnotesize}
+\input{../bglc-bgli32-bglj.tex}
+\end{footnotesize}
+
+\vspace{1cm}
+
+\epsfxsize=\linewidth
+\epsfbox{../bglc-bgli32-bglj.ps}
+
+\end{center}
+
+%*--- JVM/Gambit ------------------------------------------------------*/
+\section{Gambit/Bigloo Jvm}
+
+\begin{center}
+\begin{footnotesize}
+\input{../bglj-gambit.tex}
+\end{footnotesize}
+
+\vspace{1cm}
+
+\epsfxsize=\linewidth
+\epsfbox{../bglj-gambit.ps}
+
+\end{center}
+
+%*--- JVM/MLJ ---------------------------------------------------------*/
+\section{MLj/Bigloo Jvm}
+
+\begin{center}
+\begin{footnotesize}
+\input{../bglj-mlj.tex}
+\end{footnotesize}
+
+\vspace{1cm}
+
+\epsfxsize=\linewidth
+\epsfbox{../bglj-mlj.ps}
+
+\end{center}
+
+%*--- Jvm/Java --------------------------------------------------------*/
+\section{Java/Bigloo Jvm}
+
+\begin{center}
+\begin{footnotesize}
+\input{../bglj-java.tex}
+\end{footnotesize}
+
+\vspace{1cm}
+
+\epsfxsize=\linewidth
+\epsfbox{../bglj-java.ps}
+
+\end{center}
+
+%*--- All values ------------------------------------------------------*/
+\section{All values}
+
+\begin{center}
+\begin{footnotesize}
+\input{../all.tex}
+\end{footnotesize}
+
+\end{center}
+
+\end{document}
+

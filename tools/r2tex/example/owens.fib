@@ -1,0 +1,13 @@
+(title "Owens"
+(CONFIGURATION
+  (DATE #"Wed Jan  3 10:01:55 2001\n")
+  (HOST #"owens.essi.fr")
+  (UPTIME
+    #" 10:01am  up  1:22,  3 users,  load average: 0.07, 0.09, 0.40")
+  (ARCH #"i586")
+  (OS #"Linux 2.2.15-4mdk")
+  (ITERATIONS 5))
+(FIB "bigloo -i fib" 1.43)
+(FIBFX "bigloo -i fibfx" 0.92)
+(FIBFOO "bigloo -i fibfx" 0.92)
+)

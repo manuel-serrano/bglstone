@@ -1,0 +1,10 @@
+(set! *scale-step* 10)
+(set! *scale-init* 0)
+(barchart
+  #"Fib on Unix (\\% Owens)"
+  (max-scale-value 100)
+  (bar-names (K1000 #"Redrock"))
+  (bar-values
+    (#"Fib" (K1000 74))
+    (#"Fibfx" (K1000 70))))
+

@@ -1,0 +1,13 @@
+OBJECTS = Ir/frame.o Symbol/bind.o                                      \
+      Init/setrc.o Tools/set.o Arch/mips-r3000.o Ast/anode.o            \
+      Engine/engine.o Parser/file.o Parser/lexer.o Ast/ident.o          \
+      Regalloc/agaig.o Btensioning/btensioning.o Arecord/arecord.o      \
+      Type/type.o Iselect/mips-r3000-munch.o Parser/parser.o            \
+      Write/version.o Runtime/runtime.o Engine/param.o Type/bind.o      \
+      Nonop/nonop.o Regalloc/agaiglive.o Canonical/canonical.o          \
+      Canonical/trace.o Tools/speek.o Tools/date.o Canonical/bblock.o   \
+      Iselect/iselect.o Regalloc/regalloc.o Ir/translate.o              \
+      Regalloc/minimalpush.o Init/parse-args.o Type/check.o Arch/arch.o \
+      Iselect/asm.o Ir/inode.o Ast/location.o Ast/escape.o Ir/display.o \
+      Regalloc/calleepush.o Ir/label.o Liveness/liveness.o Init/main.o  \
+      Regalloc/push.o 
