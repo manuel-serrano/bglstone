@@ -1,4 +1,4 @@
-(title "Bigloo.WASM"
+(title "BiglooWASM"
    (compiler "Bigloo (4.6a)")
    (configuration)
    (bague "(cd ./bague/bigloo-wasm; ./bigloo-wasm.sh)")
@@ -10,14 +10,10 @@
    (fft "(cd ./fft/bigloo-wasm; ./bigloo-wasm.sh)")
    (leval "(cd ./leval/bigloo-wasm; ./bigloo-wasm.sh)")
    (maze "(cd ./maze/bigloo-wasm; ./bigloo-wasm.sh)")
-   (mbrot "(cd ./mbrot/bigloo-wasm; ./bigloo-wasm.sh)")
    (nucleic "(cd ./nucleic/bigloo-wasm; ./bigloo-wasm.sh)")
    (peval "(cd ./peval/bigloo-wasm; ./bigloo-wasm.sh)")
    (puzzle "(cd ./puzzle/bigloo-wasm; ./bigloo-wasm.sh)")
    (queens "(cd ./queens/bigloo-wasm; ./bigloo-wasm.sh)")
-   (qsort "(cd ./qsort/bigloo-wasm; ./bigloo-wasm.sh)")
-   (rgc "(cd ./rgc/bigloo-wasm; ./bigloo-wasm.sh)")
-   (sieve "(cd ./sieve/bigloo-wasm; ./bigloo-wasm.sh)")
    (traverse "(cd ./traverse/bigloo-wasm; ./bigloo-wasm.sh)")
    (almabench "(cd ./almabench/bigloo-wasm; ./bigloo-wasm.sh)")
    )

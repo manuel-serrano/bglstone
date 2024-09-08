@@ -7,7 +7,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jun  1 11:05:12 1995                          */
-;*    Last change :  Wed Jun  8 10:42:45 2011 (serrano)                */
+;*    Last change :  Sun Sep  8 10:55:22 2024 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    Le prologue de Bigloo1.7                                         */
 ;*=====================================================================*/
@@ -556,7 +556,7 @@
 			 (if (< x 2)
 			     1
 			     (+ (fib (- x 1)) (fib (- x 2)))))))
-   (letrec ((rrun (lambda () (ewal '(fib 25))))
+   (letrec ((rrun (lambda () (ewal '(fib 31))))
 	    (loop (lambda (num res)
 		     (if (<fx num 1)
 			 res
@@ -569,6 +569,6 @@
 (define (main argv)
    (let ((v (if (pair? (cdr argv))
 		(run (string->integer (cadr argv)))
-		(run 60))))
-      (if (=fx v 121393) 0 1)))
-
+		(run 80))))
+      (if (=fx v 2178309) 0 1)))
+                 

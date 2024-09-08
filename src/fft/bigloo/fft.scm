@@ -120,7 +120,7 @@
 (define (main argv)
    (let loop ((num (if (pair? (cdr argv))
 		       (string->integer (cadr argv))
-		       2000))
+		       4000))
 	      (val #f))
       (if (=fx num 0)
 	  (exit (if val 0 1))

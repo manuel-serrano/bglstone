@@ -614,4 +614,5 @@
 
 (define (main argv)
    (exit
-      (if (run (if (pair? (cdr argv)) (string->integer (cadr argv)) 200)) 0 1)))
+      (if (run (if (pair? (cdr argv)) (string->integer (cadr argv)) 2000))
+	  0 1)))

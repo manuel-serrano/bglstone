@@ -134,7 +134,7 @@
  'ok)
 
 (define (main argv)
-   (let ((m (if (pair? (cdr argv)) (string->integer (cadr argv)) 1000)))
+   (let ((m (if (pair? (cdr argv)) (string->integer (cadr argv)) 4000)))
       (let ((r (run)))
 	 (when (=fx m 1)
 	    (print r))

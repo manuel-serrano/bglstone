@@ -798,7 +798,7 @@
 
 (define (run num)
    (with-output-to-file "/dev/null"
-      (lambda () (pmaze 500 35))))
+      (lambda () (pmaze 500 120))))
 
 (define (do-bench num)
    (if (>fx num 0)
@@ -812,6 +812,6 @@
 		  100)))
       (when (=fx num 1)
 	 (newline)
-	 (pmaze 5 35))
+	 (pmaze 5 120))
       (do-bench num)
       (exit 0)))

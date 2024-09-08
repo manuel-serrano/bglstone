@@ -3511,7 +3511,7 @@
 
 ;; main
 (define (main argv)
-   (let ((n (if (null? (cdr argv)) 50 (string->integer (cadr argv)))))
+   (let ((n (if (null? (cdr argv)) 1200 (string->integer (cadr argv)))))
       (if (=fx n 1)
 	  (let ((v (run)))
 	     (print v)

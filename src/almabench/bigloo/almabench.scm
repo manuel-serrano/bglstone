@@ -35,7 +35,7 @@
 (define GAUSSK  0.01720209895)
 
 ;;number of days to include in test
-(define TEST_LOOPS  4)
+(define TEST_LOOPS  100)
 (define TEST_LENGTH 36525)
 
 ;;sin and cos of j2000 mean obliquity (iau 1976)

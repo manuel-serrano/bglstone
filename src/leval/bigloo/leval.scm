@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sat Dec 26 08:30:11 1998                          */
-;*    Last change :  Wed Jun  8 10:42:21 2011 (serrano)                */
+;*    Last change :  Sun Sep  8 11:06:09 2024 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    An interpreter with lambda (from M. Feeley's one).               */
 ;*=====================================================================*/
@@ -534,5 +534,5 @@
 (define (main argv)
    (let ((num (if (pair? (cdr argv))
 		  (string->integer (cadr argv))
-		  10)))
+		  250)))
       (exit (if (=fx (run num) 4) 0 1))))

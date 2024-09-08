@@ -587,7 +587,7 @@
 (define (main argv)
    (let loop ((i (if (pair? (cdr argv))
 		     (string->number (cadr argv))
-		     300)))
+		     4500)))
       (if (= i 1)
 	  (exit (if (equal? (test) expected-result) 0 1))
 	  (begin

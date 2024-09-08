@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 14:54:21 2001                          */
-#*    Last change :  Sat Sep  7 14:24:28 2024 (serrano)                */
+#*    Last change :  Sun Sep  8 09:30:04 2024 (serrano)                */
 #*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile that handles bglstone benchmarks                    */
@@ -19,7 +19,7 @@ BENCH=scm
 TBENCHMARKS=hello
 
 # The Scheme benchmarks
-SBENCHMARKS=bague beval boyer conform earley fft leval maze \
+SBENCHMARKS=bague beval boyer conform earley fib fft leval maze \
             nucleic peval puzzle queens traverse almabench
 
 # The Bigloo additional benchmarks
@@ -99,10 +99,10 @@ compile.fullbgl:
 
 docompile:
 	@ for p in $(BENCHMARKS); do \
-	    echo "[0m[1;29m>>>>>> $$p[0m"; \
+	    echo "[0m[1;29m$$p:[0m"; \
             for e in $(TARGETS); do \
               if [ -d $$p/$$e ]; then \
-                 echo "[0m[1;33m>>>>>>>>> $$p ($$e)[0m"; \
+                 echo "[0m[1;33m- $$e ($$p)[0m"; \
                  (cd $$p/$$e; $(MAKE) -f ../../makefiles/Makefile.$$e compile) || exit -1; \
               fi; \
             done; \
@@ -137,7 +137,7 @@ run.c:
 
 dorun:
 	@ for e in $(TARGETS); do \
-	    echo "[0m[1;29m>>>>>> $$e[0m"; \
+	    echo "[0m[1;29m- $$e[0m"; \
             $(MAKE) $$e.stat || exit -2; \
 	    cp $$e.stat ../results/$(NAME)/$$e.stat; \
           done
@@ -182,6 +182,7 @@ cleanall:
 #*---------------------------------------------------------------------*/
 #*    runit                                                            */
 #*---------------------------------------------------------------------*/
+.PHONY: _base.runit bigloo.runit bigloo-jvm.runit bigloo-wasm.runit bigloo-saw.runit c.runit
 _base.runit:
 	$(MAKE) one-runit SYSTEM=_base SUFFIX=exe DIR=bigloo TITLE=Base COMPILER="`$(BIGLOO) -version`"
 bigloo.runit:
@@ -189,7 +190,9 @@ bigloo.runit:
 bigloo-jvm.runit:
 	$(MAKE) one-runit SYSTEM=bigloo-jvm SUFFIX=bat DIR=bigloo-jvm TITLE=BiglooJVM COMPILER="`$(BIGLOO) -version` `$(BJVM) -version 2>&1 | head -n 1`"
 bigloo-wasm.runit:
-	$(MAKE) one-runit SYSTEM=bigloo-wasm SUFFIX=sh DIR=bigloo-wasm TITLE=Bigloo.WASM COMPILER="`$(BIGLOO) -version`"
+	$(MAKE) one-runit SYSTEM=bigloo-wasm SUFFIX=sh DIR=bigloo-wasm TITLE=BiglooWASM COMPILER="`$(BIGLOO) -version`"
+bigloo-saw.runit:
+	$(MAKE) one-runit SYSTEM=bigloo-saw SUFFIX=exe DIR=bigloo-saw TITLE=BiglooSAW COMPILER="`$(BIGLOO) -version`"
 c.runit:
 	$(MAKE) one-runit SYSTEM=c SUFFIX=exe DIR=c TITLE=C COMPILER="$(CC)"
 
@@ -224,12 +227,15 @@ mkln:
              if [ ! -e bigloo-jvm ]; then \
                 ln -s bigloo bigloo-jvm; \
              fi; \
-             if [ ! -e bigloo-dotnet ]; then \
-                ln -s bigloo bigloo-dotnet; \
+             if [ ! -e bigloo-wasm ]; then \
+                ln -s bigloo bigloo-wasm; \
+             fi || exit -1; \
+             if [ ! -e bigloo-saw ]; then \
+                ln -s bigloo bigloo-saw; \
              fi) || exit -1; \
 	  done
 
 cleanln:
 	@ for p in $(FBENCHMARKS); do \
-	    (cd $$p; $(RM) -f bigloo-jvm; $(RM) -f bigloo-dotnet) || exit -1; \
+	    (cd $$p; $(RM) -f bigloo-jvm; $(RM) -f bigloo-saw; $(RM) -f bigloo-wasm) || exit -1; \
 	  done

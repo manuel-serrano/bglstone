@@ -1,10 +1,15 @@
 1. configure the bglstone suite:
 
-   ./configure
+   ./configure --bigloo=$HOME/prgm/project/bigloo/bigloo/bin/bigloo
+   
+If you are to test another Bigloo version:
+
+   ./configure --bigloo=$HOME/prgm/project/bigloo/bigloo/bin/bigloo
+
 
 2. compile the various benchmarks:
 
-   make compile TARGETS="bigloo bigloo-jvm bigloo-wasm" BENCH=fullbgl
+   make compile TARGETS="bigloo bigloo-saw bigloo-jvm bigloo-wasm" BENCH=fullbgl
 
 If you are only interested by the C backend use:
 
@@ -13,5 +18,13 @@ If you are only interested by the C backend use:
 
 3. run the benchmarks:
 
-   make run TARGETS="bigloo bigloo-jvm bigloo-wasm" BENCH=fullbgl
+   BIGLOOJAVAOPT=-Xss8m BIGLOOWASMOPT=--stack-size=8192 make run TARGETS="bigloo bigloo-saw bigloo-jvm bigloo-wasm" BENCH=fullbgl
+
+
+4. Misc
+
+To test bencharks correctness:
+
+   BIGLOOJAVAOPT=-Xss8m BIGLOOWASMOPT=--stack-size=8192 make run TARGETS="bigloo bigloo-saw bigloo-jvm bigloo-wasm" BENCH=fullbgl REPETITION="-r 1"
+
 

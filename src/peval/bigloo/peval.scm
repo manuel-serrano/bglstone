@@ -630,7 +630,7 @@
    (let ((r (test))
 	 (n (if (pair? (cdr argv))
 		(string->number (cadr argv))
-		700)))
+		4800)))
       (let loop ((i n))
 	 (if (= i 1)
 	     (begin
