@@ -10,6 +10,9 @@ If you are to test another Bigloo version:
 2. compile the various benchmarks:
 
    make compile TARGETS="bigloo bigloo-saw bigloo-jvm bigloo-wasm" BENCH=fullbgl
+   
+To compile only the _regular_ Scheme benchmarks:   
+   make compile TARGETS="bigloo bigloo-saw bigloo-jvm bigloo-wasm" BENCH=scm
 
 If you are only interested by the C backend use:
 
