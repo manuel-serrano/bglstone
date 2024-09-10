@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 14:54:21 2001                          */
-#*    Last change :  Sun Sep  8 09:30:04 2024 (serrano)                */
+#*    Last change :  Mon Sep  9 19:44:23 2024 (serrano)                */
 #*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile that handles bglstone benchmarks                    */
@@ -20,22 +20,20 @@ TBENCHMARKS=hello
 
 # The Scheme benchmarks
 SBENCHMARKS=bague beval boyer conform earley fib fft leval maze \
-            nucleic peval puzzle queens traverse almabench
+            mbrot nucleic peval puzzle queens qsort sieve traverse almabench
 
 # The Bigloo additional benchmarks
 BBENCHMARKS=beval bigloo boyer cgc conform earley leval \
             maze nucleic peval rgc traverse
 
-# A substet of Scheme benchmakrs
+# A subset of Scheme benchmakrs
 OBENCHMARKS=fib mbrot qsort sieve
 
 # Bglstone subset
 STONEBENCHMARKS=beval bigloo nucleic
 
 # Full Bigloo benchmarks
-FBENCHMARKS=bague beval boyer cgc conform earley fib fft leval \
-            maze mbrot nucleic peval puzzle queens qsort rgc sieve traverse \
-            almabench
+FBENCHMARKS=$(SBENCHMARKS) bigloo cgc rgc
 
 # The C benchmarks
 CBENCHMARKS=bague fft qsort almabench fib mbrot

@@ -7,7 +7,12 @@ If you are to test another Bigloo version:
    ./configure --bigloo=$HOME/prgm/project/bigloo/bigloo/bin/bigloo
 
 
-2. compile the various benchmarks:
+2. To test the benchmark harness
+
+   make compile TARGETS="bigloo" BENCH=test
+   
+   
+3. compile the various benchmarks:
 
    make compile TARGETS="bigloo bigloo-saw bigloo-jvm bigloo-wasm" BENCH=fullbgl
    
@@ -19,12 +24,12 @@ If you are only interested by the C backend use:
    make compile
 
 
-3. run the benchmarks:
+4. run the benchmarks:
 
    BIGLOOJAVAOPT=-Xss8m BIGLOOWASMOPT=--stack-size=8192 make run TARGETS="bigloo bigloo-saw bigloo-jvm bigloo-wasm" BENCH=fullbgl
 
 
-4. Misc
+5. Misc
 
 To test bencharks correctness:
 

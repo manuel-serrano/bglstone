@@ -3,8 +3,8 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 12:08:21 2001                          */
-#*    Last change :  Wed Feb  9 13:32:50 2005 (serrano)                */
-#*    Copyright   :  2001-05 Manuel Serrano                            */
+#*    Last change :  Tue Sep 10 11:06:32 2024 (serrano)                */
+#*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile to compile runit                                    */
 #*=====================================================================*/
@@ -18,8 +18,7 @@ include ../../Makefile.config
 #*    Parameters and variables                                         */
 #*---------------------------------------------------------------------*/
 TOOL=$(TOOLSBIN)/runit
-OBJECTS=runit.o timeit.o
-IDIR=`$(BGLTOOLS) -eval '(begin (print (cadr *lib-dir*)) (exit 0))'`
+OBJECTS=runit.o
 
 #*---------------------------------------------------------------------*/
 #*    runit                                                            */
@@ -45,10 +44,3 @@ clean:
 #*---------------------------------------------------------------------*/
 .scm.o:
 	$(BGLTOOLS) $(BGLTOOLSFLAGS) $*.scm -o $*.o -c
-
-#*---------------------------------------------------------------------*/
-#*    .c.o                                                             */
-#*---------------------------------------------------------------------*/
-.c.o:
-	$(CCTOOLS) $(CCTOOLSFLAGS) -I$(IDIR) $*.c -o $*.o -c
-

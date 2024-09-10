@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Pierre Weis                                       */
 ;*    Creation    :  Fri Apr  1 10:00:21 1994                          */
-;*    Last change :  Sat Sep  7 14:18:54 2024 (serrano)                */
+;*    Last change :  Tue Sep 10 07:59:19 2024 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    Resolution recursive du Baguenaudier: bench les appels de        */
 ;*    fonctions et les acces aux vecteurs                              */
@@ -118,7 +118,7 @@
 		    ((32) 2863311530)
 		    ((33) 5726623061)
 		    (else #f))))
-	 (tprint "R=" nombre-de-coups)
+	 (print "res " nombre-de-coups "/" res)
 	 (if (or (not res) (=fx res nombre-de-coups)) 0 1))))
 		    
        

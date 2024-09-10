@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jan  2 14:40:05 2001                          */
-;*    Last change :  Mon Sep  9 08:17:03 2024 (serrano)                */
+;*    Last change :  Tue Sep 10 10:43:24 2024 (serrano)                */
 ;*    Copyright   :  2001-24 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    RUNIT: run (several times if needed) user command and measure    */
@@ -14,10 +14,6 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module runit
-   (extern (%timeit-cmd::double (::string ::int ::int) "timeit_cmd")
-	   (%clockit-cmd::double (::string ::int ::int) "clockit_cmd")
-	   (%timeit-thunk::double (::obj ::int ::int) "timeit_thunk")
-	   (%clockit-thunk::double (::obj ::int ::int) "clockit_thunk"))
    (main main))
 
 ;*---------------------------------------------------------------------*/
@@ -57,12 +53,27 @@
 			  (loop (read-line))))))))))
 
 ;*---------------------------------------------------------------------*/
+;*    read-proc-model ...                                              */
+;*---------------------------------------------------------------------*/
+(define (read-proc-model)
+   (when (file-exists? "/proc/cpuinfo")
+      (with-input-from-file "/proc/cpuinfo"
+	 (lambda ()
+	    (let loop ((l (read-line)))
+	       (if (eof-object? l)
+		   "---"
+		   (let ((m (pregexp-match "model name[ \\t]+: (.+)" l)))
+		      (if (pair? m) 
+			  (cadr m)
+			  (loop (read-line))))))))))
+
+;*---------------------------------------------------------------------*/
 ;*    setup-platform-configuration! ...                                */
 ;*---------------------------------------------------------------------*/
 (define (setup-platform-configuration!)
    (set! *date* (date))
    (unless (string? *hostname*)
-      (set! *hostname* (getenv "HOSTNAME")))
+      (set! *hostname* (or (getenv "HOSTNAME") (getenv "HOST"))))
    (unless (string? *uptime*)
       (with-input-from-file "| uptime"
 	 (lambda ()
@@ -74,7 +85,9 @@
    (unless (string? *proc*)
       (with-input-from-file "| uname -p"
 	 (lambda ()
-	    (set! *proc* (read-of-strings)))))
+	    (set! *proc* (read-of-strings))
+	    (when (string=? *proc* "unknown")
+	       (set! *proc* (read-proc-model))))))
    (unless (string? *mhz*)
       (set! *mhz* (read-proc-mhz)))
    (unless (string? *mem*)
@@ -99,6 +112,60 @@
 			  (read-of-strings)))))))
 
 ;*---------------------------------------------------------------------*/
+;*    mean ...                                                         */
+;*---------------------------------------------------------------------*/
+(define (mean times)
+   (/ (apply + times) (length times)))
+
+;*---------------------------------------------------------------------*/
+;*    median ...                                                       */
+;*---------------------------------------------------------------------*/
+(define (median times)
+   (let* ((vec (list->vector times))
+	  (times (sort (lambda (a b) (>= a b)) vec))
+	  (tm (vector-ref times (/fx (vector-length vec) 2))))
+      (list tm (vector-ref vec 0) (vector-ref vec (-fx (vector-length vec) 1)))))
+
+;*---------------------------------------------------------------------*/
+;*    deviation ...                                                    */
+;*---------------------------------------------------------------------*/
+(define (deviation times)
+   (let* ((m (mean times))
+	  (c (apply + (map (lambda (v) (* (- v m) (- v m))) times))))
+      (sqrt (/ c (length times)))))
+      
+;*---------------------------------------------------------------------*/
+;*    repeat ...                                                       */
+;*---------------------------------------------------------------------*/
+(define (repeat repetition proc)
+   (let loop ((repetition repetition)
+	      (times '()))
+      (if (>fx repetition 0)
+	  (multiple-value-bind (value real sys user)
+	     (time proc)
+	     (when (>=fx *verbose* 1)
+		(display "." (current-error-port))
+		(display repetition (current-error-port))
+		(flush-output-port (current-error-port)))
+	     (loop (-fx repetition 1)
+		(if (eq? *timer* 'user+sys)
+		    (cons (+ sys user) times)
+		    (cons real times))))
+	  times)))
+
+;*---------------------------------------------------------------------*/
+;*    prec2 ...                                                        */
+;*---------------------------------------------------------------------*/
+(define (prec2 n)
+   (let* ((s (number->string n))
+	  (i (string-index s #\.)))
+      (if i
+	  (if (<fx i (-fx (string-length s) 2))
+	      (substring s 0 (+fx i 3))
+	      s)
+	  (string-append s ".00"))))
+      
+;*---------------------------------------------------------------------*/
 ;*    timeit ...                                                       */
 ;*---------------------------------------------------------------------*/
 (define (timeit what repetition)
@@ -113,30 +180,26 @@
 		   "   starting date: " (date)
 		   #\Newline)))))
    (flush-output-port (current-error-port))
-   (let ((res (cond
-		 ((string? what)
-		  (if (eq? *timer* 'user+sys)
-		      (%timeit-cmd (string-append what ">/dev/null 2>&1")
-			 repetition
-			 *verbose*)
-		      (%clockit-cmd (string-append what ">/dev/null 2>&1")
-			 repetition
-			 *verbose*)))
-		 ((and (procedure? what) (correct-arity? what 0))
-		  (if (eq? *timer* 'user+sys)
-		      (%timeit-thunk what repetition *verbose*)
-		      (%clockit-thunk what repetition *verbose*)))
-		 (else
-		  (error "runit" "Illegal command or thunk" what)))))
-      (when (< res 0.0)
-	 (error 'runit "Execution failed" what)
+   (let ((times (cond
+		   ((string? what)
+		    (repeat repetition
+		       (lambda ()
+			  (unless (=fx (system (string-append what ">/dev/null 2>&1")) 0)
+			     (error "timeit" "command failed" what)))))
+		   ((and (procedure? what) (correct-arity? what 0))
+		    (repeat repetition what))
+		   (else
+		    (error "runit" "Illegal command or thunk" what)))))
+      (when (null? times)
+	 (error "runit" "Execution failed" what)
 	 (exit -1))
-      (when (> *verbose* 1)
-	 (display "     *** min run: " (current-error-port)))
-      (when (> *verbose* 0)
-	 (fprint (current-error-port) " " res "s "
-	    (if (eq? *timer* 'user+sys) "(cpu+sys)" "(wall-clock)")))
-      res))
+      (let ((tm (mean times))
+	    (dev (deviation times)))
+	 (when (>fx *verbose* 0)
+	    (fprint (current-error-port) " "
+	       (prec2 (/ tm 1000)) "s [" (flonum->fixnum (/ (* 100 dev) tm)) "%] "
+	       (if (eq? *timer* 'user+sys) "(cpu+sys)" "(wall-clock)")))
+	 (values tm dev))))
 
 ;*---------------------------------------------------------------------*/
 ;*    main ...                                                         */
@@ -173,8 +236,9 @@
 		   (set! *compiler* cmp)
 		   (loop (cdr descrs)))
 		  ((?lbl ?command)
-		   (let ((time (timeit command *repetition*)))
-		      (write (list lbl command time))
+		   (multiple-value-bind (tm dev)
+		      (timeit command *repetition*)
+		      (write (list lbl command tm dev))
 		      (newline)
 		      (loop (cdr descrs))))
 		  (else

@@ -118,7 +118,7 @@
    (and (integer? (test-sort 'qsort n)) (integer? (test-sort 'qsort2 n))))
 	  
 (define (doit n)
-   (let loop ((i 40))
+   (let loop ((i 140))
       (when (>fx i 1)
 	 (runit n)
 	 (loop (-fx i 1))))
