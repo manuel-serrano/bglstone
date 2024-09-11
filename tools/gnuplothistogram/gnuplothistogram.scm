@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Wed Sep 11 16:02:05 2024 (serrano)                */
+;*    Last change :  Wed Sep 11 16:08:55 2024 (serrano)                */
 ;*    Copyright   :  2024 Manuel Serrano                               */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -39,7 +39,8 @@
 (define *logscale* #f)
 (define *xfontsize* "8")
 (define *yfontsize* "10")
-
+(define *format* "pdf")
+   
 ;*---------------------------------------------------------------------*/
 ;*    *template* ...                                                   */
 ;*---------------------------------------------------------------------*/
@@ -97,6 +98,8 @@
        (set! *xfontsize* size))
       (("--y-fontsize" ?size (help "y font-size"))
        (set! *yfontsize* size))
+      ((("-f" "--format") ?format (help "output format"))
+       (set! *format* format))
       (else
        (set! *inputs* (append *inputs* (list else))))))
 
@@ -185,34 +188,37 @@
    
    (let ((times-length (length (caddr (car (stat-times (car stats))))))
 	 (proc (assq-get 'processor (stat-configuration (car stats)) "")))
-      (let ((s (pregexp-replace
-		  "@ERRORBARS@"
+      (let ((s (pregexp-replace*
+		  "@FORMAT@"
 		  (pregexp-replace
-		     "@XTICS@"
+		     "@ERRORBARS@"
 		     (pregexp-replace
-			"@YTICS@"
-			(pregexp-replace*
-			   "@TIME-UNIT@"
+			"@XTICS@"
+			(pregexp-replace
+			   "@YTICS@"
 			   (pregexp-replace*
-			      "@PROCESSOR@"
+			      "@TIME-UNIT@"
 			      (pregexp-replace*
-				 "@YLABEL@"
+				 "@PROCESSOR@"
 				 (pregexp-replace*
-				    "@TITLE@"
-				    (pregexp-replace* "@BASENAME@" *template* *fout*)
+				    "@YLABEL@"
+				    (pregexp-replace*
+				       "@TITLE@"
+				       (pregexp-replace* "@BASENAME@" *template* *fout*)
+				       (cond
+					  (*user-title* *user-title*)
+					  (*relative* *relative-title*)
+					  (else *absolute-title*)))
 				    (cond
-				       (*user-title* *user-title*)
-				       (*relative* *relative-title*)
-				       (else *absolute-title*)))
-				 (cond
-				    (*user-ylabel* *user-ylabel*)
-				    (*relative* *relative-ylabel*)
-				    (else *absolute-ylabel*)))
-			      proc)
-			   (symbol->string! *time-unit*))
-			*yfontsize*)
-		     *xfontsize*)
-		  (if *relative* "" *errorbars*))))
+				       (*user-ylabel* *user-ylabel*)
+				       (*relative* *relative-ylabel*)
+				       (else *absolute-ylabel*)))
+				 proc)
+			      (symbol->string! *time-unit*))
+			   *yfontsize*)
+			*xfontsize*)
+		     (if *relative* "" *errorbars*))
+		  *format*)))
 	 (print s)
 	 (when *logscale*
 	    (print "set logscale y\n"))

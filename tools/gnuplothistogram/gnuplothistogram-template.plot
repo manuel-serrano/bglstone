@@ -1,5 +1,5 @@
-set output '@BASENAME@.pdf'
-set terminal pdf font "Verdana,12"
+set output '@BASENAME@.@FORMAT@'
+set terminal @FORMAT@ font "Verdana,12"
 
 set title '@TITLE@'
 set ylabel "@YLABEL@" offset 0,0
