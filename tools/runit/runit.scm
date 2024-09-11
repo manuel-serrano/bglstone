@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jan  2 14:40:05 2001                          */
-;*    Last change :  Tue Sep 10 10:43:24 2024 (serrano)                */
+;*    Last change :  Wed Sep 11 07:45:45 2024 (serrano)                */
 ;*    Copyright   :  2001-24 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    RUNIT: run (several times if needed) user command and measure    */
@@ -199,7 +199,7 @@
 	    (fprint (current-error-port) " "
 	       (prec2 (/ tm 1000)) "s [" (flonum->fixnum (/ (* 100 dev) tm)) "%] "
 	       (if (eq? *timer* 'user+sys) "(cpu+sys)" "(wall-clock)")))
-	 (values tm dev))))
+	 times)))
 
 ;*---------------------------------------------------------------------*/
 ;*    main ...                                                         */
@@ -218,6 +218,7 @@
 			   (date ,*date*)
 			   (host ,*hostname*)
 			   (uptime ,*uptime*)
+			   (time ',*timer*)
 			   (arch ,*machine*)
 			   (processor ,*proc*)
 			   (mhz ,*mhz*)
@@ -236,9 +237,9 @@
 		   (set! *compiler* cmp)
 		   (loop (cdr descrs)))
 		  ((?lbl ?command)
-		   (multiple-value-bind (tm dev)
-		      (timeit command *repetition*)
-		      (write (list lbl command tm dev))
+		   (let ((times (timeit command *repetition*)))
+		      (display " ")
+		      (write (list lbl command times))
 		      (newline)
 		      (loop (cdr descrs))))
 		  (else

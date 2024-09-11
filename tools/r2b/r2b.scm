@@ -3,8 +3,8 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Jan  3 09:35:01 2001                          */
-;*    Last change :  Wed Jan  8 17:02:41 2003 (serrano)                */
-;*    Copyright   :  2001-03 Manuel Serrano                            */
+;*    Last change :  Wed Sep 11 08:05:03 2024 (serrano)                */
+;*    Copyright   :  2001-24 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    The converter from RUNIT output files to BARCHART input files.   */
 ;*=====================================================================*/
@@ -42,7 +42,7 @@
 (define (parse-args argv)
    (args-parse (cdr argv)
       (("-help" (help "This message"))
-       (print "usage: runit [options] [filename]")
+       (print "usage: r2b [options] [filename]")
        (newline)
        (args-parse-usage #f)
        (exit 0))
