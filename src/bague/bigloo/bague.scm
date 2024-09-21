@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Pierre Weis                                       */
 ;*    Creation    :  Fri Apr  1 10:00:21 1994                          */
-;*    Last change :  Tue Sep 10 07:59:19 2024 (serrano)                */
+;*    Last change :  Sat Sep 21 07:06:59 2024 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    Resolution recursive du Baguenaudier: bench les appels de        */
 ;*    fonctions et les acces aux vecteurs                              */
@@ -39,25 +39,25 @@
    (-fx n 1))
 
 (define (enleve-la-pierre n)
-   (if (eq? (vector-ref jeu (la-case n))  une-pierre)
+   (if (=fx (vector-ref jeu (la-case n))  une-pierre)
        (vector-set! jeu (la-case n) une-case-vide)
        (error "bague" "cannot remove a stone from an empty slot" n)))
 
 (define (pose-la-pierre n)
-   (if (eq? (vector-ref jeu (la-case n)) une-case-vide)
+   (if (=fx (vector-ref jeu (la-case n)) une-case-vide)
        (vector-set! jeu (la-case n) une-pierre)
        (error "bague" "cannot lay a stone on a non empty slot" n)))
 
 (define (autorise-mouvement n)
    (case n
       ((1) #t)
-      ((2) (eq? (vector-ref jeu (la-case 1)) une-pierre))
+      ((2) (=fx (vector-ref jeu (la-case 1)) une-pierre))
       (else
-       (and (eq? (vector-ref jeu (la-case (-fx n 1))) une-pierre)
+       (and (=fx (vector-ref jeu (la-case (-fx n 1))) une-pierre)
 	    (letrec ((ok (lambda (b i)
 			    (if (>fx i (la-case (-fx n 2)))
 				b
-				(ok (and b (eq? (vector-ref jeu i)
+				(ok (and b (=fx (vector-ref jeu i)
 						une-case-vide))
 				    (+fx i 1))))))
 	       (ok #t 0))))))

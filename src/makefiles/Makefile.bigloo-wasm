@@ -13,6 +13,7 @@ bigloo-wasm.sh: .afile $(WASMS)
 clean:
 	-@/bin/rm -f bigloo-wasm.sh 2> /dev/null
 	-@/bin/rm -rf $(WASMS) 2> /dev/null
+	-@/bin/rm -rf $(WASMS:%.wat=%.wasm) 2> /dev/null
 	-@/bin/rm -f .afile 2> /dev/null
 
 .SUFFIXES:

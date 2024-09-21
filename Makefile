@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 11:50:34 2001                          */
-#*    Last change :  Sat Sep  7 13:37:38 2024 (serrano)                */
+#*    Last change :  Wed Sep 18 13:54:11 2024 (serrano)                */
 #*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The general Bglstone Makefile                                    */
@@ -130,7 +130,7 @@ distrib:
 #*    cleanning                                                        */
 #*---------------------------------------------------------------------*/
 clean:
-	@ (cd src; $(MAKE) clean BENCH=$(BENCH) TARGETS="$(TARGETS)")
+	@ (cd src; $(MAKE) clean BENCH=$(BENCH) TARGETS="$(TARGETS) bigloo bigloo-jvm bigloo-wasm")
 	@ (cd src; $(MAKE) cleanln BENCH=$(BENCH) TARGETS="$(TARGETS)")
 
 distclean: clean
