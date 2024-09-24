@@ -26,7 +26,7 @@ If you are only interested by the C backend use:
 
 4. run the benchmarks:
 
-  BIGLOOJAVAOPT=-Xss8m BIGLOOWASMOPT=--stack-size=8192 make run TARGETS="bigloo  bigloo-jvm bigloo-wasm" BENCH=fullbgl
+  BIGLOOJAVAOPT=-Xss8m BIGLOOWASMOPT=--stack-size=8192 make run TARGETS="bigloo bigloo-jvm bigloo-wasm" BENCH=fullbgl
 
 
 5. generate a plot

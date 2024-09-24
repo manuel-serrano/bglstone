@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 14:54:21 2001                          */
-#*    Last change :  Mon Sep  9 19:44:23 2024 (serrano)                */
+#*    Last change :  Tue Sep 24 09:47:54 2024 (serrano)                */
 #*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile that handles bglstone benchmarks                    */
@@ -20,7 +20,8 @@ TBENCHMARKS=hello
 
 # The Scheme benchmarks
 SBENCHMARKS=bague beval boyer conform earley fib fft leval maze \
-            mbrot nucleic peval puzzle queens qsort sieve traverse almabench
+            mbrot nucleic peval puzzle queens qsort sieve traverse almabench \
+            slatex
 
 # The Bigloo additional benchmarks
 BBENCHMARKS=beval bigloo boyer cgc conform earley leval \

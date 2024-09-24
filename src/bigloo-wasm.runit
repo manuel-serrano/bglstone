@@ -19,4 +19,5 @@
    (sieve "(cd ./sieve/bigloo-wasm; ./bigloo-wasm.sh)")
    (traverse "(cd ./traverse/bigloo-wasm; ./bigloo-wasm.sh)")
    (almabench "(cd ./almabench/bigloo-wasm; ./bigloo-wasm.sh)")
+   (slatex "(cd ./slatex/bigloo-wasm; ./bigloo-wasm.sh)")
    )
