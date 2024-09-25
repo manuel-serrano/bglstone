@@ -26,27 +26,38 @@
               (loop (Scdr lst))))
         #f))) ;; "file not found"
 
-(define-macro (Zpeek-char port)
-  `(let ((port ,port))
-;;     (declare (standard-bindings) (not safe) (fixnum))
-     (let ((buf (Scar port))
-           (pos (Scdr port)))
-       (if (SFX< pos (Sstring-length buf))
-           (let ((c (Sstring-ref buf pos)))
-;;             (Sset-cdr! port (SFX+ 1 pos))
-             c)
-           #f))))
+(define cnt 0)
 
-(define-macro (Zread-char port)
-  `(let ((port ,port))
-;;     (declare (standard-bindings) (not safe) (fixnum))
-     (let ((buf (Scar port))
-           (pos (Scdr port)))
-       (if (SFX< pos (Sstring-length buf))
-           (let ((c (Sstring-ref buf pos)))
-             (Sset-cdr! port (SFX+ 1 pos))
-             c)
-           #f))))
+(define-expander Zpeek-char
+   (lambda (x e)
+      (let ((port (cadr x)))
+	 (e `(let ((port ,port))
+		;;     (declare (standard-bindings) (not safe) (fixnum))
+		(let ((buf (Scar port))
+		      (pos (Scdr port)))
+		   (if (SFX< pos (Sstring-length buf))
+		       (let ((c (Sstring-ref buf pos)))
+			  (set! cnt (+fx 1 cnt))
+			  ;;(print "Zpeek-char " cnt " pos=" pos " buf=" (string-length buf) " c=" c " " ',(cer x))
+			  ;;             (Sset-cdr! port (SFX+ 1 pos))
+			  c)
+		       #f)))
+	    e))))
+
+(define-expander Zread-char
+   (lambda (x e)
+      (let ((port (cadr x)))
+	 (e `(let ((port ,port))
+		;;     (declare (standard-bindings) (not safe) (fixnum))
+		(let ((buf (Scar port))
+		      (pos (Scdr port)))
+		   (if (SFX< pos (Sstring-length buf))
+		       (let ((c (Sstring-ref buf pos)))
+			  ;;(print "Zread-char " cnt " pos=" pos " buf=" (string-length buf) " c=" c " " (char->integer c) " " ',(cer x))
+			  (Sset-cdr! port (SFX+ 1 pos))
+			  c)
+		       #f)))
+	    e))))
 
 (define-macro (Zeof-object? obj)
   `(not (char? ,obj)))
@@ -1573,7 +1584,7 @@
           filename)))))
 
 (define slatex.full-scmfile-name
-  (lambda (filename)  
+  (lambda (filename)
     (apply slatex.find-some-file
            slatex.*texinputs-list*
            filename
@@ -1635,7 +1646,9 @@
             (let loop ((s (list c)))
               (let ((c (Zpeek-char in)))
                 (cond ((Zeof-object? c) s)
-                      ((Schar-alphabetic? c) (Zread-char in) (loop (cons c s)))
+                      ((Schar-alphabetic? c)
+		       (Zread-char in)
+		       (loop (cons c s)))
                       ((Schar=? c #\%) (slatex.eat-till-newline in) (loop s))
                       (else s))))))
         (string c)))))
@@ -1723,10 +1736,14 @@
                 (let ((c (Zpeek-char in)))
                   (cond ((Zeof-object? c)
                          (if escape? (slatex.error 'slatex.read-filename 2) s))
-                        (escape? (Zread-char in) (loop (cons c s) #f))
-                        ((Schar=? c #\\) (Zread-char in) (loop (cons c s) #t))
-                        ((Smemv c filename-delims) s)
-                        (else (Zread-char in) (loop (cons c s) #f))))))))))))
+                        (escape?
+			 (Zread-char in) (loop (cons c s) #f))
+                        ((Schar=? c #\\)
+			 (Zread-char in) (loop (cons c s) #t))
+                        ((Smemv c filename-delims)
+			 s)
+                        (else
+			 (Zread-char in) (loop (cons c s) #f))))))))))))
 
 (define slatex.read-schemeid
   (let ((schemeid-delims
@@ -1757,27 +1774,27 @@
     (slatex.eat-latex-whitespace in)
     (let ((c (Zread-char in)))
       (if (Zeof-object? c)
-        (slatex.error 'slatex.read-delimed-commaed-filenames 1))
+        (slatex.error 'slatex.read-delimed-commaed-filenames1 1))
       (if (Schar=? c lft-delim)
         'ok
-        (slatex.error 'slatex.read-delimed-commaed-filenames 2))
+        (slatex.error 'slatex.read-delimed-commaed-filenames2 2))
       (let loop ((s '()))
         (slatex.eat-latex-whitespace in)
         (let ((c (Zpeek-char in)))
           (if (Zeof-object? c)
-            (slatex.error 'slatex.read-delimed-commaed-filenames 3))
+            (slatex.error 'slatex.read-delimed-commaed-filenames3 3))
           (if (Schar=? c rt-delim)
             (begin (Zread-char in) (slatex.reverse! s))
             (let ((s (cons (slatex.read-filename in) s)))
               (slatex.eat-latex-whitespace in)
               (let ((c (Zpeek-char in)))
                 (if (Zeof-object? c)
-                  (slatex.error 'slatex.read-delimed-commaed-filenames 4))
+                  (slatex.error 'slatex.read-delimed-commaed-filenames4 4))
                 (cond ((Schar=? c #\,) (Zread-char in))
                       ((Schar=? c rt-delim) 'void)
                       (else
                        (slatex.error
-                         'slatex.read-delimed-commaed-filenames
+                         'slatex.read-delimed-commaed-filenames5
                          5)))
                 (loop s)))))))))
 
@@ -1811,7 +1828,7 @@
     (set! slatex.*slatex-enabled?* #t)
     (set! slatex.*slatex-reenabler* "UNDEFINED")))
 
-(define slatex.ignore2 (lambda (i ii)   'void))
+(define slatex.ignore2 (lambda (i ii) 'void))
 
 (define slatex.add-to-slatex-db
   (lambda (in categ)  
@@ -1945,15 +1962,21 @@
 ))
 
 (define slatex.dump-intext
-  (lambda (in out)  
-    (let* ((display (if out (lambda (obj port)   (Zdisplay obj port)) slatex.ignore2))
+  (lambda (in out)
+    (let* ((display (if out
+			(lambda (obj port) (Zdisplay obj port) 'foo)
+			slatex.ignore2))
            (delim-char (begin (slatex.eat-whitespace in) (Zread-char in)))
            (delim-char (cond ((Schar=? delim-char #\{) #\}) (else delim-char))))
       (if (Zeof-object? delim-char) (slatex.error 'slatex.dump-intext 1))
       (let loop ()
         (let ((c (Zread-char in)))
           (if (Zeof-object? c) (slatex.error 'slatex.dump-intext 2))
-          (if (Schar=? c delim-char) 'done (begin (display c out) (loop))))))))
+          (if (Schar=? c delim-char)
+	      'done
+	      (begin
+		 (display c out)
+		 (loop))))))))
 
 ;;(define slatex.dump-display
 ;;  (lambda (in out ender)  
@@ -2449,7 +2472,7 @@
 (define (check result)  
   (equal? result expected-result))
 
-(define (run #!key (n (unknown 10000 1)))
+(define-keys (run !key (n (unknown 10000 1)))
 ;;  (statprof-start! '(profile))
   (let loop ((n n) (result #f))
     (if (SFX> n 0)
