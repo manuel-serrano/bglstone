@@ -1,4 +1,4 @@
-(module slatex
+(module scheme
    (include "bbv.sch")
    (include "bbv.scm")
    (main main))
