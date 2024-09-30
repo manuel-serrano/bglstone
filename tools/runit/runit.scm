@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jan  2 14:40:05 2001                          */
-;*    Last change :  Wed Sep 11 07:45:45 2024 (serrano)                */
+;*    Last change :  Mon Sep 30 15:21:21 2024 (serrano)                */
 ;*    Copyright   :  2001-24 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    RUNIT: run (several times if needed) user command and measure    */
@@ -236,12 +236,17 @@
 		  ((compiler ?cmp)
 		   (set! *compiler* cmp)
 		   (loop (cdr descrs)))
-		  ((?lbl ?command)
-		   (let ((times (timeit command *repetition*)))
-		      (display " ")
-		      (write (list lbl command times))
-		      (newline)
-		      (loop (cdr descrs))))
+		  ((benchmarks . ?benchmarks)
+		   (for-each (match-lambda 
+				((?lbl ?command)
+				 (let ((times (timeit command *repetition*)))
+				    (display " ")
+				    (write (list lbl command times))
+				    (newline)
+				    (loop (cdr descrs))))
+				(?bench
+				 (error "runit" "Illegal benchmark description" bench)))
+		      benchmarks))
 		  (else
 		   (error "runit" "Illegal command description" descr))))))
       
