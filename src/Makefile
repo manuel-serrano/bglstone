@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 14:54:21 2001                          */
-#*    Last change :  Tue Sep 24 10:49:20 2024 (serrano)                */
+#*    Last change :  Thu Sep 26 18:06:37 2024 (serrano)                */
 #*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile that handles bglstone benchmarks                    */
@@ -21,7 +21,7 @@ TBENCHMARKS=hello
 # The Scheme benchmarks
 SBENCHMARKS=bague beval boyer conform earley fib fft leval maze \
             mbrot nucleic peval puzzle queens qsort sieve traverse almabench \
-            slatex scheme
+            slatex scheme compiler
 
 # The Bigloo additional benchmarks
 BBENCHMARKS=beval bigloo boyer cgc conform earley leval \
@@ -202,20 +202,21 @@ one-runit:
 	@ echo "(title \"$(TITLE)\"" > $(SYSTEM).runit
 	@ echo "   (compiler \"$(COMPILER)\")" >> $(SYSTEM).runit
 	@ echo "   (configuration)" >> $(SYSTEM).runit
+	@ echo "   (benchmarks" >> $(SYSTEM).runit
 	@for p in $(BENCHMARKS); do \
            if [ -d $$p/$(DIR) ]; then \
              if [ -f $$p/RUN-OPTIONS ]; then \
-	        echo "   ($$p \"(cd ./$$p/$(DIR); ./$(DIR).$(SUFFIX) `cat $$p/RUN-OPTIONS`)\")" >> $(SYSTEM).runit; \
+	        echo "     ($$p \"(cd ./$$p/$(DIR); ./$(DIR).$(SUFFIX) `cat $$p/RUN-OPTIONS`)\")" >> $(SYSTEM).runit; \
              else \
                 if [ -f $$p/RUN-OPTIONS.$(DIR) ]; then \
-	          echo "   ($$p \"(cd ./$$p/$(DIR); ./$(DIR).$(SUFFIX) `cat $$p/RUN-OPTIONS.$(DIR)`)\")" >> $(SYSTEM).runit; \
+	          echo "     ($$p \"(cd ./$$p/$(DIR); ./$(DIR).$(SUFFIX) `cat $$p/RUN-OPTIONS.$(DIR)`)\")" >> $(SYSTEM).runit; \
                 else \
-	          echo "   ($$p \"(cd ./$$p/$(DIR); ./$(DIR).$(SUFFIX))\")" >> $(SYSTEM).runit; \
+	          echo "     ($$p \"(cd ./$$p/$(DIR); ./$(DIR).$(SUFFIX))\")" >> $(SYSTEM).runit; \
                 fi; \
              fi; \
           fi; \
         done
-	@ echo "   )" >> $(SYSTEM).runit;
+	@ echo "     ))" >> $(SYSTEM).runit;
 
 #*---------------------------------------------------------------------*/
 #*    links                                                            */
