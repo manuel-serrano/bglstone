@@ -1,7 +1,7 @@
 include ../../../Makefile.config
 include Makefile.objects
 
-FLAGS=$(BFLAGS) -cc $(BCC) -copt "$(BCFLAGS)" -saw -fsaw-bbv
+FLAGS=$(BFLAGS) -cc $(BCC) -copt "$(BCFLAGS)" -saw -fsaw-bbv $(BIGLOOSAWFLAGS)
 
 compile: bigloo-saw.exe
 

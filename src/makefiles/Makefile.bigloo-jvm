@@ -3,7 +3,7 @@ include Makefile.objects
 
 CLASSES=$(OBJECTS:%.o=%.class)
 
-FLAGS=-jvm $(BJFLAGS) -jvm-java $(BJVM) $(BFLAGS)
+FLAGS=-jvm $(BJFLAGS) -jvm-java $(BJVM) $(BFLAGS) $(BIGLOOJVMFLAGS)
 
 compile: bigloo-jvm.bat
 

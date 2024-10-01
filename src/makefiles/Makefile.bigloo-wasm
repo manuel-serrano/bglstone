@@ -1,7 +1,7 @@
 include ../../../Makefile.config
 include Makefile.objects
 
-FLAGS=$(BFLAGS) -wasm -init-lib
+FLAGS=$(BFLAGS) -wasm $(BIGLOOWASMFLAGS)
 
 WASMS=$(OBJECTS:%.o=%.wat)
 
