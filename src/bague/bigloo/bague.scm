@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Pierre Weis                                       */
 ;*    Creation    :  Fri Apr  1 10:00:21 1994                          */
-;*    Last change :  Sat Sep 21 07:06:59 2024 (serrano)                */
+;*    Last change :  Thu Oct  3 18:24:38 2024 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    Resolution recursive du Baguenaudier: bench les appels de        */
 ;*    fonctions et les acces aux vecteurs                              */
@@ -63,7 +63,9 @@
 	       (ok #t 0))))))
 
 (define (enleve-pierre n)
-   (set! nombre-de-coups (+fx nombre-de-coups 1))
+   (set! nombre-de-coups
+      (bit-and (-fx (bit-lsh 1 29) 1) (+fx nombre-de-coups 1)))
+   (if (>fx nombre-de-coups (bit-lsh 1 29)) (set! nombre-de-coups 0))
    (if (autorise-mouvement n)
        (enleve-la-pierre n)
        (error "bague" "forbidden action" n)))
@@ -112,11 +114,11 @@
 		    ((26) 44739242)
 		    ((27) 89478485)
 		    ((28) 178956970)
-		    ((29) 178956970)
-		    ((30) 715827882)
-		    ((31) 1431655765)
-		    ((32) 2863311530)
-		    ((33) 5726623061)
+		    ((29) 357913941)
+		    ((30) 178956970)
+		    ((31) 357913941)
+		    ((32) 178956970)
+		    ((33) 357913941)
 		    (else #f))))
 	 (print "res " nombre-de-coups "/" res)
 	 (if (or (not res) (=fx res nombre-de-coups)) 0 1))))
