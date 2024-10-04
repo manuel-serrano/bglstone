@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jan  2 14:40:05 2001                          */
-;*    Last change :  Mon Sep 30 15:21:21 2024 (serrano)                */
+;*    Last change :  Fri Oct  4 16:00:20 2024 (serrano)                */
 ;*    Copyright   :  2001-24 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    RUNIT: run (several times if needed) user command and measure    */
@@ -34,6 +34,8 @@
 (define *os* #f)
 (define *comments* '())
 (define *compiler* #f)
+
+(define *noerror* #t)
 
 (define *timer* 'wall-clock)
 
@@ -142,7 +144,13 @@
 	      (times '()))
       (if (>fx repetition 0)
 	  (multiple-value-bind (value real sys user)
-	     (time proc)
+	     (time (if *noerror*
+		       (lambda ()
+			  (with-handler
+			     (lambda (e)
+				0)
+			     (proc)))
+		       proc))
 	     (when (>=fx *verbose* 1)
 		(display "." (current-error-port))
 		(display repetition (current-error-port))
