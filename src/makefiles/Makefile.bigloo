@@ -6,7 +6,7 @@ FLAGS=$(BFLAGS) -cc $(BCC) -copt "$(BCFLAGS)" $(BIGLOOCFLAGS)
 compile: bigloo.exe
 
 bigloo.exe: .afile $(OBJECTS)
-	$(BIGLOO) $(FLAGS) $(BENCHFLAGS) $(OBJECTS) -o $@
+	$(BIGLOO) $(FLAGS) $(OBJECTS) -o $@
 
 clean:
 	-@/bin/rm -f bigloo.exe 2> /dev/null
@@ -20,5 +20,5 @@ clean:
 	$(AFILE) -o .afile $(OBJECTS:%.o=%.scm)
 
 .scm.o:
-	$(BIGLOO) $(FLAGS) $(BENCHFLAGS) $*.scm -o $*.o -c
+	$(BIGLOO) $(FLAGS) $*.scm -o $*.o -c
 

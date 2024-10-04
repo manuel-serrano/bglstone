@@ -8,7 +8,7 @@ FLAGS=-jvm $(BJFLAGS) -jvm-java $(BJVM) $(BFLAGS) $(BIGLOOJVMFLAGS)
 compile: bigloo-jvm.bat
 
 bigloo-jvm.bat: .afile .jfile $(CLASSES)
-	$(BIGLOO) $(FLAGS) $(BENCHJFLAGS) $(CLASSES) -o $@
+	$(BIGLOO) $(FLAGS) $(CLASSES) -o $@
 
 clean:
 	-@/bin/rm -f bigloo-jvm.bat 2> /dev/null
@@ -27,5 +27,5 @@ clean:
 	$(JFILE) -o .jfile $(CLASSES:%.class=%.scm)
 
 .scm.class:
-	$(BIGLOO) $(BENCHJFLAGS) $(FLAGS) $*.scm -o $*.class -c
+	$(BIGLOO) $(FLAGS) $*.scm -o $*.class -c
 

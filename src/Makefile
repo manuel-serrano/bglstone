@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 14:54:21 2001                          */
-#*    Last change :  Thu Sep 26 18:06:37 2024 (serrano)                */
+#*    Last change :  Fri Oct  4 08:04:35 2024 (serrano)                */
 #*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile that handles bglstone benchmarks                    */
@@ -95,6 +95,9 @@ compile.c:
 
 compile.fullbgl:
 	$(MAKE) docompile BENCHMARKS="$(FBENCHMARKS)"
+
+compile.:
+	$(MAKE) docompile
 
 docompile:
 	@ for p in $(BENCHMARKS); do \
@@ -222,7 +225,7 @@ one-runit:
 #*    links                                                            */
 #*---------------------------------------------------------------------*/
 mkln:
-	@ for p in $(FBENCHMARKS); do \
+	@ for p in $(BENCHMARKS); do \
 	    (cd $$p; \
              if [ ! -e bigloo-jvm ]; then \
                 ln -s bigloo bigloo-jvm; \
@@ -236,6 +239,8 @@ mkln:
 	  done
 
 cleanln:
-	@ for p in $(FBENCHMARKS); do \
-	    (cd $$p; $(RM) -f bigloo-jvm; $(RM) -f bigloo-saw; $(RM) -f bigloo-wasm) || exit -1; \
+	@ for p in $(BENCHMARKS); do \
+	    (cd $$p; $(RM) -f bigloo-jvm) || exit -1; \
+	    (cd $$p; $(RM) -f bigloo-saw) || exit -1; \
+	    (cd $$p; $(RM) -f bigloo-wasm) || exit -1; \
 	  done

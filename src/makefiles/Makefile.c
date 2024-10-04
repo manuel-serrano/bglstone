@@ -6,7 +6,7 @@ FLAGS=$(CFLAGS)
 compile: c.exe
 
 c.exe: $(OBJECTS)
-	$(CC) $(FLAGS) $(BENCHFLAGS) $(OBJECTS) -o $@ -lm
+	$(CC) $(FLAGS) $(OBJECTS) -o $@ -lm
 
 clean:
 	-@/bin/rm -f c.exe 2> /dev/null
@@ -17,4 +17,4 @@ clean:
 .SUFFIXES: .c .o
 
 .c.o:
-	$(CC) $(FLAGS) $(BENCHFLAGS) $*.c -o $*.o -c
+	$(CC) $(FLAGS) $*.c -o $*.o -c
