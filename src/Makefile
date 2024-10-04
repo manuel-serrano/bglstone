@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 14:54:21 2001                          */
-#*    Last change :  Fri Oct  4 08:04:35 2024 (serrano)                */
+#*    Last change :  Fri Oct  4 17:52:42 2024 (serrano)                */
 #*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile that handles bglstone benchmarks                    */
@@ -72,7 +72,7 @@ show.fullbgl:
 #*---------------------------------------------------------------------*/
 #*    compile                                                          */
 #*---------------------------------------------------------------------*/
-compile: mkln
+compile: 
 	$(MAKE) compile.$(BENCH)
 
 compile.scm:
@@ -99,7 +99,7 @@ compile.fullbgl:
 compile.:
 	$(MAKE) docompile
 
-docompile:
+docompile: mkln
 	@ for p in $(BENCHMARKS); do \
 	    echo "[0m[1;29m$$p:[0m"; \
             for e in $(TARGETS); do \
