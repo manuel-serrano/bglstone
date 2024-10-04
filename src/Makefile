@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 14:54:21 2001                          */
-#*    Last change :  Fri Oct  4 17:52:42 2024 (serrano)                */
+#*    Last change :  Fri Oct  4 18:09:03 2024 (serrano)                */
 #*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile that handles bglstone benchmarks                    */
@@ -226,16 +226,18 @@ one-runit:
 #*---------------------------------------------------------------------*/
 mkln:
 	@ for p in $(BENCHMARKS); do \
-	    (cd $$p; \
-             if [ ! -e bigloo-jvm ]; then \
-                ln -s bigloo bigloo-jvm; \
-             fi; \
-             if [ ! -e bigloo-wasm ]; then \
-                ln -s bigloo bigloo-wasm; \
-             fi || exit -1; \
-             if [ ! -e bigloo-saw ]; then \
-                ln -s bigloo bigloo-saw; \
-             fi) || exit -1; \
+            if [ -d $$p/bigloo ]; then \
+	       (cd $$p; \
+               if [ ! -e bigloo-jvm ]; then \
+                  ln -s bigloo bigloo-jvm; \
+               fi; \
+               if [ ! -e bigloo-wasm ]; then \
+                  ln -s bigloo bigloo-wasm; \
+               fi || exit -1; \
+               if [ ! -e bigloo-saw ]; then \
+                  ln -s bigloo bigloo-saw; \
+               fi) || exit -1; \
+            fi \
 	  done
 
 cleanln:
