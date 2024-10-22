@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Wed Sep 11 16:08:55 2024 (serrano)                */
+;*    Last change :  Tue Oct 22 14:12:23 2024 (serrano)                */
 ;*    Copyright   :  2024 Manuel Serrano                               */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -168,7 +168,7 @@
       (let loop ((stats stats)
 		 (i 0))
 	 (printf "   '~a.csv' u ~(:):xtic(1) title '~a' ls ~d"
-	    *fout* (iota 3 (+fx (*fx i 3) 2))
+	    (basename *fout*) (iota 3 (+fx (*fx i 3) 2))
 	    (system-name (car stats))
 	    (+fx i 1))
 	 (when (pair? (cdr stats))
@@ -179,7 +179,7 @@
       (let loop ((stats stats)
 		 (i 0))
 	 (printf "   '~a.csv' u ~a:xtic(1) title '~a' ls ~d"
-	    *fout* (+fx i 2)
+	    (basename *fout*) (+fx i 2)
 	    (system-name (car stats))
 	    (+fx i 1))
 	 (when (pair? (cdr stats))
@@ -204,7 +204,7 @@
 				    "@YLABEL@"
 				    (pregexp-replace*
 				       "@TITLE@"
-				       (pregexp-replace* "@BASENAME@" *template* *fout*)
+				       (pregexp-replace* "@BASENAME@" *template* (basename *fout*))
 				       (cond
 					  (*user-title* *user-title*)
 					  (*relative* *relative-title*)
