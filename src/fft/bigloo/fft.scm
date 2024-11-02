@@ -119,7 +119,9 @@
 ;;; note: The MAKE-VECTOR is not done multiple times.
 (define (main argv)
    (let loop ((num (if (pair? (cdr argv))
-		       (string->integer (cadr argv))
+		       (if (string=? (cadr argv) "pmem")
+			   400
+			   (string->integer (cadr argv)))
 		       4000))
 	      (val #f))
       (if (=fx num 0)

@@ -7,7 +7,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jun  1 11:05:12 1995                          */
-;*    Last change :  Sun Sep  8 10:55:22 2024 (serrano)                */
+;*    Last change :  Fri Nov  1 19:26:38 2024 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    Le prologue de Bigloo1.7                                         */
 ;*=====================================================================*/
@@ -568,7 +568,9 @@
 ;*---------------------------------------------------------------------*/
 (define (main argv)
    (let ((v (if (pair? (cdr argv))
-		(run (string->integer (cadr argv)))
+		(if (string=? (cadr argv) "pmem")
+		    (run 10)
+		    (run (string->integer (cadr argv))))
 		(run 80))))
       (if (=fx v 2178309) 0 1)))
                  

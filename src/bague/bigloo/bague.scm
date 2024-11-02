@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Pierre Weis                                       */
 ;*    Creation    :  Fri Apr  1 10:00:21 1994                          */
-;*    Last change :  Thu Oct  3 18:24:38 2024 (serrano)                */
+;*    Last change :  Sat Nov  2 23:37:44 2024 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    Resolution recursive du Baguenaudier: bench les appels de        */
 ;*    fonctions et les acces aux vecteurs                              */
@@ -78,7 +78,9 @@
 
 (define (main argv)
    (when (pair? (cdr argv))
-      (set! nombre-de-pierres (string->integer (cadr argv))))
+      (if (string=? (cadr argv) "pmem")
+	  (set! nombre-de-pierres 29)
+	  (set! nombre-de-pierres (string->integer (cadr argv)))))
    (letrec ((bague (lambda (n)
 		      (case n
 			 ((1) (enleve-pierre 1))

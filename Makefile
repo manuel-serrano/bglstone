@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 11:50:34 2001                          */
-#*    Last change :  Wed Sep 18 13:54:11 2024 (serrano)                */
+#*    Last change :  Fri Nov  1 20:55:19 2024 (serrano)                */
 #*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The general Bglstone Makefile                                    */
@@ -62,7 +62,6 @@ report.ps: tools
 #*    show                                                             */
 #*---------------------------------------------------------------------*/
 show:
-	@ echo "[0m[1;35m>>> show[0m"
 	@ (cd src; $(MAKE) show BENCH=$(BENCH) TARGETS="$(TARGETS)")
 
 #*---------------------------------------------------------------------*/

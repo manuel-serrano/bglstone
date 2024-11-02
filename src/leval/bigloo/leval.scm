@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sat Dec 26 08:30:11 1998                          */
-;*    Last change :  Sun Sep  8 11:06:09 2024 (serrano)                */
+;*    Last change :  Sat Nov  2 23:40:28 2024 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    An interpreter with lambda (from M. Feeley's one).               */
 ;*=====================================================================*/
@@ -533,6 +533,8 @@
 ;*---------------------------------------------------------------------*/
 (define (main argv)
    (let ((num (if (pair? (cdr argv))
-		  (string->integer (cadr argv))
+		  (if (string=? (cadr argv) "pmem")
+		      25
+		      (string->integer (cadr argv)))
 		  250)))
       (exit (if (=fx (run num) 4) 0 1))))

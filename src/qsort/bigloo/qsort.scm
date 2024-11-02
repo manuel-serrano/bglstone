@@ -125,5 +125,9 @@
    (testit n))
       
 (define (main argv)
-   (let ((n (if (pair? (cdr argv)) (string->integer (cadr argv)) 520000)))
+   (let ((n (if (pair? (cdr argv))
+		(if (string=? (cadr argv) "pmem")
+		    52000
+		    (string->integer (cadr argv)))
+		520000)))
        (exit (if (eq? (doit n) #t) 0 1))))

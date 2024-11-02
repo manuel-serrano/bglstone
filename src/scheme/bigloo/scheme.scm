@@ -1090,4 +1090,9 @@
    (equal? result expected-result))
 
 (define (main argv)
-   (run :n 1200000))
+   (let ((n (if (pair? (cdr argv))
+		(if (string=? (cadr argv) "pmem")
+		    120000
+		    (string->integer (cadr argv)))
+		1200000)))
+      (run :n n)))

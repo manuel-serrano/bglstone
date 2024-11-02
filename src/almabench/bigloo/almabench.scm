@@ -37,6 +37,7 @@
 ;;number of days to include in test
 (define TEST_LOOPS  100)
 (define TEST_LENGTH 36525)
+(define PMEM_TEST_LENGTH 3652)
 
 ;;sin and cos of j2000 mean obliquity (iau 1976)
 (define sineps 0.3977771559319137)
@@ -395,7 +396,9 @@ w))
 	  (pv (make-matrix 2 3))
 	  (position (make-vector 3 0.0))
 	  (K (if (pair? (cdr argv))
-		 (string->integer (cadr argv))
+		 (if (string=? (cadr argv) "pmem")
+		     PMEM_TEST_LENGTH
+		     (string->integer (cadr argv)))
 		 TEST_LENGTH)))
       ;;#pragma omp parallel for private(i, n, p, jd, pv, position)
       (do ((i 0 (+fx i 1)))

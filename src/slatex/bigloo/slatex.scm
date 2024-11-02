@@ -2487,4 +2487,9 @@
 ;;(##declare (version-limit 0))(##include "gambit/gambit/statprof/statprof.scm")(##namespace (""))
 
 (define (main argv)
-   (run :n 20000))
+   (let ((n (if (pair? (cdr argv))
+		(if (string=? (cadr argv) "pmem")
+		    2000
+		    (string->integer (cadr argv)))
+		20000)))
+      (run :n n)))

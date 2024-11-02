@@ -614,5 +614,9 @@
 
 (define (main argv)
    (exit
-      (if (run (if (pair? (cdr argv)) (string->integer (cadr argv)) 2000))
+      (if (run (if (pair? (cdr argv))
+		   (if (string=? (cadr argv) "pmem")
+		       200
+		       (string->integer (cadr argv)))
+		   2000))
 	  0 1)))

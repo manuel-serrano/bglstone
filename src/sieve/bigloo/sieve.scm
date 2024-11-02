@@ -45,7 +45,11 @@
 
 (define (main argv)
    (let ((s100 (sieve 100)))
-      (let ((n (if (pair? (cdr argv)) (string->integer (cadr argv)) 100000)))
+      (let ((n (if (pair? (cdr argv))
+		   (if (string=? (cadr argv) "pmem")
+		       10000
+		       (string->integer (cadr argv)))
+		   100000)))
 	 (when (=fx n 1) (print s100))
 	 (doit n)
 	 (exit (if (equal? s100 expected-result) 0 1)))))

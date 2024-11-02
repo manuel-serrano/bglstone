@@ -808,7 +808,9 @@
 
 (define (main argv)
    (let ((num (if (pair? (cdr argv))
-		  (string->integer (cadr argv))
+		  (if (string=? (cadr argv) "pmem")
+		      10
+		      (string->integer (cadr argv)))
 		  100)))
       (when (=fx num 1)
 	 (newline)

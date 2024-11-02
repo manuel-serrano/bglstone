@@ -629,7 +629,9 @@
 (define (main argv)
    (let ((r (test))
 	 (n (if (pair? (cdr argv))
-		(string->number (cadr argv))
+		(if (string=? (cadr argv) "pmem")
+		    480
+		    (string->number (cadr argv)))
 		4800)))
       (let loop ((i n))
 	 (if (= i 1)

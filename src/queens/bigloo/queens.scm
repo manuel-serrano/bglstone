@@ -3,7 +3,7 @@
 ;*                                                                     */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue May 12 09:19:00 1992                          */
-;*    Last change :  Sun Sep  8 11:12:30 2024 (serrano)                */
+;*    Last change :  Sat Nov  2 23:42:32 2024 (serrano)                */
 ;*                                                                     */
 ;*    La resolution des huits reine d'apres L. Augustsson (lml)        */
 ;*---------------------------------------------------------------------*/
@@ -127,7 +127,11 @@
 ;*    les formes top-level                                             */
 ;*---------------------------------------------------------------------*/
 (define (main argv)
-   (let ((n (if (pair? (cdr argv)) (string->integer (cadr argv)) 450)))
+   (let ((n (if (pair? (cdr argv))
+		(if (string=? (cadr argv) "pmem")
+		    45
+		    (string->integer (cadr argv)))
+		450)))
       (if (=fx n 1)
 	  (print "nsoln(10)=" (nsoln 10) ", nsoln_a(10)=" (nsoln_a 10))
 	  (doit n))

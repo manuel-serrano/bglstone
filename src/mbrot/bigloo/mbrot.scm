@@ -43,7 +43,9 @@
 
 (define (main argv)
    (let ((v (if (pair? (cdr argv))
-		(run (string->integer (cadr argv)))
+		(if (string=? (cadr argv) "pmem")
+		    (run 35)
+		    (run (string->integer (cadr argv))))
 		(run 35000))))
       (exit (if (eq? v 'done) 0 1))))
 

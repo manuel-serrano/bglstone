@@ -200,6 +200,10 @@
 	  (repeat (-fx num 1) thunk))))
 
 (define (main argv)
-   (let ((n (if (pair? (cdr argv)) (string->integer (cadr argv)) 700)))
+   (let ((n (if (pair? (cdr argv))
+		(if (string=? (cadr argv) "pmem")
+		    70
+		    (string->integer (cadr argv)))
+		700)))
       (let ((r (repeat n start)))
 	 (exit (if (=fx (/fx r n) 101805) 0 1)))))
