@@ -3513,7 +3513,7 @@
 (define (main argv)
    (let ((n (cond
 	       ((null? (cdr argv)) 1200)
-	       ((string=? (cadr argv) "pmem") 120)
+	       ((string=? (cadr argv) "pmem") 24)
 	       (else (string->integer (cadr argv))))))
       (if (=fx n 1)
 	  (let ((v (run)))
