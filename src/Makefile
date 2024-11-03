@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 14:54:21 2001                          */
-#*    Last change :  Fri Oct  4 18:09:03 2024 (serrano)                */
+#*    Last change :  Sun Nov  3 13:13:29 2024 (serrano)                */
 #*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile that handles bglstone benchmarks                    */
@@ -22,6 +22,9 @@ TBENCHMARKS=hello
 SBENCHMARKS=bague beval boyer conform earley fib fft leval maze \
             mbrot nucleic peval puzzle queens qsort sieve traverse almabench \
             slatex scheme compiler
+
+# The R7RS benchmarks
+RBENCHMARKS=r7rs-mbrot r7rs-fft
 
 # The Bigloo additional benchmarks
 BBENCHMARKS=beval bigloo boyer cgc conform earley leval \
@@ -57,6 +60,9 @@ show.test:
 show.scm:
 	@ echo "$(SBENCHMARKS)"
 
+show.r7rs:
+	@ echo "$(RBENCHMARKS)"
+
 show.bgl:
 	@ echo "$(BBENCHMARKS)"
 
@@ -77,6 +83,9 @@ compile:
 
 compile.scm:
 	$(MAKE) docompile BENCHMARKS="$(SBENCHMARKS)"
+
+compile.r7rs:
+	$(MAKE) docompile BENCHMARKS="$(RBENCHMARKS)"
 
 compile.test:
 	$(MAKE) docompile BENCHMARKS="$(TBENCHMARKS)"
@@ -121,6 +130,9 @@ run.test:
 
 run.scm:
 	$(MAKE) dorun BENCHMARKS="$(SBENCHMARKS)"
+
+run.r7rs:
+	$(MAKE) dorun BENCHMARKS="$(RBENCHMARKS)"
 
 run.bgl:
 	$(MAKE) dorun BENCHMARKS="$(BBENCHMARKS)"
