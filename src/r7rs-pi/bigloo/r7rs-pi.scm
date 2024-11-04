@@ -12,4 +12,4 @@
 	       (for-each (lambda (e)
 			    (write e)
 			    (newline))
-		  (cons 10 (cdr (port->list ip)))))))))
+		  (cons 10 (cdr (port->sexp-list ip)))))))))
