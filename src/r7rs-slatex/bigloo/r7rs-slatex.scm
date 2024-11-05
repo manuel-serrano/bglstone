@@ -9,9 +9,12 @@
 ignored
 ignored")
 
+(make-directories "outputs")
+
 (register-exit-function!
    (lambda (r)
       (let ((dir "outputs"))
 	 (for-each (lambda (f)
 		      (delete-file (make-file-name dir f)))
-	    (directory->list dir)))))
+	    (directory->list dir))
+	 (delete-directory "outputs"))))
