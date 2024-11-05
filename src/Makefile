@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 14:54:21 2001                          */
-#*    Last change :  Sun Nov  3 20:53:05 2024 (serrano)                */
+#*    Last change :  Tue Nov  5 09:35:28 2024 (serrano)                */
 #*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile that handles bglstone benchmarks                    */
@@ -26,7 +26,7 @@ SBENCHMARKS=bague beval boyer conform earley fib fft leval maze \
 # The R7RS benchmarks
 RBENCHMARKS=r7rs-compiler r7rs-dynamic r7rs-earley r7rs-fibfp r7rs-fft \
             r7rs-graphs r7rs-matrix r7rs-maze r7rs-mbrot r7rs-nboyer \
-            r7rs-nucleic r7rs-parsing r7rs-peval r7rs-pi r7rs-pnpoly \
+            r7rs-nucleic r7rs-parsing r7rs-peval r7rs-pnpoly \
             r7rs-ray r7rs-sboyer r7rs-scheme r7rs-simplex r7rs-slatex
 
 # The Bigloo additional benchmarks

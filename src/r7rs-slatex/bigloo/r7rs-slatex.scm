@@ -8,3 +8,10 @@
 \"inputs/slatex-data/test\"
 ignored
 ignored")
+
+(register-exit-function!
+   (lambda (r)
+      (let ((dir "outputs"))
+	 (for-each (lambda (f)
+		      (delete-file (make-file-name dir f)))
+	    (directory->list dir)))))

@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  manuel serrano                                    */
 ;*    Creation    :  Sun Nov  3 12:19:09 2024                          */
-;*    Last change :  Mon Nov  4 12:06:03 2024 (serrano)                */
+;*    Last change :  Tue Nov  5 09:12:47 2024 (serrano)                */
 ;*    Copyright   :  2024 manuel serrano                               */
 ;*    -------------------------------------------------------------    */
 ;*    Commont script to be include in all r7rs tests                   */
@@ -23,7 +23,13 @@
 (define (exact-integer? n) (or (fixnum? n) (exact? n)))
 
 (define (integer-length n)
-  (inexact->exact (ceiling (/ (log n) (log 2)))))
+   (if (bignum? n)
+       (let loop ((c 1)
+		  (m #z1))
+	  (if (<bx m n)
+	      (loop (+fx c 1) (*bx m #z2))
+	      (-fx c 1)))
+       (inexact->exact (ceiling (/ (log n) (log 2))))))
 
 ;; taken from mit-scheme, src/runtime/primitive-arithmetic.scm
 (define (exact-integer-sqrt n)
