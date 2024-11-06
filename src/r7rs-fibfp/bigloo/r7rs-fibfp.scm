@@ -4,4 +4,4 @@
    (main main))
 
 (define (default-input) "../../r7rs/inputs/fibfp.input")
-(define (pmem) "2 40 102334155")
+(define (pmem) "1 40 102334155")
