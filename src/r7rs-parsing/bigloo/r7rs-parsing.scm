@@ -5,5 +5,5 @@
 
 (define (default-input) "../../r7rs/inputs/parsing.input")
 (define (pmem) "250
-\"../../inputs/parsing.data\"
+\"../../r7rs/inputs/parsing.data\"
 (should return this list)")
