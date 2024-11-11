@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Sun Nov 10 14:17:38 2024 (serrano)                */
+;*    Last change :  Mon Nov 11 16:54:14 2024 (serrano)                */
 ;*    Copyright   :  2024 Manuel Serrano                               */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -40,6 +40,8 @@
 (define *xfontsize* "8")
 (define *yfontsize* "10")
 (define *format* "pdf")
+(define *benchmarks* '())
+(define *separator* -1)
 (define *size* "")
    
 ;*---------------------------------------------------------------------*/
@@ -101,7 +103,11 @@
        (set! *yfontsize* size))
       ((("-f" "--format") ?format (help "output format"))
        (set! *format* format))
-      ((("-s" "--size") ?size (help "output size"))
+      (("--benchmarks" ?benchs (help "List of benchmarks to use"))
+       (set! *benchmarks* (call-with-input-string benchs port->sexp-list)))
+      (("--separator" ?index (help "Vertical separation line"))
+       (set! *separator* (string->integer index)))
+      (("--size" ?size (help "output size"))
        (set! *size* size))
       (else
        (set! *inputs* (append *inputs* (list else))))))
@@ -135,26 +141,33 @@
 
    (define (relative-data stats benchmarks)
       (for-each (lambda (benchmark)
-		   (let* ((val (assq benchmark (cdddr (car stats))))
-			  (base (car (median (caddr val)))))
-		      (display* benchmark ",  ")
-		      (printf "~(,  )\n"
-			 (map (lambda (stat)
-				 (let ((val (assq benchmark (cdddr stat))))
-				    (if (null? val)
-					(error (cadr stat)
-					   "Cannot find benchmark value"
-					   benchmark)
-					(format "~(,)"
-					   (/ (car (median (caddr val))) base)))))
-			    stats))))
+		   (with-handler
+		      (lambda (e)
+			 (fprint (current-error-port)
+			    "*** ERRRO: wrong benchmark entry " benchmark)
+			 (raise e))
+		      (let* ((val (assq benchmark (cdddr (car stats))))
+			     (base (car (median (caddr val)))))
+			 (display* benchmark ",  ")
+			 (printf "~(,  )\n"
+			    (map (lambda (stat)
+				    (let ((val (assq benchmark (cdddr stat))))
+				       (if (null? val)
+					   (error (cadr stat)
+					      "Cannot find benchmark value"
+					      benchmark)
+					   (format "~(,)"
+					      (/ (car (median (caddr val))) base)))))
+			       stats)))))
 	 benchmarks))
    
-   (let ((benchmarks (sort-benchmarks
-			(delete-duplicates
-			   (map car
-			      (apply append
-				 (map cdddr stats)))))))
+   (let ((benchmarks (if (pair? *benchmarks*)
+			 *benchmarks*
+			 (sort-benchmarks
+			    (delete-duplicates
+			       (map car
+				  (apply append
+				     (map cdddr stats))))))))
       ;; first line with system names
       (printf "#  ~( )\n" (map system-name stats))
       ;; following lines with benchmark values
@@ -225,9 +238,25 @@
 			(if *relative* "" *errorbars*))
 		     *format*)
 		  *size*)))
+	 
+	 ;; dummy print for grabbing GPVAL_Y_MAX
+	 (when (>fx *separator* 0)
+	    (print "set output '/dev/null'\nset terminal dumb\n")
+	    (print "plot \\")
+	    (if *relative*
+		(relative-plot stats)
+		(absolute-plot stats))
+	    (print "\nreset\n"))
+	 
 	 (print s)
+	 
 	 (when *logscale*
 	    (print "set logscale y\n"))
+
+	 (when (>fx *separator* 0)
+	    (printf "set arrow from ~a,0 to ~a,GPVAL_Y_MAX nohead ls 1000 dashtype 2\n\n"
+	       (- *separator* 0.5) (- *separator* 0.5)))
+	 
 	 (print "plot \\")
 	 (if *relative*
 	     (relative-plot stats)
