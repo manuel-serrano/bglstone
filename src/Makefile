@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 14:54:21 2001                          */
-#*    Last change :  Tue Nov  5 09:35:28 2024 (serrano)                */
+#*    Last change :  Mon Nov 11 08:20:54 2024 (serrano)                */
 #*    Copyright   :  2001-24 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile that handles bglstone benchmarks                    */
@@ -163,7 +163,7 @@ dorun:
 #*    clean                                                            */
 #*---------------------------------------------------------------------*/
 clean:
-	-@ for p in $(SBENCHMARKS) $(BBENCHMARKS) $(OBENCHMARKS) $(TBENCHMARKS) $(FBENCHMARKS); do \
+	-@ for p in $(SBENCHMARKS) $(BBENCHMARKS) $(OBENCHMARKS) $(TBENCHMARKS) $(FBENCHMARKS) $(RBENCHMARKS); do \
             for e in $(TARGETS); do \
               if [ -d $$p/$$e ]; then \
                 (cd $$p/$$e; $(MAKE) -f ../../makefiles/Makefile.$$e clean); \
@@ -179,7 +179,7 @@ clean:
 #*    cleanall                                                         */
 #*---------------------------------------------------------------------*/
 cleanall:
-	for p in $(SBENCHMARKS) $(BBENCHMARKS) $(OBBENCHMARKS) $(TBENCHMARKS) $(FBENCHMARKS); do \
+	for p in $(SBENCHMARKS) $(BBENCHMARKS) $(OBBENCHMARKS) $(TBENCHMARKS) $(FBENCHMARKS) $(RBENCHMARKS); do \
             for e in $(TARGETS); do \
               if [ -d $$p/$$e ]; then \
                 (cd $$p/$$e; $(MAKE) -f ../../makefiles/Makefile.$$e clean); \
