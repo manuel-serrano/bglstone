@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Mon Nov 11 16:54:14 2024 (serrano)                */
+;*    Last change :  Mon Nov 11 16:57:44 2024 (serrano)                */
 ;*    Copyright   :  2024 Manuel Serrano                               */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -108,7 +108,7 @@
       (("--separator" ?index (help "Vertical separation line"))
        (set! *separator* (string->integer index)))
       (("--size" ?size (help "output size"))
-       (set! *size* size))
+       (set! *size* (format "size ~a" size)))
       (else
        (set! *inputs* (append *inputs* (list else))))))
 
