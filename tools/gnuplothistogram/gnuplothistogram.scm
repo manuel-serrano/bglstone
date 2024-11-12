@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Mon Nov 11 16:57:44 2024 (serrano)                */
+;*    Last change :  Tue Nov 12 17:53:34 2024 (serrano)                */
 ;*    Copyright   :  2024 Manuel Serrano                               */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -43,7 +43,17 @@
 (define *benchmarks* '())
 (define *separator* -1)
 (define *size* "")
-   
+(define *base-color* "red")
+(define *values* #f)
+
+(define *offset-tables*
+   `#(- -
+	#(0)
+	#(,(- (/ 1 6)) ,(/ 1 6))
+	#(,(- (/ 1 6)) 0 ,(/ 1 6))
+	#(,(- (/ 2 6)) ,(- (/ 1 6)) 0 ,(/ 1 6) ,(/ 2 6))
+	#(,(- (/ 3 6)) ,(- (/ 2 6)) ,(- (/ 1 6)) 0 ,(/ 1 6) ,(/ 2 6) ,(/ 3 6))))
+
 ;*---------------------------------------------------------------------*/
 ;*    *template* ...                                                   */
 ;*---------------------------------------------------------------------*/
@@ -82,7 +92,7 @@
        (args-parse-usage #f)
        (exit 0))
       (("-o" ?fout (help "Output file basename"))
-       (set! *fout* fout))
+       (set! *fout* (pregexp-replace ".pdf$" fout "")))
       (("--unit" ?unit (help "Set time unit (default \"s\""))
        (set! *time-unit* (string->symbol unit)))
       (("--rename" ?name ?alias (help "System renaming"))
@@ -90,7 +100,9 @@
       (("--template" ?file (help "Template file name"))
        (set! *template* (call-with-input-file file read-string)))
       ((("-r" "--relative") (help "Display relative values"))
-       (set! *relative* #t))
+       (set! *relative* 'avec))
+      ((("-r" "--relative-sans") (help "Display relative values (sans base)"))
+       (set! *relative* 'sans))
       ((("-t" "--title") ?title (help "Figure title"))
        (set! *user-title* title))
       ((("-l" "--ylabel") ?label (help "Figure ylabel"))
@@ -109,6 +121,10 @@
        (set! *separator* (string->integer index)))
       (("--size" ?size (help "output size"))
        (set! *size* (format "size ~a" size)))
+      (("--basecolor" ?color (help "Set base color (for --relative-sans)"))
+       (set! *base-color* color))
+      (("--values" (help "Add values label to the bars"))
+       (set! *values* #t))
       (else
        (set! *inputs* (append *inputs* (list else))))))
 
@@ -158,7 +174,9 @@
 					      benchmark)
 					   (format "~(,)"
 					      (/ (car (median (caddr val))) base)))))
-			       stats)))))
+			       (if (eq? *relative* 'avec)
+				   stats
+				   (cdr stats)))))))
 	 benchmarks))
    
    (let ((benchmarks (if (pair? *benchmarks*)
@@ -184,15 +202,29 @@
       (let loop ((stats stats)
 		 (i 0))
 	 (printf "   '~a.csv' u ~(:):xtic(1) title '~a' ls ~d"
-	    (basename *fout*) (iota 3 (+fx (*fx i 3) 2))
+	    (basename *fout*)
+	    (iota 3 (+fx (*fx i 3) 2))
 	    (system-name (car stats))
 	    (+fx i 1))
 	 (when (pair? (cdr stats))
 	    (print ",\\")
 	    (loop (cdr stats) (+fx i 1)))))
 
+   (define (absolute-values stats)
+      (let ((table (vector-ref *offset-tables* (length stats))))
+	 (let loop ((stats stats)
+		    (i 0))
+	    (printf "   '~a.csv' u ($0+~a):($~a+.1):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,6' rotate by 90 notitle"
+	       (basename *fout*)
+	       (vector-ref table i)
+	       (+fx i 2)
+	       (+fx i 2))
+	    (when (pair? (cdr stats))
+	       (print ",\\")
+	       (loop (cdr stats) (+fx i 1))))))
+
    (define (relative-plot stats)
-      (let loop ((stats stats)
+      (let loop ((stats (if (eq? *relative* 'avec) stats (cdr stats)))
 		 (i 0))
 	 (printf "   '~a.csv' u ~a:xtic(1) title '~a' ls ~d"
 	    (basename *fout*) (+fx i 2)
@@ -201,44 +233,62 @@
 	 (when (pair? (cdr stats))
 	    (print ",\\")
 	    (loop (cdr stats) (+fx i 1)))))
+
+   (define (relative-values stats)
+      (let ((table (vector-ref *offset-tables* (length stats))))
+	 (let loop ((stats (if (eq? *relative* 'avec) stats (cdr stats)))
+		    (i 0))
+	    (printf "   '~a.csv' u ($0+~a):($~a+.1):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,6' rotate by 90 notitle"
+	       (basename *fout*)
+	       (vector-ref table i)
+	       (+fx i 2)
+	       (+fx i 2))
+	    (when (pair? (cdr stats))
+	       (print ",\\")
+	       (loop (cdr stats) (+fx i 1))))))
    
    (let ((times-length (length (caddr (car (stat-times (car stats))))))
 	 (proc (assq-get 'processor (stat-configuration (car stats)) "")))
       (let ((s (pregexp-replace*
-		  "@SIZE@"
+		  "@KEY@"
 		  (pregexp-replace*
-		     "@FORMAT@"
-		     (pregexp-replace
-			"@ERRORBARS@"
+		     "@SIZE@"
+		     (pregexp-replace*
+			"@FORMAT@"
 			(pregexp-replace
-			   "@XTICS@"
+			   "@ERRORBARS@"
 			   (pregexp-replace
-			      "@YTICS@"
-			      (pregexp-replace*
-				 "@TIME-UNIT@"
+			      "@XTICS@"
+			      (pregexp-replace
+				 "@YTICS@"
 				 (pregexp-replace*
-				    "@PROCESSOR@"
+				    "@TIME-UNIT@"
 				    (pregexp-replace*
-				       "@YLABEL@"
+				       "@PROCESSOR@"
 				       (pregexp-replace*
-					  "@TITLE@"
-					  (pregexp-replace* "@BASENAME@" *template* (basename *fout*))
+					  "@YLABEL@"
+					  (pregexp-replace*
+					     "@TITLE@"
+					     (pregexp-replace* "@BASENAME@" *template* (basename *fout*))
+					     (cond
+						(*user-title* *user-title*)
+						(*relative* *relative-title*)
+						(else *absolute-title*)))
 					  (cond
-					     (*user-title* *user-title*)
-					     (*relative* *relative-title*)
-					     (else *absolute-title*)))
-				       (cond
-					  (*user-ylabel* *user-ylabel*)
-					  (*relative* *relative-ylabel*)
-					  (else *absolute-ylabel*)))
-				    proc)
-				 (symbol->string! *time-unit*))
-			      *yfontsize*)
-			   *xfontsize*)
-			(if *relative* "" *errorbars*))
-		     *format*)
-		  *size*)))
-	 
+					     (*user-ylabel* *user-ylabel*)
+					     (*relative* *relative-ylabel*)
+					     (else *absolute-ylabel*)))
+				       proc)
+				    (symbol->string! *time-unit*))
+				 *yfontsize*)
+			      *xfontsize*)
+			   (if *relative* "" *errorbars*))
+			*format*)
+		     *size*)
+		  (if (=fx (length (if (eq? *relative* 'sans) (cdr stats) stats)) 1)
+		      "off"
+		      "under nobox"))))
+
 	 ;; dummy print for grabbing GPVAL_Y_MAX
 	 (when (>fx *separator* 0)
 	    (print "set output '/dev/null'\nset terminal dumb\n")
@@ -249,6 +299,10 @@
 	    (print "\nreset\n"))
 	 
 	 (print s)
+
+	 (when (eq? *relative* 'sans)
+	    (printf "set arrow 1 from graph 0, first 1 to graph 1, first 1 nohead lc '~a' lw 2 dt '---' front\n" *base-color*)
+	    (printf "set label 1 '~a' font 'Verdana,10' at 20,1 offset -0.5,0.5 tc 'red'\n\n" (system-name (car stats)) *base-color*))
 	 
 	 (when *logscale*
 	    (print "set logscale y\n"))
@@ -260,7 +314,13 @@
 	 (print "plot \\")
 	 (if *relative*
 	     (relative-plot stats)
-	     (absolute-plot stats)))))
+	     (absolute-plot stats))
+
+	 (when *values*
+	    (print ", \\")
+	    (if *relative*
+		(relative-values stats)
+		(absolute-plot stats))))))
 	 
 ;*---------------------------------------------------------------------*/
 ;*    read-stat ...                                                    */

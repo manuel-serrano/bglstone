@@ -36,4 +36,5 @@ set yrange [0:*]
 
 set lmargin 6
 set rmargin 1
-set key under nobox
+
+set key @KEY@
