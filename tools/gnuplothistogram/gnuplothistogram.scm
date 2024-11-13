@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Tue Nov 12 17:53:34 2024 (serrano)                */
+;*    Last change :  Wed Nov 13 16:19:55 2024 (serrano)                */
 ;*    Copyright   :  2024 Manuel Serrano                               */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -285,7 +285,7 @@
 			   (if *relative* "" *errorbars*))
 			*format*)
 		     *size*)
-		  (if (=fx (length (if (eq? *relative* 'sans) (cdr stats) stats)) 1)
+		  (if (and #f (=fx (length (if (eq? *relative* 'sans) (cdr stats) stats)) 1))
 		      "off"
 		      "under nobox"))))
 
