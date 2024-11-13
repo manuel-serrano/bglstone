@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Wed Nov 13 16:19:55 2024 (serrano)                */
+;*    Last change :  Wed Nov 13 18:05:52 2024 (serrano)                */
 ;*    Copyright   :  2024 Manuel Serrano                               */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -296,6 +296,13 @@
 	    (if *relative*
 		(relative-plot stats)
 		(absolute-plot stats))
+
+	    (when *values*
+	       (print ", \\")
+	       (if *relative*
+		   (relative-values stats)
+		   (absolute-plot stats)))
+	    
 	    (print "\nreset\n"))
 	 
 	 (print s)
