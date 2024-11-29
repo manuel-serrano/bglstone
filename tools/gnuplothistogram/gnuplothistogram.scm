@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Wed Nov 13 18:05:52 2024 (serrano)                */
+;*    Last change :  Fri Nov 29 10:26:47 2024 (serrano)                */
 ;*    Copyright   :  2024 Manuel Serrano                               */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -309,7 +309,7 @@
 
 	 (when (eq? *relative* 'sans)
 	    (printf "set arrow 1 from graph 0, first 1 to graph 1, first 1 nohead lc '~a' lw 2 dt '---' front\n" *base-color*)
-	    (printf "set label 1 '~a' font 'Verdana,10' at 20,1 offset -0.5,0.5 tc 'red'\n\n" (system-name (car stats)) *base-color*))
+	    (printf "set label 1 '~a' font 'Verdana,10' at -1,1 offset 0.1,0.4 left tc '~a' front\n\n" (system-name (car stats)) *base-color*))
 	 
 	 (when *logscale*
 	    (print "set logscale y\n"))
