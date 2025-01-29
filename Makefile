@@ -3,8 +3,8 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 11:50:34 2001                          */
-#*    Last change :  Fri Nov  1 20:55:19 2024 (serrano)                */
-#*    Copyright   :  2001-24 Manuel Serrano                            */
+#*    Last change :  Wed Jan 29 07:36:19 2025 (serrano)                */
+#*    Copyright   :  2001-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The general Bglstone Makefile                                    */
 #*=====================================================================*/
@@ -157,5 +157,6 @@ cleanreport:
 cleantex:
 	@ (cd tex; $(MAKE) clean BENCH=$(BENCH) TARGETS="$(TARGETS)")
 
-cleanall: cleanbench cleantools cleanreport distclean cleantex
+cleanall: cleanbench cleantools cleanreport cleantex
+	$(MAKE) distclean
 
