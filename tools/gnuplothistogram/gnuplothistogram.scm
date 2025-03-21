@@ -3,8 +3,8 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Fri Nov 29 10:26:47 2024 (serrano)                */
-;*    Copyright   :  2024 Manuel Serrano                               */
+;*    Last change :  Fri Mar 21 08:00:32 2025 (serrano)                */
+;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
 ;*=====================================================================*/
@@ -54,6 +54,11 @@
 	#(,(- (/ 2 6)) ,(- (/ 1 6)) 0 ,(/ 1 6) ,(/ 2 6))
 	#(,(- (/ 3 6)) ,(- (/ 2 6)) ,(- (/ 1 6)) 0 ,(/ 1 6) ,(/ 2 6) ,(/ 3 6))))
 
+(define *colors*
+   '#("#3264c8" "#fa9600" "#d83812" "#109318"
+      "#93ade2" "#edd20b" "#00a0bf" "#72bf00"
+      "#969996" "#4b30ed"))
+   
 ;*---------------------------------------------------------------------*/
 ;*    *template* ...                                                   */
 ;*---------------------------------------------------------------------*/
@@ -123,6 +128,8 @@
        (set! *size* (format "size ~a" size)))
       (("--basecolor" ?color (help "Set base color (for --relative-sans)"))
        (set! *base-color* color))
+      (("--colors" ?colors (help "Bar colors (space or comma separated)"))
+       (vector-copy! *colors* 0 (list->vector (string-split colors " ,"))))
       (("--values" (help "Add values label to the bars"))
        (set! *values* #t))
       (else
@@ -249,6 +256,13 @@
    
    (let ((times-length (length (caddr (car (stat-times (car stats))))))
 	 (proc (assq-get 'processor (stat-configuration (car stats)) "")))
+      ;; color patching
+      (let loop ((i (-fx (vector-length *colors*) 1)))
+	 (when (>= i 0)
+	    (set! *template*
+	       (pregexp-replace* (format "@COLOR~a@" i)
+		  *template* (vector-ref *colors* i)))
+	    (loop (-fx i 1))))
       (let ((s (pregexp-replace*
 		  "@KEY@"
 		  (pregexp-replace*
