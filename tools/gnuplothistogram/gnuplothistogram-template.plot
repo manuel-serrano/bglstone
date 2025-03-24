@@ -16,15 +16,16 @@ set ytics font "Verdana,@YTICS@"
 
 set boxwidth 0.9
 set style fill solid
-set style line 1 linecolor rgb '#3264c8' linetype 1 linewidth 1
-set style line 2 linecolor rgb '#fa9600' linetype 1 linewidth 1
-set style line 3 linecolor rgb '#d83812' linetype 1 linewidth 1
-set style line 4 linecolor rgb '#109318' linetype 1 linewidth 1
-set style line 5 linecolor rgb '#93ade2' linetype 1 linewidth 1
-set style line 6 linecolor rgb '#edd20b' linetype 1 linewidth 1
-set style line 7 linecolor rgb '#00a0bf' linetype 1 linewidth 1
-set style line 8 linecolor rgb '#72bf00' linetype 1 linewidth 1
-set style line 9 linecolor rgb '#969996' linetype 1 linewidth 1
+set style line 1 linecolor rgb '@COLOR0@' linetype 1 linewidth 1
+set style line 2 linecolor rgb '@COLOR1@' linetype 1 linewidth 1
+set style line 3 linecolor rgb '@COLOR2@' linetype 1 linewidth 1
+set style line 4 linecolor rgb '@COLOR3@' linetype 1 linewidth 1
+set style line 5 linecolor rgb '@COLOR4@' linetype 1 linewidth 1
+set style line 6 linecolor rgb '@COLOR5@' linetype 1 linewidth 1
+set style line 7 linecolor rgb '@COLOR6@' linetype 1 linewidth 1
+set style line 8 linecolor rgb '@COLOR7@' linetype 1 linewidth 1
+set style line 9 linecolor rgb '@COLOR8@' linetype 1 linewidth 1
+set style line 10 linecolor rgb '@COLOR9@' linetype 1 linewidth 1
 set style line 100 linecolor rgb '#000000' linetype 1 linewidth 1
 set style line 1000 linecolor rgb '#555555 linewidth 20
 
