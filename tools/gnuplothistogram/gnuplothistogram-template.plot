@@ -35,7 +35,8 @@ set datafile separator ","
 
 set yrange [0:*]
 
-set lmargin 6
-set rmargin 1
+set lmargin @LMARGIN@
+set rmargin @RMARGIN@
+set bmargin @BMARGIN@
 
 set key @KEY@

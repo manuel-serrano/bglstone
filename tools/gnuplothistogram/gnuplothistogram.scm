@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Mon Mar 24 08:06:35 2025 (serrano)                */
+;*    Last change :  Mon Mar 24 14:00:52 2025 (serrano)                */
 ;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -46,6 +46,10 @@
 (define *size* "")
 (define *base-color* "red")
 (define *values* #f)
+(define *lmargin* "6")
+(define *rmargin* "1")
+(define *bmargin* "0")
+(define *key* "under nobox")
 
 (define *offset-tables*
    `#(- -
@@ -137,6 +141,14 @@
        (vector-copy! *colors* 0 (list->vector (string-split colors " ,"))))
       (("--values" (help "Add values label to the bars"))
        (set! *values* #t))
+      (("--lmargin" ?lmargin (help "left margin"))
+       (set! *lmargin* lmargin))
+      (("--rmargin" ?rmargin (help "right margin"))
+       (set! *rmargin* rmargin))
+      (("--bmargin" ?bmargin (help "bottom margin"))
+       (set! *bmargin* bmargin))
+      (("--key" ?key (help "gnuplot key configuration"))
+       (set! *key* key))
       (else
        (set! *inputs* (append *inputs* (list else))))))
 
@@ -268,6 +280,10 @@
 	       (pregexp-replace* (format "@COLOR~a@" i)
 		  *template* (vector-ref *colors* i)))
 	    (loop (-fx i 1))))
+      ;; margins
+      (set! *template* (pregexp-replace "@LMARGIN@" *template* *lmargin*))
+      (set! *template* (pregexp-replace "@RMARGIN@" *template* *rmargin*))
+      (set! *template* (pregexp-replace "@BMARGIN@" *template* *bmargin*))
       (let ((s (pregexp-replace*
 		  "@KEY@"
 		  (pregexp-replace*
@@ -304,9 +320,7 @@
 			   (if *relative* "" *errorbars*))
 			*format*)
 		     *size*)
-		  (if (and #f (=fx (length (if (eq? *relative* 'sans) (cdr stats) stats)) 1))
-		      "off"
-		      "under nobox"))))
+		  *key*)))
 
 	 ;; dummy print for grabbing GPVAL_Y_MAX
 	 (when (>fx *separator* 0)
@@ -329,8 +343,9 @@
 	 (when (eq? *relative* 'sans)
 	    (printf "set arrow 1 from graph 0, first 1 to graph 1, first 1 nohead lc '~a' lw 2 dt '---' front\n" *base-color*)
 	    (printf "set label 1 '~a' font 'Verdana,10' at ~a,1 offset 0.1,0.4 left tc '~a' front\n\n"
-	       (if (eq? *relative-position* 'left) -1 (-fx (length (cdr stats)) 1))
-	       (system-name (car stats)) *base-color*))
+	       (system-name (car stats))
+	       (if (eq? *relative-position* 'left) -1 (-fx (length (cddr (car stats))) 2))
+	       *base-color*))
 	 
 	 (when *logscale*
 	    (print "set logscale y\n"))
