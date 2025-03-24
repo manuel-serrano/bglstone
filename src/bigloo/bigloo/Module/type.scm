@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/type.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Module/type.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Jun  5 10:05:27 1996                          */
-;*    Last change :  Mon May 15 07:57:48 2000 (serrano)                */
-;*    Copyright   :  1996-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:32:57 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The type clauses compilation.                                    */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_type
+   (include "Ast/node.sch")
    (include "Ast/unit.sch"
 	    "Tools/trace.sch")
    (import  module_module

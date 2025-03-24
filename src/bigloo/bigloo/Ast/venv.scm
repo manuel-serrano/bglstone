@@ -1,9 +1,9 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Ast/venv.scm                */
+;*    serrano/prgm/project/bglstone/src/bigloo/bigloo/Ast/venv.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sun Dec 25 11:32:49 1994                          */
-;*    Last change :  Fri Nov  5 16:07:43 2004 (serrano)                */
+;*    Last change :  Thu Mar  6 14:26:44 2025 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    The global environment manipulation                              */
 ;*=====================================================================*/
@@ -12,6 +12,8 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module ast_env
+   (include "Ast/node.sch"
+	    "Type/type.sch")
    (import  tools_shape
 	    engine_param
 	    tools_error

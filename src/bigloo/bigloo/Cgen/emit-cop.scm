@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cgen/emit-cop.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Cgen/emit-cop.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jul  2 14:39:37 1996                          */
-;*    Last change :  Mon Jan 10 10:35:50 2005 (serrano)                */
-;*    Copyright   :  1996-2005 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:01:35 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The emission of cop code.                                        */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cgen_emit-cop
+   (include "Ast/node.sch" "Type/type.sch" "Cgen/cop.sch")
    (include "Tools/location.sch"
 	    "Tools/fprint.sch"
 	    "Tools/trace.sch")

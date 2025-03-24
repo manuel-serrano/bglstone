@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/if.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Expand/if.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Dec 28 15:42:10 1994                          */
-;*    Last change :  Tue Mar  2 09:11:08 2004 (serrano)                */
-;*    Copyright   :  1994-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:40:32 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The `if' macro expansion                                         */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module expand_if
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    tools_misc)

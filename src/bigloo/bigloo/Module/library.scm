@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/library.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Module/library.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jul  9 16:05:09 1996                          */
-;*    Last change :  Tue Jan 18 15:31:46 2005 (serrano)                */
-;*    Copyright   :  1996-2005 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:33:08 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    Library finalizer                                                */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_library
+   (include "Ast/node.sch")
    (include "Ast/unit.sch")
    (import  type_type
 	    ast_var

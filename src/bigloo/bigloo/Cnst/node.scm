@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cnst/node.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cnst/node.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Mon Feb  6 14:08:40 1995                          */
-;*    Last change :  Thu Apr 22 11:13:08 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:39:49 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The constant compilation (of the kwoted forms and                */
 ;*    `make-??-procedure' calls).                                      */
@@ -14,6 +14,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cnst_node
+   (include "Ast/node.sch" "Type/type.sch" "Cnst/node.sch")
    (include "Tools/trace.sch"
 	    "Tvector/tvector.sch")
    (import  tools_shape

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/collect.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cfa/collect.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Apr  5 09:06:26 1995                          */
-;*    Last change :  Fri Nov  5 16:08:48 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:43:38 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We collect all type and alloc approximations                     */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cfa_collect
+   (include "Ast/node.sch" "Type/type.sch" "Cfa/cinfo.sch" "Cfa/cinfo2.sch" "Cfa/cinfo3.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    tools_error

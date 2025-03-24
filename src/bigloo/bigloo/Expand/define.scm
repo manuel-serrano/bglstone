@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/define.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Expand/define.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Dec 28 15:56:53 1994                          */
-;*    Last change :  Tue Nov 16 11:14:30 2004 (serrano)                */
-;*    Copyright   :  1994-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:39:48 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The `define' forms                                               */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module expand_define
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Expand/expander.sch"
 	    "Tools/trace.sch")
    (import  tools_progn

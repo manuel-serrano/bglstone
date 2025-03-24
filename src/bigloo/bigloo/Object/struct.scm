@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Object/struct.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Object/struct.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu May 30 11:52:53 1996                          */
-;*    Last change :  Thu Oct 10 12:11:50 2002 (serrano)                */
-;*    Copyright   :  1996-2002 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:34:09 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The object<->struct conversion                                   */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module object_struct
+   (include "Ast/node.sch" "Type/type.sch")
    (import  tools_error
 	    tools_misc
 	    type_type

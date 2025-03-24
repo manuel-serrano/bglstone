@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/closure.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cfa/closure.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jun 27 11:35:13 1996                          */
-;*    Last change :  Thu Sep 25 20:40:50 2003 (serrano)                */
-;*    Copyright   :  1996-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:49:12 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The closure optimization described in:                           */
 ;*                                                                     */
@@ -23,6 +23,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cfa_closure
+   (include "Ast/node.sch" "Type/type.sch" "Cfa/cinfo.sch" "Cfa/cinfo2.sch" "Cfa/cinfo3.sch")
    (include "Tools/trace.sch")
    (import  engine_param
 	    type_type
@@ -34,6 +35,7 @@
 	    ast_env
 	    cfa_info
 	    cfa_info2
+	    cfa_info3
 	    cfa_cfa
 	    cfa_approx
 	    cfa_set

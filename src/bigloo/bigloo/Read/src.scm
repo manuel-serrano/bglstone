@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Read/src.scm                */
+;*    serrano/prgm/project/bglstone/src/bigloo/bigloo/Read/src.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Mon Dec 26 10:44:03 1994                          */
-;*    Last change :  Fri Nov 12 12:23:09 2004 (serrano)                */
-;*    Copyright   :  1994-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 14:23:40 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We read the source file                                          */
 ;*=====================================================================*/
@@ -46,7 +46,7 @@
 ;*    read-handler ...                                                 */
 ;*---------------------------------------------------------------------*/
 (define (read-handler e)
-   (if (&error? e)
+   (if (isa? e &error)
        (begin
 	  ;; before producing the error, we display the
 	  ;; source file name

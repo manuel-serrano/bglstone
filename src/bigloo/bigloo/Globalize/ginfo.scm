@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Globalize/ginfo.scm         */
+;*    .../project/bglstone/src/bigloo/bigloo/Globalize/ginfo.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jun 21 09:03:24 1996                          */
-;*    Last change :  Wed May 21 11:11:53 2003 (serrano)                */
-;*    Copyright   :  1996-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:32:59 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The definition of the info structures for the globalization      */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module globalize_ginfo
+   (include "Type/type.sch")
    
    (include "Ast/node.sch")
    

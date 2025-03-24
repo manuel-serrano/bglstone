@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Inline/simple.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Inline/simple.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Mon Jun 17 14:01:30 1996                          */
-;*    Last change :  Fri Apr 26 08:35:50 2002 (serrano)                */
-;*    Copyright   :  1996-2002 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:43:59 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The inlining of simple functions (non recursive functions).      */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module inline_simple
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch"
 	    "Tools/verbose.sch")
    (import  engine_param

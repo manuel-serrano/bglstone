@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/let.scm              */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Expand/let.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jun 19 08:29:58 1992                          */
-;*    Last change :  Wed Jun  9 10:01:47 2004 (serrano)                */
-;*    Copyright   :  1992-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:40:50 2025 (serrano)                */
+;*    Copyright   :  1992-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    Let expansions.                                                  */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module expand_let
+   (include "Ast/node.sch" "Type/type.sch")
    (import  tools_progn
 	    tools_args
 	    tools_misc

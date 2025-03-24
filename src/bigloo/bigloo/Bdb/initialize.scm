@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Bdb/initialize.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Bdb/initialize.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Apr  9 14:53:02 1998                          */
-;*    Last change :  Mon May 15 07:29:11 2000 (serrano)                */
-;*    Copyright   :  1992-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:38:28 2025 (serrano)                */
+;*    Copyright   :  1992-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The module specific Bdb runtime initialization.                  */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module bdb_initialize
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch"
 	    "Ast/unit.sch")
    (import  tools_shape

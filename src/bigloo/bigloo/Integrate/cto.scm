@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo2.3/comptime/Integrate/cto.scm        */
+;*    .../project/bglstone/src/bigloo/bigloo/Integrate/cto.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Apr 25 15:52:39 1995                          */
-;*    Last change :  Thu Jul 13 11:16:25 2000 (serrano)                */
-;*    Copyright   :  1995-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:33:33 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The computation of the `cto' property.                           */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module integrate_cto
+   (include "Ast/node.sch" "Type/type.sch" "Integrate/iinfo.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    tools_error

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/show.scm                */
+;*    serrano/prgm/project/bglstone/src/bigloo/bigloo/Cfa/show.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Mar  8 18:51:37 1995                          */
-;*    Last change :  Mon May 15 07:35:16 2000 (serrano)                */
-;*    Copyright   :  1995-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:45:17 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We show the result of the cfa.                                   */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cfa_show
+   (include "Ast/node.sch" "Type/type.sch" "Cfa/cinfo.sch" "Cfa/cinfo2.sch" "Cfa/cinfo3.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    tools_trace
@@ -23,6 +24,7 @@
 	    ast_node
 	    cfa_info
 	    cfa_info2
+	    cfa_info3
 	    cfa_approx
 	    cfa_collect
 	    cfa_iterate)

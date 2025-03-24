@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Globalize/globalize.scm     */
+;*    .../bglstone/src/bigloo/bigloo/Globalize/globalize.scm           */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jan 26 14:45:58 1995                          */
-;*    Last change :  Tue Feb 24 08:51:11 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:33:18 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The `globalization' process                                      */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module globalize_globalize
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch"
 	    "Tools/verbose.sch")
    (import  tools_shape

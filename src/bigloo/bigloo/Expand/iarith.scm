@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/iarith.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Expand/iarith.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Aug 26 09:16:56 1994                          */
-;*    Last change :  Sat May 22 21:36:33 2004 (serrano)                */
-;*    Copyright   :  1994-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:40:09 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    Les expandeurs arithmetiques (entiers)                           */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    Le module                                                        */
 ;*---------------------------------------------------------------------*/
 (module expand_iarithmetique
+   (include "Ast/node.sch" "Type/type.sch")
    (export (expand-eq? ::obj ::procedure)
 	   (expand-i+  ::obj ::procedure)
 	   (expand-i-  ::obj ::procedure)

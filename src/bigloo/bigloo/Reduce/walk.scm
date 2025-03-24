@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Reduce/walk.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Reduce/walk.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jul 13 10:25:23 1995                          */
-;*    Last change :  Wed Sep 22 00:00:41 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:23:38 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The Reduction optimizations                                      */
 ;*=====================================================================*/
@@ -18,6 +18,8 @@
 	    tools_error
 	    engine_param
 	    type_type
+	    tvector_tvector
+	    object_class
 	    ast_var
 	    ast_node
 	    reduce_copy

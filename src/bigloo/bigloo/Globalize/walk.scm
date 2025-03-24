@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Globalize/walk.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Globalize/walk.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jan 26 14:25:07 1995                          */
-;*    Last change :  Tue May 20 22:59:36 2003 (serrano)                */
-;*    Copyright   :  1995-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:32:51 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The `globalization' stage                                        */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module globalize_walk
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Engine/pass.sch"
 	    "Ast/node.sch")
    (import  tools_error

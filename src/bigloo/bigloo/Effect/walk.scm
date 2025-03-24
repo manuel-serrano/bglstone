@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Effect/walk.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Effect/walk.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jul 13 10:25:23 1995                          */
-;*    Last change :  Fri Dec  5 10:15:55 2003 (serrano)                */
-;*    Copyright   :  1995-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:26:49 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The computation of the effect property.                          */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module effect_walk
+   (include "Ast/node.sch" "Type/type.sch" "Effect/cgraph.sch")
    (include "Engine/pass.sch"
 	    "Tools/trace.sch")
    (import  tools_error
@@ -20,6 +21,7 @@
 	    type_type
 	    ast_var
 	    ast_node
+	    tvector_tvector
 	    effect_cgraph
 	    effect_spread
 	    effect_feffect

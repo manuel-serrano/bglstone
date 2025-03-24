@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Inline/variant.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Inline/variant.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Jul 10 10:19:51 1996                          */
-;*    Last change :  Mon May 15 07:53:41 2000 (serrano)                */
-;*    Copyright   :  1996-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:44:17 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The variant/invariant property computations.                     */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module inline_variant
+   (include "Ast/node.sch" "Type/type.sch" "Inline/variant.sch")
    (include "Tools/trace.sch")
    (import  type_type
 	    ast_var

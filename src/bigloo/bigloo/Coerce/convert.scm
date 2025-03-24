@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Coerce/convert.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Coerce/convert.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jan 19 10:19:33 1995                          */
-;*    Last change :  Tue Sep 21 22:15:45 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:31:39 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The convertion. The coercion and type checks are generated       */
 ;*    inside this module.                                              */
@@ -14,6 +14,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module coerce_convert
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch"
 	    "Tools/location.sch"
 	    "Type/coercer.sch")

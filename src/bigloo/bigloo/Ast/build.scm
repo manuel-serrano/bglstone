@@ -1,9 +1,9 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Ast/build.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Ast/build.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri May 31 14:00:21 1996                          */
-;*    Last change :  Wed Jan 19 14:38:17 2005 (serrano)                */
+;*    Last change :  Thu Mar  6 14:23:58 2025 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    From the code definition, we build the Ast                       */
 ;*=====================================================================*/
@@ -13,7 +13,8 @@
 ;*---------------------------------------------------------------------*/
 (module ast_build
    (include "Engine/pass.sch"
-	    "Ast/node.sch")
+	    "Ast/node.sch"
+	    "Ast/var.sch")
    (import  ast_unit
 	    ast_sexp
 	    ast_env

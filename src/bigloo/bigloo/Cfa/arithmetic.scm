@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/arithmetic.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Cfa/arithmetic.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Mon Mar 20 09:48:45 2000                          */
-;*    Last change :  Sat Jul  7 07:35:49 2001 (serrano)                */
-;*    Copyright   :  2000-01 Manuel Serrano, see LICENSE file          */
+;*    Last change :  Fri Mar  7 07:54:51 2025 (serrano)                */
+;*    Copyright   :  2000-25 Manuel Serrano, see LICENSE file          */
 ;*    -------------------------------------------------------------    */
 ;*    This module implements a refined estimate computations for       */
 ;*    generic operator. The key idea is that, if we call a function    */
@@ -26,6 +26,7 @@
 ;*    The module ...                                                   */
 ;*---------------------------------------------------------------------*/
 (module cfa_arithmetic
+   (include "Ast/node.sch" "Type/type.sch" "Cfa/cinfo.sch" "Cfa/cinfo2.sch" "Cfa/cinfo3.sch")
    (include "Tools/trace.sch")
    (import  tools_error
 	    tools_shape
@@ -33,8 +34,10 @@
 	    type_cache
 	    ast_var
 	    ast_node
+	    object_slots
 	    cfa_info
 	    cfa_info2
+	    cfa_info3
 	    cfa_loose
 	    cfa_iterate
 	    cfa_cfa

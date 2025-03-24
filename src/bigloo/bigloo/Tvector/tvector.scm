@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Tvector/tvector.scm         */
+;*    .../project/bglstone/src/bigloo/bigloo/Tvector/tvector.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Mon Mar 27 11:21:53 1995                          */
-;*    Last change :  Sun Feb 22 09:20:54 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:02:59 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The declaration of `tvector' types.                              */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module tvector_tvector
+   (include "Ast/node.sch" "Type/type.sch" "Tvector/tvector.sch")
    
    (import  type_type
 	    type_env
@@ -62,14 +63,15 @@
    (if (pair? *tvector-type-list*)
        (fprint oport #\Newline "/* Tvector type definitions */"))
    (for-each (lambda (tvector)
-		(let ((item-type-name (type-name (tvec-item-type tvector))))
-		   (fprint oport "struct bgl_tvector_of_"
-			   (bigloo-mangle item-type-name) " {")
-		   (fprint oport "   header_t header;")
-		   (fprint oport "   long     length;")
-		   (fprint oport "   obj_t    descr;")
-		   (fprint oport "   " item-type-name " el0;")
-		   (fprint oport "};\n")))
+		(with-access::tvec tvector (item-type)
+		   (let ((item-type-name (type-name item-type)))
+		      (fprint oport "struct bgl_tvector_of_"
+			 (bigloo-mangle item-type-name) " {")
+		      (fprint oport "   header_t header;")
+		      (fprint oport "   long     length;")
+		      (fprint oport "   obj_t    descr;")
+		      (fprint oport "   " item-type-name " el0;")
+		      (fprint oport "};\n"))))
 	     (reverse! *tvector-type-list*))
    (newline oport))
 

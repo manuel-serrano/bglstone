@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Tailc/walk.scm              */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Tailc/walk.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Feb 21 08:37:48 1995                          */
-;*    Last change :  Thu Sep  2 15:51:56 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:59:40 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The `tail-call' pass.                                            */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module tailc_walk
+   (include "Ast/node.sch" "Type/type.sch" "Tailc/walk.sch")
    (include "Engine/pass.sch")
    (import  tools_error
 	    tools_shape

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/loose.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cfa/loose.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jun 25 12:02:51 1996                          */
-;*    Last change :  Sat Jul  7 08:45:54 2001 (serrano)                */
-;*    Copyright   :  1996-2001 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:44:14 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    Loosing approximations means values are going outside.           */
 ;*    Toping approximations means add top the sets.                    */
@@ -14,6 +14,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cfa_loose
+   (include "Ast/node.sch" "Type/type.sch" "Cfa/cinfo.sch" "Cfa/cinfo2.sch")
    (include "Tools/trace.sch")
    (import  type_type
 	    tools_shape

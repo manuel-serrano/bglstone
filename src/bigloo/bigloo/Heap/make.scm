@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Heap/make.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Heap/make.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sun Jan  8 08:44:08 1995                          */
-;*    Last change :  Fri Nov 12 14:51:37 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:09:16 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The creation of a library heap                                   */
 ;*=====================================================================*/
@@ -13,7 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module heap_make
-   (include "Engine/pass.sch")
+   (include "Engine/pass.sch" "Ast/node.sch")
    (import  engine_param
 	    tools_error
 	    type_type

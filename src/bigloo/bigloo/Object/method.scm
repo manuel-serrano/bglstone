@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Object/method.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Object/method.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed May  1 13:58:40 1996                          */
-;*    Last change :  Fri Nov 10 09:34:04 2000 (serrano)                */
-;*    Copyright   :  1996-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:33:22 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The method management                                            */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module object_method
+   (include "Ast/node.sch" "Type/type.sch")
    (import tools_args
 	   tools_error
 	   tools_misc
@@ -21,6 +22,7 @@
 	   ast_ident
 	   ast_env
 	   object_class
+	   object_slots
 	   (find-location tools_location))
    (export (make-method-body ::symbol ::obj ::obj ::obj ::obj)))
 

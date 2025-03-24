@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Inline/app.scm              */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Inline/app.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jan 10 18:43:56 1995                          */
-;*    Last change :  Wed Sep 17 06:52:40 2003 (serrano)                */
-;*    Copyright   :  1995-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:43:00 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The inlining of application node                                 */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module inline_app
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import  engine_param
 	    tools_shape

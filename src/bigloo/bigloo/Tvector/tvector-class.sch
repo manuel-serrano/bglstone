@@ -1,0 +1,83 @@
+;; ==========================================================
+;; Class accessors
+;; Bigloo (4.7a)
+;; Inria -- Sophia Antipolis     Thu Mar 6 07:34:14 AM CET 2025 
+;; (bigloo -classgen Tvector/tvector.scm)
+;; ==========================================================
+
+;; The directives
+(directives
+
+;; tvec
+(cond-expand ((and bigloo-class-sans (not bigloo-class-generate))
+  (export
+    (inline make-tvec::tvec id1119::symbol name1120::obj size1121::obj class1122::obj coerce-to1123::obj parents1124::obj init?1125::bool magic?1126::bool $1127::obj alias1128::obj pointed-to-by1129::obj tvector1130::obj location1131::obj import-location1132::obj item-type1133::type)
+    (inline tvec?::bool ::obj)
+    (tvec-nil::tvec)
+    (inline tvec-item-type::type ::tvec)
+    (inline tvec-import-location::obj ::tvec)
+    (inline tvec-import-location-set! ::tvec ::obj)
+    (inline tvec-location::obj ::tvec)
+    (inline tvec-location-set! ::tvec ::obj)
+    (inline tvec-tvector::obj ::tvec)
+    (inline tvec-tvector-set! ::tvec ::obj)
+    (inline tvec-pointed-to-by::obj ::tvec)
+    (inline tvec-pointed-to-by-set! ::tvec ::obj)
+    (inline tvec-alias::obj ::tvec)
+    (inline tvec-alias-set! ::tvec ::obj)
+    (inline tvec-$::obj ::tvec)
+    (inline tvec-$-set! ::tvec ::obj)
+    (inline tvec-magic?::bool ::tvec)
+    (inline tvec-magic?-set! ::tvec ::bool)
+    (inline tvec-init?::bool ::tvec)
+    (inline tvec-init?-set! ::tvec ::bool)
+    (inline tvec-parents::obj ::tvec)
+    (inline tvec-parents-set! ::tvec ::obj)
+    (inline tvec-coerce-to::obj ::tvec)
+    (inline tvec-coerce-to-set! ::tvec ::obj)
+    (inline tvec-class::obj ::tvec)
+    (inline tvec-class-set! ::tvec ::obj)
+    (inline tvec-size::obj ::tvec)
+    (inline tvec-size-set! ::tvec ::obj)
+    (inline tvec-name::obj ::tvec)
+    (inline tvec-name-set! ::tvec ::obj)
+    (inline tvec-id::symbol ::tvec)))))
+
+;; The definitions
+(cond-expand (bigloo-class-sans
+;; tvec
+(define-inline (make-tvec::tvec id1119::symbol name1120::obj size1121::obj class1122::obj coerce-to1123::obj parents1124::obj init?1125::bool magic?1126::bool $1127::obj alias1128::obj pointed-to-by1129::obj tvector1130::obj location1131::obj import-location1132::obj item-type1133::type) (instantiate::tvec (id id1119) (name name1120) (size size1121) (class class1122) (coerce-to coerce-to1123) (parents parents1124) (init? init?1125) (magic? magic?1126) ($ $1127) (alias alias1128) (pointed-to-by pointed-to-by1129) (tvector tvector1130) (location location1131) (import-location import-location1132) (item-type item-type1133)))
+(define-inline (tvec?::bool obj::obj) ((@ isa? __object) obj (@ tvec tvector_tvector)))
+(define (tvec-nil::tvec) (class-nil (@ tvec tvector_tvector)))
+(define-inline (tvec-item-type::type o::tvec) (-> |#!bigloo_wallow| o item-type))
+(define-inline (tvec-item-type-set! o::tvec v::type) (set! (-> |#!bigloo_wallow| o item-type) v))
+(define-inline (tvec-import-location::obj o::tvec) (-> |#!bigloo_wallow| o import-location))
+(define-inline (tvec-import-location-set! o::tvec v::obj) (set! (-> |#!bigloo_wallow| o import-location) v))
+(define-inline (tvec-location::obj o::tvec) (-> |#!bigloo_wallow| o location))
+(define-inline (tvec-location-set! o::tvec v::obj) (set! (-> |#!bigloo_wallow| o location) v))
+(define-inline (tvec-tvector::obj o::tvec) (-> |#!bigloo_wallow| o tvector))
+(define-inline (tvec-tvector-set! o::tvec v::obj) (set! (-> |#!bigloo_wallow| o tvector) v))
+(define-inline (tvec-pointed-to-by::obj o::tvec) (-> |#!bigloo_wallow| o pointed-to-by))
+(define-inline (tvec-pointed-to-by-set! o::tvec v::obj) (set! (-> |#!bigloo_wallow| o pointed-to-by) v))
+(define-inline (tvec-alias::obj o::tvec) (-> |#!bigloo_wallow| o alias))
+(define-inline (tvec-alias-set! o::tvec v::obj) (set! (-> |#!bigloo_wallow| o alias) v))
+(define-inline (tvec-$::obj o::tvec) (-> |#!bigloo_wallow| o $))
+(define-inline (tvec-$-set! o::tvec v::obj) (set! (-> |#!bigloo_wallow| o $) v))
+(define-inline (tvec-magic?::bool o::tvec) (-> |#!bigloo_wallow| o magic?))
+(define-inline (tvec-magic?-set! o::tvec v::bool) (set! (-> |#!bigloo_wallow| o magic?) v))
+(define-inline (tvec-init?::bool o::tvec) (-> |#!bigloo_wallow| o init?))
+(define-inline (tvec-init?-set! o::tvec v::bool) (set! (-> |#!bigloo_wallow| o init?) v))
+(define-inline (tvec-parents::obj o::tvec) (-> |#!bigloo_wallow| o parents))
+(define-inline (tvec-parents-set! o::tvec v::obj) (set! (-> |#!bigloo_wallow| o parents) v))
+(define-inline (tvec-coerce-to::obj o::tvec) (-> |#!bigloo_wallow| o coerce-to))
+(define-inline (tvec-coerce-to-set! o::tvec v::obj) (set! (-> |#!bigloo_wallow| o coerce-to) v))
+(define-inline (tvec-class::obj o::tvec) (-> |#!bigloo_wallow| o class))
+(define-inline (tvec-class-set! o::tvec v::obj) (set! (-> |#!bigloo_wallow| o class) v))
+(define-inline (tvec-size::obj o::tvec) (-> |#!bigloo_wallow| o size))
+(define-inline (tvec-size-set! o::tvec v::obj) (set! (-> |#!bigloo_wallow| o size) v))
+(define-inline (tvec-name::obj o::tvec) (-> |#!bigloo_wallow| o name))
+(define-inline (tvec-name-set! o::tvec v::obj) (set! (-> |#!bigloo_wallow| o name) v))
+(define-inline (tvec-id::symbol o::tvec) (-> |#!bigloo_wallow| o id))
+(define-inline (tvec-id-set! o::tvec v::symbol) (set! (-> |#!bigloo_wallow| o id) v))
+))
+

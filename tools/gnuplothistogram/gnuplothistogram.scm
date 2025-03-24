@@ -3,8 +3,8 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Fri Nov 29 10:26:47 2024 (serrano)                */
-;*    Copyright   :  2024 Manuel Serrano                               */
+;*    Last change :  Mon Mar 24 08:06:35 2025 (serrano)                */
+;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
 ;*=====================================================================*/
@@ -35,6 +35,7 @@
 (define *user-ylabel* #f)
 (define *time-unit* 'sec)
 (define *relative* #f)
+(define *relative-position* 'left)
 (define *errorbars* "errorbars lw 1")
 (define *logscale* #f)
 (define *xfontsize* "8")
@@ -101,8 +102,12 @@
        (set! *template* (call-with-input-file file read-string)))
       ((("-r" "--relative") (help "Display relative values"))
        (set! *relative* 'avec))
-      ((("-r" "--relative-sans") (help "Display relative values (sans base)"))
-       (set! *relative* 'sans))
+      (("--relative-sans" (help "Display relative values (sans base)"))
+       (set! *relative* 'sans)
+       (set! *relative-position* 'left))
+      (("--relative-sans-right" (help "Display relative values, flushed right"))
+       (set! *relative* 'sans)
+       (set! *relative-position* 'right))
       ((("-t" "--title") ?title (help "Figure title"))
        (set! *user-title* title))
       ((("-l" "--ylabel") ?label (help "Figure ylabel"))
@@ -309,7 +314,9 @@
 
 	 (when (eq? *relative* 'sans)
 	    (printf "set arrow 1 from graph 0, first 1 to graph 1, first 1 nohead lc '~a' lw 2 dt '---' front\n" *base-color*)
-	    (printf "set label 1 '~a' font 'Verdana,10' at -1,1 offset 0.1,0.4 left tc '~a' front\n\n" (system-name (car stats)) *base-color*))
+	    (printf "set label 1 '~a' font 'Verdana,10' at ~a,1 offset 0.1,0.4 left tc '~a' front\n\n"
+	       (if (eq? *relative-position* 'left) -1 (-fx (length (cdr stats)) 1))
+	       (system-name (car stats)) *base-color*))
 	 
 	 (when *logscale*
 	    (print "set logscale y\n"))

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/User/user.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/User/user.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Dec 29 14:52:11 1994                          */
-;*    Last change :  Mon May 15 08:08:22 2000 (serrano)                */
-;*    Copyright   :  1994-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:31:15 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The entry user point                                             */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module user_user
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Engine/pass.sch"
 	    "Ast/unit.sch")
    (import  engine_param

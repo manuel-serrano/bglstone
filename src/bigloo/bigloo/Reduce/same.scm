@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Reduce/same.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Reduce/same.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jul  5 12:54:32 1996                          */
-;*    Last change :  Sun Jan 21 03:52:42 2001 (serrano)                */
-;*    Copyright   :  1996-2001 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:25:47 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The comparison of two nodes.                                     */
 ;*=====================================================================*/
@@ -16,6 +16,8 @@
    (include "Tools/trace.sch")
    (import  tools_shape
 	    type_type
+	    tvector_tvector
+	    object_class
 	    ast_var
 	    ast_node)
    (export  (generic same-node?::bool ::node ::node alias)))

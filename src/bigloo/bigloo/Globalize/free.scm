@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo2.3/comptime/Globalize/free.scm       */
+;*    .../project/bglstone/src/bigloo/bigloo/Globalize/free.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jan 27 14:20:15 1995                          */
-;*    Last change :  Thu Jul 13 11:13:50 2000 (serrano)                */
-;*    Copyright   :  1995-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:32:38 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The search of free variables.                                    */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module globalize_free
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    tools_speek

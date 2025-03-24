@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Foreign/library.scm         */
+;*    .../project/bglstone/src/bigloo/bigloo/Foreign/library.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Oct 29 13:49:39 1999                          */
-;*    Last change :  Sun Jun 10 14:42:31 2001 (serrano)                */
-;*    Copyright   :  1999-2001 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:07:13 2025 (serrano)                */
+;*    Copyright   :  1999-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    Library and foreign type management.                             */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module foreign_library
+   (include "Tools/trace.sch" "Ast/node.sch")
    (import engine_param
 	   ast_node
 	   ast_var

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Reduce/1occ.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Reduce/1occ.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jul 13 10:29:17 1995                          */
-;*    Last change :  Tue Oct  5 13:58:41 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:25:58 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The removal of the local variables appearing just once.          */
 ;*    The only goal of this pass is to prune the ast.                  */
@@ -22,6 +22,8 @@
 	    type_cache
 	    type_typeof
 	    type_misc
+	    tvector_tvector
+	    object_class
 	    coerce_coerce
 	    effect_effect
 	    ast_var

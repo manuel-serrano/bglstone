@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Type/typeof.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Type/typeof.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri May 31 15:25:05 1996                          */
-;*    Last change :  Thu Apr 22 11:11:51 2004 (serrano)                */
-;*    Copyright   :  1996-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:35:50 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The type of the things                                           */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module type_typeof
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tvector/tvector.sch")
    (import  type_type
 	    type_cache

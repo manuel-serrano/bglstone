@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/expander.scm         */
+;*    .../project/bglstone/src/bigloo/bigloo/Expand/expander.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Dec 28 16:05:29 1994                          */
-;*    Last change :  Fri Apr 26 11:22:06 2002 (serrano)                */
-;*    Copyright   :  1994-2002 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:40:00 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The O-expander creation.                                         */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module expand_expander
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Expand/expander.sch")
    (import  tools_error
 	    engine_param

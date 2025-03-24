@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Prof/unit.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Prof/unit.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Apr  8 17:21:15 1998                          */
-;*    Last change :  Mon May 15 07:59:37 2000 (serrano)                */
-;*    Copyright   :  1998-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:38:47 2025 (serrano)                */
+;*    Copyright   :  1998-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The debugging information code production.                       */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module prof_walk
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Engine/pass.sch"
 	    "Ast/unit.sch")
    (import  tools_shape

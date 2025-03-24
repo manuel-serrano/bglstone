@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/map.scm              */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Expand/map.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Dec  4 18:08:53 1992                          */
-;*    Last change :  Wed Nov  3 12:51:14 2004 (serrano)                */
-;*    Copyright   :  1992-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:40:44 2025 (serrano)                */
+;*    Copyright   :  1992-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    `map' and `for-each' compile-time macro expansion.               */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module expand_map
+   (include "Ast/node.sch" "Type/type.sch")
    (import tools_misc
 	   tools_error
 	   engine_param

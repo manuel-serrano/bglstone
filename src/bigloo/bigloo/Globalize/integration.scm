@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    .../prgm/project/bigloo/comptime/Globalize/integration.scm       */
+;*    .../bglstone/src/bigloo/bigloo/Globalize/integration.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jan 26 17:10:12 1995                          */
-;*    Last change :  Thu May 22 09:23:46 2003 (serrano)                */
-;*    Copyright   :  1995-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:33:03 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The L property, L(f,g) stands for `f be integrated in g?'        */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module globalize_integration
+   (include "Ast/node.sch" "Type/type.sch" "Globalize/ginfo.sch")
    (include "Tools/trace.sch")
    (import  engine_param
 	    tools_shape
@@ -155,8 +156,8 @@
 			      (and (<fx imark *integrate-mark*)
 				   (begin
 				      (set! imark *integrate-mark*)
-				      (let ((r (and (every? visible? cfrom)
-						    (every? visible? cto))))
+				      (let ((r (and (every visible? cfrom)
+						    (every visible? cto))))
 					 (if (not r) (set! imark #f))
 					 r))))))))))
    (let ((r (integrate? f)))

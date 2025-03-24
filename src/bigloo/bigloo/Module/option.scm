@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/option.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Module/option.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sat Feb 28 10:20:55 1998                          */
-;*    Last change :  Mon May 15 07:57:20 2000 (serrano)                */
-;*    Copyright   :  1998-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:33:19 2025 (serrano)                */
+;*    Copyright   :  1998-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The compiler option clause compilation                           */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_option
+   (include "Ast/node.sch")
    (include "Ast/unit.sch")
    (import  module_module
 	    tools_error

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/srfi-0.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Expand/srfi-0.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Feb 24 15:25:03 1999                          */
-;*    Last change :  Tue May 20 11:31:36 2003 (serrano)                */
-;*    Copyright   :  1999-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:41:07 2025 (serrano)                */
+;*    Copyright   :  1999-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The expander for srfi forms.                                     */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module expand_srfi-0
+   (include "Ast/node.sch" "Type/type.sch")
    (import engine_param
 	   tools_misc)
    (export (expand-cond-expand x e)

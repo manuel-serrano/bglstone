@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Integrate/g.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Integrate/g.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Mar 15 14:53:50 1995                          */
-;*    Last change :  Wed May  7 09:16:30 2003 (serrano)                */
-;*    Copyright   :  1995-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:34:20 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We compute the set of globalized functions.                      */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module integrate_g
+   (include "Ast/node.sch" "Type/type.sch" "Integrate/iinfo.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    type_type

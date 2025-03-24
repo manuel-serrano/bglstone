@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/eval.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Module/eval.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jun  4 16:28:03 1996                          */
-;*    Last change :  Tue Dec  7 09:32:51 2004 (serrano)                */
-;*    Copyright   :  1996-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:28:48 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The eval clauses compilation.                                    */
 ;*=====================================================================*/
@@ -14,7 +14,8 @@
 ;*---------------------------------------------------------------------*/
 (module module_eval
    (include "Ast/unit.sch"
-	    "Ast/node.sch")
+	    "Ast/node.sch"
+	    "Object/slots.sch")
    (import  module_module
 	    module_include
 	    engine_param
@@ -214,7 +215,8 @@
       (with-exception-handler
 	 (lambda (e)
 	    (error-notify e)
-	    (set! err (cons (&error-obj e) err)))
+	    (with-access::&error e (obj)
+	       (set! err (cons obj err))))
 	 (lambda ()
 	    (if (null? *eval-classes*)
 		'()

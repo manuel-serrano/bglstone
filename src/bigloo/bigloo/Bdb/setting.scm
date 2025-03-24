@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Bdb/setting.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Bdb/setting.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Apr  9 14:07:32 1998                          */
-;*    Last change :  Thu Jan  9 09:53:03 2003 (serrano)                */
-;*    Copyright   :  1992-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:38:18 2025 (serrano)                */
+;*    Copyright   :  1992-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The bdb setting setting.                                         */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module bdb_setting
+   (include "Ast/node.sch" "Type/type.sch")
    (import engine_param
 	   tools_shape
 	   tools_error

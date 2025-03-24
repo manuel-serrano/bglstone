@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/specialize.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Cfa/specialize.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  SERRANO Manuel                                    */
 ;*    Creation    :  Fri Apr 11 13:18:21 1997                          */
-;*    Last change :  Mon Aug  4 14:52:44 2003 (serrano)                */
-;*    Copyright   :  1997-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:52:21 2025 (serrano)                */
+;*    Copyright   :  1997-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    This module implements an optimization asked by John Gerard      */
 ;*    Malecki <johnm@vlibs.com>. What is does is, for each generic     */
@@ -17,6 +17,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cfa_specialize
+   (include "Ast/node.sch" "Type/type.sch" "Cfa/specialize.sch")
    (include "Tools/trace.sch")
    (import  engine_param
 	    type_type

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/lambda.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Expand/lambda.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Dec 28 15:44:53 1994                          */
-;*    Last change :  Tue May 21 10:12:05 2002 (serrano)                */
-;*    Copyright   :  1994-2002 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:40:39 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The lambda macro-expansion.                                      */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module expand_lambda
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import tools_args
 	   tools_progn

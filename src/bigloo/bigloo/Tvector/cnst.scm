@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Tvector/cnst.scm            */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Tvector/cnst.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Apr 19 14:44:40 1995                          */
-;*    Last change :  Mon Jan  5 16:07:00 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:04:06 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The compilation of constant tvectors                             */
 ;*=====================================================================*/
@@ -13,7 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module tvector_cnst
-   (include "Tvector/tvector.sch")
+   (include "Ast/node.sch" "Type/type.sch" "Tvector/tvector.sch")
    (import  type_type
 	    type_env
 	    type_cache

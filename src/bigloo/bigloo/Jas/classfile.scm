@@ -1,4 +1,5 @@
 (module jas_classfile
+   (include "Ast/node.sch" "Type/type.sch")
    (import jas_lib)
    (export
     (class type
@@ -56,7 +57,7 @@
 
     (as-type::type   ::classfile ::obj)
     (as-funtype::fun ::classfile ::obj ::obj)
-    (type-size::int  ::type)
+    (typ-size::int  ::type)
 
     (as-assign                  ::classfile ::symbol ::obj)
     (declared-class::classe     ::classfile ::symbol)
@@ -149,7 +150,7 @@
 	 (targs targs) )))
 
 
-(define (type-size type)
+(define (typ-size type)
    (let ( (code (type-code type)) )
       (let ( (n (string-length code)) )
 	 (if (=fx n 1)

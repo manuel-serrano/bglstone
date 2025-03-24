@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Object/nil.scm              */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Object/nil.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sun Feb 22 08:05:17 2004                          */
-;*    Last change :  Wed Nov 17 15:57:54 2004 (serrano)                */
-;*    Copyright   :  2004 Manuel Serrano                               */
+;*    Last change :  Fri Mar  7 08:34:52 2025 (serrano)                */
+;*    Copyright   :  2004-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    The `class-nil' function                                         */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module object_nil
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import  tools_error
 	    tools_misc
@@ -139,7 +140,7 @@
       (cond
 	 ((tclass? type)
 	  `(,(symbol-append (type-id type) '-nil)))
-	 ((tvec? type)
+	 (((@ isa? __object) type tvec)
 	  `(list->tvector ',(type-id type) '()))
 	 ((jarray? type)
 	  `(,(symbol-append 'make- (type-id type)) 0))

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/class.scm            */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Module/class.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Jun  5 10:52:20 1996                          */
-;*    Last change :  Mon Nov 29 11:18:24 2004 (serrano)                */
-;*    Copyright   :  1996-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:26:59 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The class clause handling                                        */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_class
+   (include "Ast/node.sch")
    (include "Ast/unit.sch"
 	    "Tools/trace.sch")
    (import  module_module

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cnst/initialize.scm         */
+;*    .../project/bglstone/src/bigloo/bigloo/Cnst/initialize.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Mon Feb 20 15:50:19 1995                          */
-;*    Last change :  Wed Jan 21 21:49:51 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:39:43 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The initialize function definition.                              */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cnst_initialize
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch"
 	    "Ast/unit.sch")
    (import  tools_shape

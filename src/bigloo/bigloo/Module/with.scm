@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/with.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Module/with.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jun  4 16:28:03 1996                          */
-;*    Last change :  Wed Dec  8 06:25:53 2004 (serrano)                */
-;*    Copyright   :  1996-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:26:33 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The with clauses compilation.                                    */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_with
+   (include "Ast/node.sch")
    (import module_module
 	   engine_param
 	   tools_error

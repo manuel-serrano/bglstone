@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/java.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Module/java.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jul 20 16:05:33 2000                          */
-;*    Last change :  Thu Aug 19 18:25:35 2004 (serrano)                */
-;*    Copyright   :  2000-04 Manuel Serrano                            */
+;*    Last change :  Thu Mar  6 16:33:37 2025 (serrano)                */
+;*    Copyright   :  2000-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    The Java module clause handling.                                 */
 ;*=====================================================================*/
@@ -13,6 +13,8 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_java
+   (include "Ast/node.sch"
+	    "Module/java.sch")
    (include "Ast/unit.sch"
 	    "Tools/trace.sch")
    (import  module_module

@@ -1,9 +1,9 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Ast/node.scm                */
+;*    serrano/prgm/project/bglstone/src/bigloo/bigloo/Ast/node.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu May 30 16:14:41 1996                          */
-;*    Last change :  Mon Mar  8 18:06:41 2004 (serrano)                */
+;*    Last change :  Thu Mar  6 15:52:33 2025 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    The ast's node class definition                                  */
 ;*=====================================================================*/
@@ -14,6 +14,7 @@
 (module ast_node
    
    (import type_type
+	   type_cache
 	   ast_var)
 
    (export (class node::object

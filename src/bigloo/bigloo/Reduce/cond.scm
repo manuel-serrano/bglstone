@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Reduce/cond.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Reduce/cond.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jul 13 10:29:17 1995                          */
-;*    Last change :  Tue Sep 21 21:53:23 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:24:39 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The conditional reduction                                        */
 ;*=====================================================================*/
@@ -18,6 +18,8 @@
 	    tools_speek
 	    tools_error
 	    type_type
+	    tvector_tvector
+	    object_class
 	    ast_var
 	    ast_node)
    (export  (reduce-conditional! globals)))

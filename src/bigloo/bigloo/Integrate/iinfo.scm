@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Integrate/iinfo.scm         */
+;*    .../project/bglstone/src/bigloo/bigloo/Integrate/iinfo.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jun 28 14:06:46 1996                          */
-;*    Last change :  Thu Apr  3 10:46:58 2003 (serrano)                */
-;*    Copyright   :  1996-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:33:38 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The extension for the integrate pass.                            */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module integrate_info
+   (include "Ast/node.sch" "Type/type.sch")
    
    (import  type_type
 	    ast_var

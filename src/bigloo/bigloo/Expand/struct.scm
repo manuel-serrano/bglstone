@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/struct.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Expand/struct.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Oct  4 10:54:57 1995                          */
-;*    Last change :  Mon May 15 07:46:42 2000 (serrano)                */
-;*    Copyright   :  1995-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:40:55 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The `define-struct' expansion                                    */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    Le module                                                        */
 ;*---------------------------------------------------------------------*/
 (module expand_struct
+   (include "Ast/node.sch" "Type/type.sch")
    (import engine_param
 	   tools_misc)
    (export (expand-struct ::obj ::procedure)))

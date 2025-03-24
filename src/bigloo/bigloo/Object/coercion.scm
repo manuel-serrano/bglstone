@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Object/coercion.scm         */
+;*    .../project/bglstone/src/bigloo/bigloo/Object/coercion.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Mon Jul 17 10:02:36 2000                          */
-;*    Last change :  Sat Sep 27 21:37:40 2003 (serrano)                */
-;*    Copyright   :  2000-03 Manuel Serrano                            */
+;*    Last change :  Fri Mar  7 08:34:29 2025 (serrano)                */
+;*    Copyright   :  2000-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    We make the class coercions functions.                           */
 ;*    -------------------------------------------------------------    */
@@ -19,6 +19,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module object_coercion
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import  tools_error
 	    tools_misc

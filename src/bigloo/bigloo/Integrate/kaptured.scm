@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Integrate/kaptured.scm      */
+;*    .../bglstone/src/bigloo/bigloo/Integrate/kaptured.scm            */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Mar 16 11:03:12 1995                          */
-;*    Last change :  Mon May 15 07:55:03 2000 (serrano)                */
-;*    Copyright   :  1995-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:33:51 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We compute the list of the kaptured variables for each           */
 ;*    globalized function. The used method is very close to            */
@@ -15,6 +15,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module integrate_kaptured
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    type_type

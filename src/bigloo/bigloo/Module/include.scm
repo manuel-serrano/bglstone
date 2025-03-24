@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/include.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Module/include.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri May 31 11:54:16 1996                          */
-;*    Last change :  Fri Mar 12 06:32:44 2004 (serrano)                */
-;*    Copyright   :  1996-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:27:25 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The `include' clauses compilation                                */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_include
+   (include "Ast/node.sch")
    (include "Ast/unit.sch")
    (import  module_module
 	    tools_error

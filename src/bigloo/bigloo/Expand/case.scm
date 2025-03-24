@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/case.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Expand/case.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jul  3 10:13:16 1992                          */
-;*    Last change :  Tue Sep 16 16:38:06 2003 (serrano)                */
-;*    Copyright   :  1992-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:39:40 2025 (serrano)                */
+;*    Copyright   :  1992-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    On macro-expanse ce satane `case'                                */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    Le module                                                        */
 ;*---------------------------------------------------------------------*/
 (module expand_case
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import  tools_progn
 	    tools_error

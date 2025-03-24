@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Object/getter.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Object/getter.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Jun  5 11:16:50 1996                          */
-;*    Last change :  Fri Nov 12 14:46:17 2004 (serrano)                */
-;*    Copyright   :  1996-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:33:35 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We make the class accessors                                      */
 ;*    -------------------------------------------------------------    */
@@ -19,6 +19,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module object_getter
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import  tools_error
 	    tools_misc

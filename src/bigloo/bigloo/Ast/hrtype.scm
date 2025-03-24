@@ -1,9 +1,9 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Ast/hrtype.scm              */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Ast/hrtype.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Jul  3 11:58:06 1996                          */
-;*    Last change :  Wed Nov 10 09:43:08 2004 (serrano)                */
+;*    Last change :  Thu Mar  6 15:59:11 2025 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    This function hrtype-node! is used for inlined functions         */
 ;*    that are restored from additional heap. These bodies still       */
@@ -15,6 +15,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module ast_hrtype
+   (include "Ast/node.sch")
    (import  type_type
 	    type_env
 	    type_typeof

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Object/class.scm            */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Object/class.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu May 30 16:46:40 1996                          */
-;*    Last change :  Wed Jan 26 17:42:03 2005 (serrano)                */
-;*    Copyright   :  1996-2005 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:30:55 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The class definition                                             */
 ;*=====================================================================*/
@@ -14,6 +14,8 @@
 ;*---------------------------------------------------------------------*/
 (module object_class
 
+   (include "Object/slots.sch")
+   
    (import  tools_error
 	    type_type
 	    type_cache
@@ -25,6 +27,7 @@
 	    module_module
 	    engine_param
 	    foreign_jtype
+	    ast_node
 	    ast_var
 	    ast_ident
 	    (find-location tools_location))

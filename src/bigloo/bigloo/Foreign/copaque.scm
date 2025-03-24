@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo2.3/comptime/Foreign/copaque.scm      */
+;*    .../project/bglstone/src/bigloo/bigloo/Foreign/copaque.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jun  6 12:23:13 1996                          */
-;*    Last change :  Mon Jul 17 11:16:14 2000 (serrano)                */
-;*    Copyright   :  1996-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:06:58 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The C opaque accessors creations                                 */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module foreign_copaque
+   (include "Tools/trace.sch" "Ast/node.sch" "Foreign/ctype.sch")
    (import tools_misc
 	   type_tools
 	   type_type

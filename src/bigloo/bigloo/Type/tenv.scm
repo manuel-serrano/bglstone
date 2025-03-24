@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Type/tenv.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Type/tenv.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sun Dec 25 11:32:49 1994                          */
-;*    Last change :  Mon Nov 29 09:21:47 2004 (serrano)                */
-;*    Copyright   :  1994-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:34:40 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The Type environment manipulation                                */
 ;*=====================================================================*/
@@ -13,6 +13,8 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module type_env
+   (include "Ast/node.sch"
+	    "Type/type.sch")
 
    (include "Tools/trace.sch"
 	    "Type/coercer.sch")

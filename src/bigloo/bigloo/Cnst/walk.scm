@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cnst/walk.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cnst/walk.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Feb  3 09:46:40 1995                          */
-;*    Last change :  Mon May 15 07:39:45 2000 (serrano)                */
-;*    Copyright   :  1995-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:39:28 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The `constant compilation'                                       */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cnst_walk
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Engine/pass.sch")
    (import  tools_shape
 	    tools_error

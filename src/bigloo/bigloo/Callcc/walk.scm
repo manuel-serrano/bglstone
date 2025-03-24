@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Callcc/walk.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Callcc/walk.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Apr 28 10:50:15 1995                          */
-;*    Last change :  Sat Jan 31 13:47:30 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:21:58 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    When compiling for call/cc we put all written local variables    */
 ;*    in cells.                                                        */
@@ -15,9 +15,11 @@
 ;*---------------------------------------------------------------------*/
 (module callcc_walk
    (include "Engine/pass.sch"
-	    "Ast/node.sch")
+	    "Ast/node.sch"
+	    "Cfa/walk.sch")
    (import  tools_error
 	    tools_shape
+	    tvector_tvector
 	    type_cache
 	    ast_local
 	    (*compiler-debug* engine_param))
@@ -102,7 +104,7 @@
 ;*    celled? ...                                                      */
 ;*---------------------------------------------------------------------*/
 (define (celled?::bool var::variable)
-   (or (local/cell? var)
+   (or ((@ isa? __object) var local/cell)
        (and (eq? (local-access var) 'write)
 	    (or (eq? (local-type var) *_*)
 		(bigloo-type? (local-type var))))))

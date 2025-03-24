@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Tools/trace.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Tools/trace.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Mon Jun 15 15:04:42 1992                          */
-;*    Last change :  Fri Jan 28 10:59:30 2005 (serrano)                */
-;*    Copyright   :  1992-2005 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:35:55 2025 (serrano)                */
+;*    Copyright   :  1992-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The trace management                                             */
 ;*=====================================================================*/
@@ -13,7 +13,9 @@
 ;*    Le module                                                        */
 ;*---------------------------------------------------------------------*/
 (module tools_trace
+   (include "Ast/node.sch" "Type/type.sch")
    (import engine_param
+	   object_slots
 	   tools_error)
    (export (start-trace level pass)
 	   (stop-trace)

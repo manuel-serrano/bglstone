@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Write/ast.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Write/ast.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sat Dec 31 07:29:03 1994                          */
-;*    Last change :  Fri Nov  5 15:23:30 2004 (serrano)                */
-;*    Copyright   :  1994-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 14:22:09 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The ast pretty-printer                                           */
 ;*=====================================================================*/
@@ -14,7 +14,8 @@
 ;*---------------------------------------------------------------------*/
 (module write_ast
    (include "Engine/pass.sch"
-	    "Ast/node.sch")
+	    "Ast/node.sch"
+	    "Ast/var.sch")
    (import  engine_param
 	    init_main
 	    write_scheme
@@ -106,7 +107,7 @@
 			 (string-downcase (symbol->string (global-import g))))
 		     "  side-effect: " (atom->string (sfun-side-effect? sfun))
 		     (let ((t (sfun-predicate-of sfun)))
-			(if (type? t)
+			(if (isa? t type)
 			    (string-append "  predicate-of: "
 					   (atom->string (shape t)))
 			    ""))

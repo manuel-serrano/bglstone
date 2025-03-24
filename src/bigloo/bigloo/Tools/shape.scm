@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Tools/shape.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Tools/shape.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Dec 27 17:02:04 1994                          */
-;*    Last change :  Mon Sep 29 16:13:32 2003 (serrano)                */
-;*    Copyright   :  1994-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:37:29 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    In order to print human readable messages, we designed this      */
 ;*    tool.                                                            */
@@ -19,6 +19,7 @@
    (import  ast_dump
 	    ast_env
 	    engine_param
+	    object_slots
 	    tools_error)
    (export  (generic shape ::obj)))
 

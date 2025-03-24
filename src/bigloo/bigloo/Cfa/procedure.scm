@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/procedure.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Cfa/procedure.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jun 25 12:08:59 1996                          */
-;*    Last change :  Sat Jul  7 08:41:38 2001 (serrano)                */
-;*    Copyright   :  1996-2001 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:47:40 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The procedure approximation management                           */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cfa_procedure
+   (include "Ast/node.sch" "Type/type.sch" "Cfa/cinfo.sch" "Cfa/cinfo2.sch" "Cfa/cinfo3.sch")
    (include "Tools/trace.sch")
    (import  tools_error
 	    tools_shape
@@ -22,6 +23,7 @@
 	    ast_node
 	    cfa_info
 	    cfa_info2
+	    cfa_info3
 	    cfa_loose
 	    cfa_setup
 	    cfa_approx

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Object/generic.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Object/generic.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed May  1 12:05:09 1996                          */
-;*    Last change :  Wed Nov  8 21:42:52 2000 (serrano)                */
-;*    Copyright   :  1996-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:32:56 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The generic management                                           */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module object_generic
+   (include "Ast/node.sch" "Type/type.sch")
    (import engine_param
 	   tools_args
 	   tools_error
@@ -21,6 +22,7 @@
 	   ast_var
 	   ast_ident
 	   object_class
+	   object_slots
 	   module_module
 	   (find-location tools_location))
    (export (make-generic-body ::symbol ::obj ::obj ::obj)))

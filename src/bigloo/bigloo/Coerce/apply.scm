@@ -1,18 +1,19 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo2.3/comptime/Coerce/apply.scm         */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Coerce/apply.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jan 20 17:21:26 1995                          */
-;*    Last change :  Fri Jul 28 11:05:27 2000 (serrano)                */
-;*    Copyright   :  1995-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:31:54 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
-;*    The `apply' coercion                                            */
+;*    The `apply' coercion                                             */
 ;*=====================================================================*/
 
 ;*---------------------------------------------------------------------*/
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module coerce_apply
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch"
 	    "Tools/location.sch")
    (import  engine_param

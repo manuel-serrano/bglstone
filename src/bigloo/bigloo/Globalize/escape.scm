@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Globalize/escape.scm        */
+;*    .../project/bglstone/src/bigloo/bigloo/Globalize/escape.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jun 21 09:02:16 1996                          */
-;*    Last change :  Tue May 20 16:51:39 2003 (serrano)                */
-;*    Copyright   :  1996-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:33:13 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The escape property computation                                  */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module globalize_escape
+   (include "Ast/node.sch" "Type/type.sch" "Globalize/ginfo.sch")
    (import  tools_shape
 	    type_type
 	    engine_param

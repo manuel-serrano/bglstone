@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Object/creator.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Object/creator.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Jun  5 11:16:50 1996                          */
-;*    Last change :  Mon Mar  8 18:51:05 2004 (serrano)                */
-;*    Copyright   :  1996-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:34:44 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We make the class constructors                                   */
 ;*    -------------------------------------------------------------    */
@@ -19,6 +19,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module object_creator
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import  tools_error
 	    tools_misc

@@ -1,9 +1,9 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Ast/lvtype.scm              */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Ast/lvtype.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Jul  3 11:58:06 1996                          */
-;*    Last change :  Thu Dec  5 09:13:49 2002 (serrano)                */
+;*    Last change :  Thu Mar  6 15:58:57 2025 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    We type an node (straightforward typing used by Coerce and Cnst, */
 ;*    i.e. passes which occur after the Cfa). This pass only types     */
@@ -14,6 +14,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module ast_lvtype
+   (include "Ast/node.sch")
    (import  type_type
 	    type_cache
 	    type_typeof

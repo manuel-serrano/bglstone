@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cgen/walk.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cgen/walk.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Feb 21 08:37:48 1995                          */
-;*    Last change :  Wed Jan 19 14:35:54 2005 (serrano)                */
-;*    Copyright   :  1995-2005 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:01:01 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The `C generation' pass.                                         */
 ;*=====================================================================*/
@@ -13,7 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cgen_walk
-   
+   (include "BackEnd/backend.sch")
    (import  tools_shape
 	    tools_error
 	    engine_param

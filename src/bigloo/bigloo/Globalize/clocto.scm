@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Globalize/clocto.scm        */
+;*    .../project/bglstone/src/bigloo/bigloo/Globalize/clocto.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jan 23 14:03:24 1996                          */
-;*    Last change :  Mon May 15 07:49:57 2000 (serrano)                */
-;*    Copyright   :  1996-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:38:47 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The transitive closure of the `cto' property.                    */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module globalize_clocto
+   (include "Ast/node.sch" "Type/type.sch" "Globalize/ginfo.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    type_type

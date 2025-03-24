@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/eps.scm              */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Expand/eps.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Dec 28 14:56:58 1994                          */
-;*    Last change :  Thu Feb  3 10:25:43 2005 (serrano)                */
-;*    Copyright   :  1994-2005 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:36:06 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The macro expanser inspired by:                                  */
 ;*    << Expansion-Passing Style: Beyond Conventional Macro >>,        */
@@ -15,6 +15,7 @@
 ;*    Le module                                                        */
 ;*---------------------------------------------------------------------*/
 (module expand_eps
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Expand/expander.sch"
 	    "Tools/trace.sch"
 	    "Engine/pass.sch"
@@ -79,7 +80,7 @@
       (let ((res (bind-exit (escape)
 		    (with-exception-handler
 		       (lambda (e)
-			  (if (&error? e)
+			  (if ((@ isa? __object) e &error)
 			      (begin
 				 (user-error-notify e 'expand)
 				 (escape #unspecified))
@@ -101,7 +102,7 @@
    ;; have to be expanded. It is not obliged to perform macro-expansion
    ;; on library functions because they have alredy been expanded.
    (define (handler e)
-      (if (&error? e)
+      (if ((@ isa? __object) e &error)
 	  (user-error-notify e 'expand)
 	  (raise e)))
    ;; we scan all units
@@ -137,7 +138,7 @@
 						(with-exception-handler
 						   (lambda (e)
 						      (handler e)
-						      (if (&error? e)
+						      (if ((@ isa? __object) e &error)
 							  (skip ''())))
 						   (lambda ()
 						      (comptime-expand obody))))))

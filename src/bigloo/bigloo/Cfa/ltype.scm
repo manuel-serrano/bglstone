@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/ltype.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cfa/ltype.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jun 27 10:33:17 1996                          */
-;*    Last change :  Thu Sep 25 20:39:30 2003 (serrano)                */
-;*    Copyright   :  1996-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:55:45 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We make the obvious type election (taking care of tvectors).     */
 ;*=====================================================================*/
@@ -13,12 +13,14 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cfa_ltype
+   (include "Ast/node.sch" "Type/type.sch" "Cfa/cinfo.sch" "Cfa/cinfo2.sch" "Cfa/cinfo3.sch")
    (import  type_type
 	    type_cache
 	    tools_shape
 	    tools_error
 	    tools_shape
 	    engine_param
+	    object_slots
 	    ast_var
 	    ast_node
 	    cfa_info

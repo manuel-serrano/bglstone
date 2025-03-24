@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Fail/walk.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Fail/walk.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Apr 13 13:53:58 1995                          */
-;*    Last change :  Fri Nov  5 13:26:10 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:23:19 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The introduction of fail in debugging mode.                      */
 ;*    -------------------------------------------------------------    */
@@ -22,6 +22,7 @@
    (import  tools_shape
 	    tools_error
 	    tools_location
+	    tvector_tvector
 	    ast_sexp
 	    ast_env
 	    ast_env)

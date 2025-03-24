@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cgen/capp.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cgen/capp.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Jul  3 07:50:47 1996                          */
-;*    Last change :  Wed Apr 14 12:16:34 2004 (serrano)                */
-;*    Copyright   :  1996-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:02:28 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The C production for application (apply, funcall, app) nodes.    */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cgen_capp
+   (include "Ast/node.sch" "Type/type.sch" "Cgen/cop.sch")
    (include "Tools/trace.sch")
    (import  tools_error
 	    tools_shape

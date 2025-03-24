@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Tools/error.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Tools/error.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sun Dec 25 10:47:51 1994                          */
-;*    Last change :  Thu Feb  3 10:23:34 2005 (serrano)                */
-;*    Copyright   :  1994-2005 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:36:10 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    Error utilities                                                  */
 ;*=====================================================================*/
@@ -13,11 +13,13 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module tools_error
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/location.sch"
 	    "Ast/node.sch")
    (option  (set! *compiler-debug* 0))
    (import  engine_pass
 	    engine_param
+	    object_slots
 	    tools_location
 	    tools_trace
 	    tools_shape
@@ -87,17 +89,16 @@
 ;*    user-error-notify ...                                            */
 ;*---------------------------------------------------------------------*/
 (define (user-error-notify e proc)
-   (if (&error? e)
-       (let* ((obj (&error-obj e))
-	      (loc (find-location obj))
-	      (p (&error-proc e)))
-	  (set! *nb-error-on-pass* (+fx *nb-error-on-pass* 1))
-	  (if (location? loc)
-	      (error-notify (duplicate::&error e
-			       (proc (or p proc))
-			       (fname (location-fname loc))
-			       (location (location-pos loc))))
-	      (error-notify e)))))
+   (if ((@ isa? __object) e &error)
+       (with-access::&error e (obj (p proc))
+	  (let* ((loc (find-location obj)))
+	     (set! *nb-error-on-pass* (+fx *nb-error-on-pass* 1))
+	     (if (location? loc)
+		 (error-notify (duplicate::&error e
+				  (proc (or p proc))
+				  (fname (location-fname loc))
+				  (location (location-pos loc))))
+		 (error-notify e))))))
 
 ;*---------------------------------------------------------------------*/
 ;*    user-error ...                                                   */

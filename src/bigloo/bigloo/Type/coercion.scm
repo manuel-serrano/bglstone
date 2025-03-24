@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Type/coercion.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Type/coercion.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Dec 27 18:43:04 1994                          */
-;*    Last change :  Mon May 15 08:07:06 2000 (serrano)                */
-;*    Copyright   :  1994-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:35:39 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The coercion management                                          */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module type_coercion
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Type/coercer.sch"
 	    "Tools/trace.sch")
    (import  tools_error

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Object/predicate.scm        */
+;*    .../project/bglstone/src/bigloo/bigloo/Object/predicate.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Jun  5 11:16:50 1996                          */
-;*    Last change :  Sat Sep 27 20:40:33 2003 (serrano)                */
-;*    Copyright   :  1996-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:34:36 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We make the class predicate                                      */
 ;*    -------------------------------------------------------------    */
@@ -19,6 +19,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module object_predicate
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import  tools_error
 	    tools_misc

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/iterate.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cfa/iterate.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Feb 22 18:11:52 1995                          */
-;*    Last change :  Sun Dec  9 15:19:09 2001 (serrano)                */
-;*    Copyright   :  1995-2001 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:42:54 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    THE control flow analysis engine                                 */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cfa_iterate
+   (include "Ast/node.sch" "Type/type.sch" "Cfa/cinfo.sch" "Cfa/cinfo.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    type_type

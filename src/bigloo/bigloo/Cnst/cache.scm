@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cnst/cache.scm              */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cnst/cache.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sun Feb 19 10:35:59 1995                          */
-;*    Last change :  Thu Apr 22 11:09:17 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:39:39 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    A cache to be able to recognize function call very fast.         */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cnst_cache
+   (include "Ast/node.sch" "Type/type.sch")
    (import  type_type
 	    ast_var
 	    ast_env

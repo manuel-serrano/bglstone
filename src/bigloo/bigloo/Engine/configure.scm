@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Engine/configure.scm        */
+;*    .../project/bglstone/src/bigloo/bigloo/Engine/configure.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Dec 29 09:31:00 2000                          */
-;*    Last change :  Mon Nov  8 12:16:59 2004 (serrano)                */
-;*    Copyright   :  2000-04 Manuel Serrano                            */
+;*    Last change :  Thu Mar  6 14:16:05 2025 (serrano)                */
+;*    Copyright   :  2000-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    The machine dependent configuration.                             */
 ;*    -------------------------------------------------------------    */
@@ -55,13 +55,13 @@
 	   (macro bgl-configure-java-shell::string "BGL_JAVA_SHELL")
 	   (macro bgl-configure-jflags::string "BGL_JAVA_OPT")
 	   (macro bgl-configure-jvflags::string "BGL_JAVA_VOPT")
-	   (macro bgl-configure-dotnet-shell::string "BGL_DOTNET_SHELL")
-	   (macro bgl-configure-dotnet-ld::string "BGL_DOTNET_LD")
-	   (macro bgl-configure-dotnet-ld-style::string "BGL_DOTNET_LD_STYLE")
-	   (macro bgl-configure-dotnet-clr::string "BGL_DOTNET_CLR")
-	   (macro bgl-configure-dotnet-clr-style::string "BGL_DOTNET_CLR_STYLE")
-	   (macro bgl-configure-dotnet-clr-opt::string "BGL_DOTNET_CLR_OPT")
-	   (macro bgl-configure-dotnet-asm::string "BGL_DOTNET_ASM")
+	   (macro bgl-configure-dotnet-shell::string "\"none\"")
+	   (macro bgl-configure-dotnet-ld::string "\"none\"")
+	   (macro bgl-configure-dotnet-ld-style::string "\"none\"")
+	   (macro bgl-configure-dotnet-clr::string "\"none\"")
+	   (macro bgl-configure-dotnet-clr-style::string "\"none\"")
+	   (macro bgl-configure-dotnet-clr-opt::string "\"none\"")
+	   (macro bgl-configure-dotnet-asm::string "\"none\"")
 	   (macro bgl-configure-default-back-end::string "BGL_DEFAULT_BACK_END")
 	   (macro bgl-configure-gc-lib::string "BGL_GC_LIBRARY")
 	   (macro bgl-configure-gc-custom::bool "BGL_GC_CUSTOM")

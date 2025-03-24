@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/statexp.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Module/statexp.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jun  4 10:58:45 1996                          */
-;*    Last change :  Fri Nov  2 12:08:53 2001 (serrano)                */
-;*    Copyright   :  1996-2001 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:28:13 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The static clauses compilation.                                  */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_statexp
+   (include "Ast/node.sch")
    (include "Ast/unit.sch")
    (import  module_module
 	    module_prototype

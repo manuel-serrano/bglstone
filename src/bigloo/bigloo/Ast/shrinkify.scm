@@ -1,9 +1,9 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo2.3/comptime/Ast/shrinkify.scm        */
+;*    .../project/bglstone/src/bigloo/bigloo/Ast/shrinkify.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jul  5 11:09:52 1996                          */
-;*    Last change :  Thu Jul 13 11:16:33 2000 (serrano)                */
+;*    Last change :  Thu Mar  6 15:59:25 2025 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    We shrink all the ast to get rid off all the pass info for the   */
 ;*    following passes.                                                */
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module ast_shrinkify
+   (include "Ast/node.sch")
    (import type_type
 	   ast_var
 	   ast_node

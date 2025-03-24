@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/tvector.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cfa/tvector.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Apr  5 18:47:23 1995                          */
-;*    Last change :  Sat Jul  7 08:37:46 2001 (serrano)                */
-;*    Copyright   :  1995-2001 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:49:29 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The `vector->tvector' optimization.                              */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cfa_tvector
+   (include "Ast/node.sch" "Type/type.sch" "Cfa/cinfo.sch" "Cfa/cinfo2.sch" "Cfa/cinfo3.sch" "Object/slots.sch")
    (include "Tools/trace.sch"
 	    "Ast/unit.sch"
 	    "Tvector/tvector.sch")
@@ -38,6 +39,7 @@
 	    cfa_approx
 	    cfa_set
 	    cfa_type
+	    object_slots
 	    globalize_walk
 	    inline_inline
 	    inline_walk)
@@ -287,7 +289,7 @@
    (with-access::kwote/node knode (node value)
       (let* ((approx (cfa! node))
 	     (tv     (get-approx-type approx)))
-	 (if (tvec? tv)
+	 (if ((@ isa? __object) tv tvec)
 	     (let ((knode (shrink! knode)))
 		(duplicate::kwote knode (value (a-tvector tv value))))
 	     (shrink! knode)))))
@@ -490,7 +492,7 @@
       (patch*! expr*)
       (let* ((approx (cfa! (car expr*)))
 	     (tv     (get-approx-type approx)))
-	 (if (and (tvec? tv) (not tvector?))
+	 (if (and ((@ isa? __object) tv tvec) (not tvector?))
 	     (let* ((length-tv (symbol-append (type-id tv) '-length))
 		    (new-node  (sexp->node `(,length-tv ,(car expr*))
 					   '()
@@ -523,7 +525,7 @@
       (patch*! args)
       (let* ((approx (cfa! (car args)))
 	     (tv     (get-approx-type approx)))
-	 (if (tvec? tv)
+	 (if ((@ isa? __object) tv tvec)
 	     (let* ((tv->list  (symbol-append (type-id tv) '->list))
 		    (new-node  (sexp->node `(,tv->list ,@args)
 					   '()
@@ -577,7 +579,7 @@
       (patch*! expr*)
       (let* ((vec-approx (cfa! (car expr*)))
 	     (tv         (get-approx-type vec-approx)))
-	 (if (or tvector? (not (tvec? tv)))
+	 (if (or tvector? (not ((@ isa? __object) tv tvec)))
 	     node
 	     (let* ((tv-ref   (symbol-append (type-id tv) '-ref))
 		    (new-node (sexp->node `(,tv-ref ,@expr*)
@@ -594,7 +596,7 @@
       (patch*! expr*)
       (let* ((vec-approx (cfa! (car expr*)))
 	     (tv         (get-approx-type vec-approx)))
-	 (if (or tvector? (not (tvec? tv)))
+	 (if (or tvector? (not ((@ isa? __object) tv tvec)))
 	     node
 	     (let* ((tv-set!  (symbol-append (type-id tv) '-set!))
 		    (new-node (sexp->node `(,tv-set! ,@expr*)

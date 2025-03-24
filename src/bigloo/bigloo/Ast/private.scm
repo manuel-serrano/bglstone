@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Ast/private.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Ast/private.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jul 13 14:11:36 2000                          */
-;*    Last change :  Wed Jun  9 12:15:02 2004 (serrano)                */
-;*    Copyright   :  2000-04 Manuel Serrano                            */
+;*    Last change :  Thu Mar  6 15:59:35 2025 (serrano)                */
+;*    Copyright   :  2000-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Private constructino of the AST.                                 */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module ast_private
+   (include "Ast/node.sch")
    (import engine_param
 	   ast_node
 	   type_type

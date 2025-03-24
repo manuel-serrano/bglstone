@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Coerce/pproto.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Coerce/pproto.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jan 20 10:45:07 1995                          */
-;*    Last change :  Mon May 15 07:40:41 2000 (serrano)                */
-;*    Copyright   :  1995-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:32:00 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We print prototype                                               */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module coerce_pproto
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/verbose.sch")
    (import  tools_speek
 	    tools_shape

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo2.3/comptime/Inline/loop.scm          */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Inline/loop.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jul 11 09:27:29 1996                          */
-;*    Last change :  Thu Jul 13 11:12:05 2000 (serrano)                */
-;*    Copyright   :  1996-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:44:49 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The loop unrolling module.                                       */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module inline_loop
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import  engine_param
 	    type_type

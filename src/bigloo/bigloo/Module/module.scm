@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/module.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Module/module.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri May 31 10:29:03 1996                          */
-;*    Last change :  Wed Nov 17 14:06:17 2004 (serrano)                */
-;*    Copyright   :  1996-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:27:36 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The compilation of a Module clause                               */
 ;*=====================================================================*/
@@ -13,9 +13,11 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_module
+   (include "Ast/node.sch")
    
    (include "Ast/unit.sch"
-	    "Engine/pass.sch")
+	    "Engine/pass.sch"
+	    "Module/module.sch")
    
    (import  engine_param
 	    engine_pass

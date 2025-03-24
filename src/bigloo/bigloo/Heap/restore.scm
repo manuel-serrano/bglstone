@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Heap/restore.scm            */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Heap/restore.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Mon Dec 26 10:53:23 1994                          */
-;*    Last change :  Wed Jan 19 17:06:18 2005 (serrano)                */
-;*    Copyright   :  1994-2005 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:08:57 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We restore an heap                                               */
 ;*=====================================================================*/
@@ -13,7 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module heap_restore
-   (include "Engine/pass.sch")
+   (include "Engine/pass.sch" "Ast/node.sch")
    (export  (restore-heap)
 	    (restore-additional-heaps)
 	    (dump-additional-heaps)

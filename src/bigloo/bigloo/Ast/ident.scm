@@ -1,9 +1,9 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Ast/ident.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Ast/ident.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Mon Jun  3 09:33:09 1996                          */
-;*    Last change :  Mon Jan  1 10:34:03 2001 (serrano)                */
+;*    Last change :  Thu Mar  6 15:57:40 2025 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    The identifier managment                                         */
 ;*=====================================================================*/
@@ -12,6 +12,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module ast_ident
+   (include "Ast/node.sch")
    (import tools_error
 	   tools_dsssl
 	   type_type

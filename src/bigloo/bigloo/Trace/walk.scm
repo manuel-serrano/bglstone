@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Trace/walk.scm              */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Trace/walk.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Apr 13 13:53:58 1995                          */
-;*    Last change :  Fri Nov  5 09:13:20 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:20:46 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The introduction of trace in debugging mode.                     */
 ;*=====================================================================*/
@@ -13,12 +13,13 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module trace_walk
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Engine/pass.sch"
 	    "Ast/node.sch"
 	    "Tools/location.sch")
    (import  tools_shape
 	    tools_error
-	    tools_misc
+	    tvector_tvector
 	    type_env
 	    ast_sexp
 	    ast_ident

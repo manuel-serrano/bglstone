@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Globalize/gn.scm            */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Globalize/gn.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jan 26 14:54:22 1995                          */
-;*    Last change :  Tue May 20 23:57:58 2003 (serrano)                */
-;*    Copyright   :  1995-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:36:06 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We compute the G0 and G1 properties which is defined as follow:  */
 ;*                                                                     */
@@ -21,6 +21,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module globalize_gn
+   (include "Ast/node.sch" "Type/type.sch" "Globalize/ginfo.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    type_type

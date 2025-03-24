@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Integrate/ctn.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Integrate/ctn.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Mar 15 14:10:09 1995                          */
-;*    Last change :  Thu Apr  3 10:26:01 2003 (serrano)                */
-;*    Copyright   :  1995-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:34:16 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The computation of `Cn' and `Ct'.                                */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module integrate_ctn
+   (include "Ast/node.sch" "Type/type.sch" "Integrate/iinfo.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    type_type

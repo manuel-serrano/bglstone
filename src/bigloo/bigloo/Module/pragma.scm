@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/pragma.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Module/pragma.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jun  7 08:44:07 1996                          */
-;*    Last change :  Mon Sep 29 11:24:29 2003 (serrano)                */
-;*    Copyright   :  1996-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:29:50 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The pragma clause compilation                                    */
 ;*=====================================================================*/
@@ -13,6 +13,8 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_pragma
+   (include "Ast/node.sch"
+	    "Object/slots.sch")
    (import module_module
 	   module_eval
 	   tools_error
@@ -24,6 +26,8 @@
 	   ast_remove
 	   type_env
 	   effect_feffect
+           object_class
+	   object_slots
 	   (find-location tools_location))
    (export (make-pragma-compiler)
 	   (pragma-finalizer)))

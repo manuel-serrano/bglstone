@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Foreign/ctype.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Foreign/ctype.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Dec 27 18:57:02 1994                          */
-;*    Last change :  Sun Jun 10 14:45:00 2001 (serrano)                */
-;*    Copyright   :  1994-2001 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:05:19 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The C type managment                                             */
 ;*=====================================================================*/
@@ -14,7 +14,7 @@
 ;*---------------------------------------------------------------------*/
 (module foreign_ctype
 
-   (include "Tools/trace.sch")
+   (include "Tools/trace.sch" "Ast/node.sch" "Foreign/ctype.sch")
    
    (import  type_type
 	    type_env

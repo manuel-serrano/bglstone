@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/initial.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Expand/initial.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Dec 28 15:41:05 1994                          */
-;*    Last change :  Thu Jan 13 09:47:44 2005 (serrano)                */
-;*    Copyright   :  1994-2005 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:41:02 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    Initial compiler expanders.                                      */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module expand_install
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/location.sch")
    (import  expand_if
 	    expand_lambda

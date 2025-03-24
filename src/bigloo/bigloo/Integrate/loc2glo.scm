@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Integrate/loc2glo.scm       */
+;*    .../project/bglstone/src/bigloo/bigloo/Integrate/loc2glo.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Mar 15 17:29:48 1995                          */
-;*    Last change :  Tue Feb 24 08:56:38 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:33:43 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We translate a local function definition into a global one.      */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module integrate_local->global
+   (include "Ast/node.sch" "Type/type.sch" "Integrate/iinfo.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    tools_args

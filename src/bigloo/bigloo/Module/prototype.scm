@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/prototype.scm        */
+;*    .../project/bglstone/src/bigloo/bigloo/Module/prototype.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jun  4 14:27:58 1996                          */
-;*    Last change :  Fri Nov 22 12:27:12 2002 (serrano)                */
-;*    Copyright   :  1996-2002 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:26:23 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The prototype management                                         */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_prototype
+   (include "Ast/node.sch")
    (import tools_error
 	   tools_dsssl
 	   tools_misc

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/struct.scm              */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cfa/struct.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Apr  5 18:06:51 1995                          */
-;*    Last change :  Sat Jul  7 08:41:48 2001 (serrano)                */
-;*    Copyright   :  1995-2001 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:48:01 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The struct approximation management                              */
 ;*    -------------------------------------------------------------    */
@@ -15,6 +15,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cfa_struct
+   (include "Ast/node.sch" "Type/type.sch" "Cfa/cinfo.sch" "Cfa/cinfo2.sch" "Cfa/cinfo3.sch")
    (include "Tools/trace.sch")
    (import  tools_error
 	    tools_shape
@@ -24,6 +25,7 @@
 	    ast_node
 	    cfa_info
 	    cfa_info2
+	    cfa_info3
 	    cfa_loose
 	    cfa_iterate
 	    cfa_cfa

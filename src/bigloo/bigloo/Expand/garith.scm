@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/garith.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Expand/garith.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Aug 26 09:16:36 1994                          */
-;*    Last change :  Mon Apr  5 21:39:43 2004 (serrano)                */
-;*    Copyright   :  1994-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:40:13 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    Les expandeurs arithmetiques (generiques)                        */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    Le module                                                        */
 ;*---------------------------------------------------------------------*/
 (module expand_garithmetique
+   (include "Ast/node.sch" "Type/type.sch")
    (export (expand-g+  ::obj ::procedure)
 	   (expand-g-  ::obj ::procedure)
 	   (expand-g*  ::obj ::procedure)

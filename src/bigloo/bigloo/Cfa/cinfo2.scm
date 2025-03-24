@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/cinfo2.scm              */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Cfa/cinfo2.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Feb 25 13:50:29 1999                          */
-;*    Last change :  Sat Jul  7 08:36:29 2001 (serrano)                */
-;*    Copyright   :  1999-2001 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:53:01 2025 (serrano)                */
+;*    Copyright   :  1999-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The format cfa_info used is to big. Its compilation was          */
 ;*    requiring to many memory. I have simply slit that module.        */
@@ -15,11 +15,16 @@
 ;*---------------------------------------------------------------------*/
 (module cfa_info2
 
+   (include "Ast/node.sch" "Type/type.sch")
+
+   (include "Cfa/cinfo2.sch")
+   
    (import type_type
 	   type_cache
 	   ast_var
 	   ast_node
-	   cfa_info)
+	   cfa_info
+	   cfa_approx)
    
    (export ;; arithmetic
            (wide-class pre-arithmetic-app::app

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cfa/type.scm                */
+;*    serrano/prgm/project/bglstone/src/bigloo/bigloo/Cfa/type.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jun 27 10:33:17 1996                          */
-;*    Last change :  Tue Sep 18 06:26:37 2001 (serrano)                */
-;*    Copyright   :  1996-2001 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:48:16 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We make the obvious type election (taking care of tvectors).     */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cfa_type
+   (include "Ast/node.sch" "Type/type.sch" "Cfa/cinfo.sch" "Cfa/cinfo2.sch" "Cfa/cinfo3.sch")
    (import  type_type
 	    type_cache
 	    tools_shape
@@ -155,7 +156,7 @@
 	      ;; that there type is a Bigloo type.
 	      (variable-type-set! variable *obj*)
 	      (variable-type-set! variable ntype)))
-	 ((and (eq? otype *vector*) (tvec? ntype))
+	 ((and (eq? otype *vector*) ((@ isa? __object) ntype tvec))
 	  (variable-type-set! variable ntype)))))
 
 ;*---------------------------------------------------------------------*/

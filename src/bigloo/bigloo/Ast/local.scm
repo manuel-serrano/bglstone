@@ -1,9 +1,9 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Ast/local.scm               */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Ast/local.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Dec 27 17:39:21 1994                          */
-;*    Last change :  Wed Apr 23 18:21:48 2003 (serrano)                */
+;*    Last change :  Thu Mar  6 15:57:58 2025 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    The declaration of local variables                               */
 ;*=====================================================================*/
@@ -12,6 +12,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module ast_local
+   (include "Ast/node.sch")
    (import  type_type
 	    type_cache
 	    engine_param

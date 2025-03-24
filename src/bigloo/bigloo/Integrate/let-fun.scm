@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    .../prgm/project/bigloo2.3/comptime/Integrate/let-fun.scm        */
+;*    .../project/bglstone/src/bigloo/bigloo/Integrate/let-fun.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Mar 16 09:38:46 1995                          */
-;*    Last change :  Thu Jul 13 11:09:38 2000 (serrano)                */
-;*    Copyright   :  1995-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:34:24 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    This module implements a function which remove displaced         */
 ;*    local functions and which adds the integrated ones.              */
@@ -14,6 +14,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module integrate_let-fun
+   (include "Ast/node.sch" "Type/type.sch" "Integrate/iinfo.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    tools_error

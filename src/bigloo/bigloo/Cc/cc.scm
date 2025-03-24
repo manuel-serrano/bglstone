@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cc/cc.scm                   */
+;*    serrano/prgm/project/bglstone/src/bigloo/bigloo/Cc/cc.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sat Apr 29 09:51:32 1995                          */
-;*    Last change :  Wed Mar 24 13:57:12 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:01:18 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The C compilation                                                */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cc_cc
+   (include "Ast/node.sch")
    (export  (cc name oname ::bool))
    (import  tools_speek
 	    tools_error

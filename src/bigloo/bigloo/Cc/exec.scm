@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cc/exec.scm                 */
+;*    serrano/prgm/project/bglstone/src/bigloo/bigloo/Cc/exec.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sat Apr 29 09:09:34 1995                          */
-;*    Last change :  Fri Nov  5 14:58:21 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:00:02 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    When we don't need to make any action after invoking the C       */
 ;*    compiler (i.e. when the C compiler is called in a tail           */
@@ -18,7 +18,8 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module cc_exec
-   (include "Tools/trace.sch")
+   (include "Tools/trace.sch"
+	    "Ast/node.sch")
    (extern  (macro execl::int (::string ::string ::string ::string ::long)
 		   "execl"))
    (import  tools_error

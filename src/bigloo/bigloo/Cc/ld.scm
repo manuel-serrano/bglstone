@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Cc/ld.scm                   */
+;*    serrano/prgm/project/bglstone/src/bigloo/bigloo/Cc/ld.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jul 17 09:37:55 1992                          */
-;*    Last change :  Sat Oct 30 05:50:35 2004 (serrano)                */
-;*    Copyright   :  1992-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:01:34 2025 (serrano)                */
+;*    Copyright   :  1992-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The (system) link.                                               */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    Le module                                                        */
 ;*---------------------------------------------------------------------*/
 (module cc_ld
+   (include "Ast/node.sch")
    (export  (ld name ::bool)
 	    (lib->string lib . su)
 	    (library-suffix)

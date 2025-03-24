@@ -1,9 +1,9 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo2.3/comptime/Ast/substitute.scm       */
+;*    .../project/bglstone/src/bigloo/bigloo/Ast/substitute.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jan  6 11:09:14 1995                          */
-;*    Last change :  Thu Jul 13 11:09:59 2000 (serrano)                */
+;*    Last change :  Thu Mar  6 15:58:32 2025 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    The substitution tools module                                    */
 ;*=====================================================================*/
@@ -12,7 +12,8 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module ast_substitute
-   (include "Tools/trace.sch")
+   (include "Tools/trace.sch"
+	    "Ast/node.sch")
    (import  type_type
 	    type_cache
 	    ast_var

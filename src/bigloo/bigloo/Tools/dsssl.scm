@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Tools/dsssl.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Tools/dsssl.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  SERRANO Manuel                                    */
 ;*    Creation    :  Thu Apr  3 14:42:11 1997                          */
-;*    Last change :  Mon May 15 08:02:16 2000 (serrano)                */
-;*    Copyright   :  1997-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:37:38 2025 (serrano)                */
+;*    Copyright   :  1997-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    Some dsssl goodies.                                              */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module tools_dsssl
+   (include "Ast/node.sch" "Type/type.sch")
    (import tools_error)
    (export (dsssl-named-constant? obj)
 	   (dsssl-defaulted-formal? obj)

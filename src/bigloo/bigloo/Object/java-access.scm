@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Object/java-access.scm      */
+;*    .../bglstone/src/bigloo/bigloo/Object/java-access.scm            */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Jun  5 11:16:50 1996                          */
-;*    Last change :  Tue Feb  5 15:22:09 2002 (serrano)                */
-;*    Copyright   :  1996-2002 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:34:01 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We make the class accessors                                      */
 ;*    -------------------------------------------------------------    */
@@ -19,6 +19,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module object_java-access
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/trace.sch")
    (import  tools_error
 	    tools_misc

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Reduce/copy.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Reduce/copy.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jul 13 10:29:17 1995                          */
-;*    Last change :  Tue Oct  5 13:56:23 2004 (serrano)                */
-;*    Copyright   :  1995-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:25:22 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The reduction of type checks.                                    */
 ;*=====================================================================*/
@@ -21,6 +21,8 @@
 	    type_cache
 	    type_typeof
 	    type_misc
+	    tvector_tvector
+	    object_class
 	    coerce_coerce
 	    effect_effect
 	    ast_var

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Expand/farith.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Expand/farith.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Mar 23 16:05:55 1995                          */
-;*    Last change :  Mon May 15 07:45:00 2000 (serrano)                */
-;*    Copyright   :  1995-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:40:24 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The flonum expanders.                                            */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module expand_farithmetique
+   (include "Ast/node.sch" "Type/type.sch")
    (import type_type
 	   ast_ident)
    (export (expand-fmax  ::obj ::procedure)

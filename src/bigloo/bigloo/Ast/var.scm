@@ -1,9 +1,9 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Ast/var.scm                 */
+;*    serrano/prgm/project/bglstone/src/bigloo/bigloo/Ast/var.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu May 30 15:12:51 1996                          */
-;*    Last change :  Mon Sep 29 15:57:42 2003 (serrano)                */
+;*    Last change :  Thu Mar  6 15:56:25 2025 (serrano)                */
 ;*    -------------------------------------------------------------    */
 ;*    The variable class definition                                    */
 ;*=====================================================================*/
@@ -13,8 +13,11 @@
 ;*---------------------------------------------------------------------*/
 (module ast_var
 
+   (include "Ast/var.sch")
+   
    (import engine_param
-	   type_type)
+	   type_type
+	   type_cache)
 
    (export (class value)
 	   

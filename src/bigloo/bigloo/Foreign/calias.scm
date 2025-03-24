@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Foreign/calias.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Foreign/calias.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jun  6 12:25:42 1996                          */
-;*    Last change :  Mon May 15 07:48:06 2000 (serrano)                */
-;*    Copyright   :  1996-2000 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:06:07 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The C alias accessors creations.                                 */
 ;*=====================================================================*/
@@ -13,7 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module foreign_calias
-   (include "Tools/trace.sch")
+   (include "Tools/trace.sch" "Ast/node.sch" "Foreign/ctype.sch")
    (import  type_tools
 	    type_type
 	    tools_shape

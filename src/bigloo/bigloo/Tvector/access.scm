@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Tvector/access.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Tvector/access.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Mon Mar 27 13:33:40 1995                          */
-;*    Last change :  Sat Apr 19 14:41:04 2003 (serrano)                */
-;*    Copyright   :  1995-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:03:45 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We install all the coercer and accessor for `tvector' types.     */
 ;*=====================================================================*/
@@ -13,6 +13,8 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module tvector_access
+   (include "Ast/node.sch" "Type/type.sch" "Tvector/tvector.sch")
+   
    (import  tools_misc
 	    type_type
 	    type_env

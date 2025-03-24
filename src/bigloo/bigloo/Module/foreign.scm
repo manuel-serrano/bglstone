@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/foreign.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Module/foreign.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jun  4 16:28:03 1996                          */
-;*    Last change :  Thu Oct 10 12:10:33 2002 (serrano)                */
-;*    Copyright   :  1996-2002 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:25:35 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The foreign and extern clauses compilation. Foreign and extern   */
 ;*    clauses only differs by their syntax. They play the same role    */
@@ -16,6 +16,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_foreign
+   (include "Ast/node.sch")
    (include "Ast/unit.sch"
 	    "Tools/trace.sch")
    (import  module_module

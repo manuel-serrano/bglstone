@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Foreign/jtype.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Foreign/jtype.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jan  2 10:58:27 2001                          */
-;*    Last change :  Fri May 21 17:23:06 2004 (serrano)                */
-;*    Copyright   :  2001-04 Manuel Serrano                            */
+;*    Last change :  Thu Mar  6 16:08:04 2025 (serrano)                */
+;*    Copyright   :  2001-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    The JVM array type managment. I have tried to reuse as much as   */
 ;*    as possible of the C foreign type machinery. This is why this    */
@@ -16,7 +16,7 @@
 ;*---------------------------------------------------------------------*/
 (module foreign_jtype
 
-   (include "Tools/trace.sch")
+   (include "Tools/trace.sch" "Ast/node.sch" "Foreign/jtype.sch")
 
    (import  type_type
 	    type_env

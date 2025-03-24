@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Tools/progn.scm             */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Tools/progn.scm      */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Dec 29 11:08:04 1994                          */
-;*    Last change :  Wed Apr 17 20:53:53 2002 (serrano)                */
-;*    Copyright   :  1994-2002 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 08:35:30 2025 (serrano)                */
+;*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The code sequence normalization.                                 */
 ;*=====================================================================*/
@@ -13,9 +13,11 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module tools_progn
+   (include "Ast/node.sch" "Type/type.sch")
    (include "Tools/location.sch")
    (import  tools_misc
 	    tools_error
+	    object_slots
 	    tools_location)
    (export  (normalize-progn <expression>)
 	    (normalize-progn/loc <expression> <value>)

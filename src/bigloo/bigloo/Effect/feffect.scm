@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Effect/feffect.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Effect/feffect.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Sep 26 08:48:52 2003                          */
-;*    Last change :  Fri Dec  5 10:12:31 2003 (serrano)                */
-;*    Copyright   :  2003 Manuel Serrano                               */
+;*    Last change :  Fri Mar  7 08:29:22 2025 (serrano)                */
+;*    Copyright   :  2003-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    The effect of the functions (i.e. does a function read a pair,   */
 ;*    does it set a vector or a global variable, ...).                 */
@@ -14,10 +14,12 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module effect_feffect
-   (include "Tools/trace.sch")
+   (include "Ast/node.sch" "Type/type.sch")
+   (include "Tools/trace.sch" "Effect/cgraph.sch")
    (import  type_type
 	    tools_shape
 	    tools_error
+	    object_class
 	    ast_node
 	    ast_var
 	    effect_cgraph)

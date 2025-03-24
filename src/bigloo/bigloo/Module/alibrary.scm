@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/alibrary.scm         */
+;*    .../project/bglstone/src/bigloo/bigloo/Module/alibrary.scm       */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Sat Feb 28 10:20:55 1998                          */
-;*    Last change :  Fri Mar 12 06:32:42 2004 (serrano)                */
-;*    Copyright   :  1998-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:33:29 2025 (serrano)                */
+;*    Copyright   :  1998-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The compiler library clause compilation                          */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_alibrary
+   (include "Ast/node.sch")
    (include "Ast/unit.sch")
    (import  module_module
 	    tools_error

@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Module/impuse.scm           */
+;*    .../project/bglstone/src/bigloo/bigloo/Module/impuse.scm         */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jun  4 12:25:53 1996                          */
-;*    Last change :  Fri Nov 12 10:44:28 2004 (serrano)                */
-;*    Copyright   :  1996-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:25:46 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The import/use/from clauses compilation                          */
 ;*=====================================================================*/
@@ -13,6 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module module_impuse
+   (include "Ast/node.sch")
    
    (include "Ast/unit.sch"
 	    "Tools/trace.sch")
@@ -171,7 +172,7 @@
 			;; (module-name "file-name"+)
 			(if (pair? files) (add-access! mod files))
 			(import-all-module mod mode prototype))
-		       ((every? symbol? vars)
+		       ((every symbol? vars)
 			;; (var1 var2 ... varN module-name "file-name"*)
 			(if (pair? files) (add-access! mod files))
 			(for-each (lambda (v)

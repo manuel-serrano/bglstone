@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Foreign/cptr.scm            */
+;*    .../prgm/project/bglstone/src/bigloo/bigloo/Foreign/cptr.scm     */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Thu Jun  6 12:23:13 1996                          */
-;*    Last change :  Wed Feb  4 15:36:02 2004 (serrano)                */
-;*    Copyright   :  1996-2004 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Thu Mar  6 16:04:48 2025 (serrano)                */
+;*    Copyright   :  1996-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    The C ptr accessors creations                                    */
 ;*=====================================================================*/
@@ -13,7 +13,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module foreign_cpointer
-   (include "Tools/trace.sch")
+   (include "Tools/trace.sch" "Ast/node.sch" "Foreign/ctype.sch")
    (import  type_tools
 	    type_type
 	    tools_shape

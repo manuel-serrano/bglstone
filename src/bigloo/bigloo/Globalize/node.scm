@@ -1,10 +1,10 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bigloo/comptime/Globalize/node.scm          */
+;*    .../project/bglstone/src/bigloo/bigloo/Globalize/node.scm        */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Fri Jan 27 14:12:58 1995                          */
-;*    Last change :  Tue May 20 23:45:48 2003 (serrano)                */
-;*    Copyright   :  1995-2003 Manuel Serrano, see LICENSE file        */
+;*    Last change :  Fri Mar  7 07:33:09 2025 (serrano)                */
+;*    Copyright   :  1995-2025 Manuel Serrano, see LICENSE file        */
 ;*    -------------------------------------------------------------    */
 ;*    We transforme the ast in order to fix the free variables, to     */
 ;*    remove the useless local functions (globalized or integrated     */
@@ -15,6 +15,7 @@
 ;*    The module                                                       */
 ;*---------------------------------------------------------------------*/
 (module globalize_node
+   (include "Ast/node.sch" "Type/type.sch" "Globalize/ginfo.sch")
    (include "Tools/trace.sch")
    (import  tools_shape
 	    type_type
