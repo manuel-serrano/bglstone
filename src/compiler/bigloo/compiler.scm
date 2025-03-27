@@ -11705,7 +11705,7 @@
   (equal? result output-expected))
 
 (define (main argv)
-   (let ((n (if (pair? argv)
+   (let ((n (if (pair? (cdr argv))
 		(if (string=? (cadr argv) "pmem")
 		    2000
 		    (string->integer (cadr argv)))
