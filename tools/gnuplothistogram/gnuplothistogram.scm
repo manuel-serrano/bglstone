@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Mon Mar 24 14:00:52 2025 (serrano)                */
+;*    Last change :  Sat May  3 10:36:05 2025 (serrano)                */
 ;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -50,6 +50,7 @@
 (define *rmargin* "1")
 (define *bmargin* "0")
 (define *key* "under nobox")
+(define *min-threshold* 10)
 
 (define *offset-tables*
    `#(- -
@@ -149,6 +150,8 @@
        (set! *bmargin* bmargin))
       (("--key" ?key (help "gnuplot key configuration"))
        (set! *key* key))
+      (("--min-threshold" ?threshold (help "min significant value"))
+       (set! *min-threshold* (string->number threshold)))
       (else
        (set! *inputs* (append *inputs* (list else))))))
 
@@ -175,7 +178,7 @@
 					benchmark)
 				     (format "~(,)"
 					(times-in-unit
-					   (median (caddr val)))))))
+					   (median (threshold (caddr val))))))))
 			 stats)))
 	 benchmarks))
 
@@ -187,7 +190,7 @@
 			    "*** ERRRO: wrong benchmark entry " benchmark)
 			 (raise e))
 		      (let* ((val (assq benchmark (cdddr (car stats))))
-			     (base (car (median (caddr val)))))
+			     (base (car (median (threshold (caddr val))))))
 			 (display* benchmark ",  ")
 			 (printf "~(,  )\n"
 			    (map (lambda (stat)
@@ -197,7 +200,7 @@
 					      "Cannot find benchmark value"
 					      benchmark)
 					   (format "~(,)"
-					      (/ (car (median (caddr val))) base)))))
+					      (/ (car (median (threshold (caddr val)))) base)))))
 			       (if (eq? *relative* 'avec)
 				   stats
 				   (cdr stats)))))))
@@ -457,3 +460,8 @@
 	  (c (apply + (map (lambda (v) (* (- v m) (- v m))) times))))
       (sqrt (/ c (length times)))))
 
+;*---------------------------------------------------------------------*/
+;*    threshold ...                                                    */
+;*---------------------------------------------------------------------*/
+(define (threshold times)
+   (map (lambda (t) (if (> t *min-threshold*) t 0)) times))
