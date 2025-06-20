@@ -637,6 +637,8 @@
 	 (if (= i 1)
 	     (begin
 		(when (=fx n 1) (print r))
+		(print "benchmark "
+		   (if (equal? r expected-result) "success" "failed"))
 		(exit (if (equal? r expected-result) 0 1)))
 	     (begin
 		(test)
