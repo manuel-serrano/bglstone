@@ -3,8 +3,8 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  manuel serrano                                    */
 ;*    Creation    :  Sun Nov  3 12:19:09 2024                          */
-;*    Last change :  Tue Nov  5 09:12:47 2024 (serrano)                */
-;*    Copyright   :  2024 manuel serrano                               */
+;*    Last change :  Fri Jun 20 10:11:16 2025 (serrano)                */
+;*    Copyright   :  2024-25 manuel serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Commont script to be include in all r7rs tests                   */
 ;*=====================================================================*/
@@ -80,10 +80,31 @@
 	 ((<fx i count) (loop (+fx i 1) (thunk)))
 	 ((ok? result) (print "ok") (exit 0))
 	 (else (print "error") (exit 1)))))
-	 
+
+(define *filler* #f)
+
+(define (mini-eval expr)
+   ;; use mini-eval instead of plain eval to avoid loading the eval
+   ;; code inside the benchmark code
+   (match-case expr
+      ((make-vector ?size . ?init)
+       (make-vector size (if (pair? init) (car init) #f)))
+      ((make-string ?size ?char)
+       (make-string size char))
+      (else
+       (error "mini-eval" "Cannot evaluate expression" expr))))
+   
 (define (main x)
-   (if (pair? (cdr x))
-       (if (string=? (cadr x) "pmem")
-           (with-input-from-string (pmem) run-benchmark)
-           (with-input-from-string (cadr x) run-benchmark))
-       (with-input-from-file (default-input) run-benchmark)))
+   (let loop ((x (cdr x)))
+      (match-case x
+	 (("filler" ?expr . ?rest)
+	  ;; start the benchmark with a filled heap
+	  (set! *filler* (mini-eval (call-with-input-string expr read)))
+	  (loop rest))
+	 (("pmem")
+	  ;; memory profiling
+	  (with-input-from-string (pmem) run-benchmark))
+	 ((?file)
+	  (with-input-from-string file run-benchmark))
+	 (else
+	  (with-input-from-file (default-input) run-benchmark)))))

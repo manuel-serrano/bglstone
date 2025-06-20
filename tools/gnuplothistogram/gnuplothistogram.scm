@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Mon Mar 24 14:00:52 2025 (serrano)                */
+;*    Last change :  Fri Jun 20 09:26:29 2025 (serrano)                */
 ;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -40,6 +40,7 @@
 (define *logscale* #f)
 (define *xfontsize* "8")
 (define *yfontsize* "10")
+(define *vfontsize* "6")
 (define *format* "pdf")
 (define *benchmarks* '())
 (define *separator* -1)
@@ -52,10 +53,10 @@
 (define *key* "under nobox")
 
 (define *offset-tables*
-   `#(- -
-	#(0)
+   `#(- #(0)
 	#(,(- (/ 1 6)) ,(/ 1 6))
 	#(,(- (/ 1 6)) 0 ,(/ 1 6))
+	#(,(- (/ 2 6)) (- (/ 1 6)) (- (/ 1 6)) ,(/ 1 6))
 	#(,(- (/ 2 6)) ,(- (/ 1 6)) 0 ,(/ 1 6) ,(/ 2 6))
 	#(,(- (/ 3 6)) ,(- (/ 2 6)) ,(- (/ 1 6)) 0 ,(/ 1 6) ,(/ 2 6) ,(/ 3 6))))
 
@@ -117,6 +118,9 @@
       (("--relative-sans-right" (help "Display relative values, flushed right"))
        (set! *relative* 'sans)
        (set! *relative-position* 'right))
+      (("--relative-sans-left" (help "Display relative values, flushed left"))
+       (set! *relative* 'sans)
+       (set! *relative-position* 'left))
       ((("-t" "--title") ?title (help "Figure title"))
        (set! *user-title* title))
       ((("-l" "--ylabel") ?label (help "Figure ylabel"))
@@ -127,6 +131,8 @@
        (set! *xfontsize* size))
       (("--y-fontsize" ?size (help "y font-size"))
        (set! *yfontsize* size))
+      (("--v-fontsize" ?size (help "value font-size"))
+       (set! *vfontsize* size))
       ((("-f" "--format") ?format (help "output format"))
        (set! *format* format))
       (("--benchmarks" ?benchs (help "List of benchmarks to use"))
@@ -238,11 +244,12 @@
       (let ((table (vector-ref *offset-tables* (length stats))))
 	 (let loop ((stats stats)
 		    (i 0))
-	    (printf "   '~a.csv' u ($0+~a):($~a+.1):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,6' rotate by 90 notitle"
+	    (printf "   '~a.csv' u ($0+~a):($~a+.15):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
 	       (basename *fout*)
 	       (vector-ref table i)
 	       (+fx i 2)
-	       (+fx i 2))
+	       (+fx i 2)
+	       *vfontsize*)
 	    (when (pair? (cdr stats))
 	       (print ",\\")
 	       (loop (cdr stats) (+fx i 1))))))
@@ -259,14 +266,16 @@
 	    (loop (cdr stats) (+fx i 1)))))
 
    (define (relative-values stats)
-      (let ((table (vector-ref *offset-tables* (length stats))))
-	 (let loop ((stats (if (eq? *relative* 'avec) stats (cdr stats)))
+      (let* ((stats (if (eq? *relative* 'avec) stats (cdr stats)))
+	     (table (vector-ref *offset-tables* (length stats))))
+	 (let loop ((stats stats)
 		    (i 0))
-	    (printf "   '~a.csv' u ($0+~a):($~a+.1):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,6' rotate by 90 notitle"
+	    (printf "   '~a.csv' u ($0+~a):($~a+.15):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
 	       (basename *fout*)
 	       (vector-ref table i)
 	       (+fx i 2)
-	       (+fx i 2))
+	       (+fx i 2)
+	       *vfontsize*)
 	    (when (pair? (cdr stats))
 	       (print ",\\")
 	       (loop (cdr stats) (+fx i 1))))))
@@ -344,15 +353,19 @@
 	    (printf "set arrow 1 from graph 0, first 1 to graph 1, first 1 nohead lc '~a' lw 2 dt '---' front\n" *base-color*)
 	    (printf "set label 1 '~a' font 'Verdana,10' at ~a,1 offset 0.1,0.4 left tc '~a' front\n\n"
 	       (system-name (car stats))
-	       (if (eq? *relative-position* 'left) -1 (-fx (length (cddr (car stats))) 2))
+	       (case *relative-position*
+		  ((left) -1)
+		  ((right) (-fx (length (cddr (car stats))) 2)))
 	       *base-color*))
 	 
 	 (when *logscale*
 	    (print "set logscale y\n"))
 
 	 (when (>fx *separator* 0)
-	    (printf "set arrow from ~a,0 to ~a,GPVAL_Y_MAX nohead ls 1000 dashtype 2\n\n"
-	       (- *separator* 0.5) (- *separator* 0.5)))
+	    (printf "set arrow from ~a,~a to ~a,GPVAL_Y_MAX nohead ls 1000 dashtype 2\n\n"
+	       (- *separator* 0.5)
+	       (if *logscale* "0.1" "0")
+	       (- *separator* 0.5)))
 	 
 	 (print "plot \\")
 	 (if *relative*
