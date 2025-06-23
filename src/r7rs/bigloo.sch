@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  manuel serrano                                    */
 ;*    Creation    :  Sun Nov  3 12:19:09 2024                          */
-;*    Last change :  Fri Jun 20 10:11:16 2025 (serrano)                */
+;*    Last change :  Mon Jun 23 15:28:50 2025 (serrano)                */
 ;*    Copyright   :  2024-25 manuel serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Commont script to be include in all r7rs tests                   */
@@ -95,6 +95,9 @@
        (error "mini-eval" "Cannot evaluate expression" expr))))
    
 (define (main x)
+   (let ((expr (getenv "BGLSTONE_FILLER")))
+      (when (string? expr)
+	 (set! *filler* (mini-eval (call-with-input-string expr read)))))
    (let loop ((x (cdr x)))
       (match-case x
 	 (("filler" ?expr . ?rest)
