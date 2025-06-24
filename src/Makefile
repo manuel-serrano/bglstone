@@ -3,8 +3,8 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 14:54:21 2001                          */
-#*    Last change :  Tue Nov 12 13:31:40 2024 (serrano)                */
-#*    Copyright   :  2001-24 Manuel Serrano                            */
+#*    Last change :  Tue Jun 24 13:47:27 2025 (serrano)                */
+#*    Copyright   :  2001-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile that handles bglstone benchmarks                    */
 #*=====================================================================*/
@@ -253,6 +253,9 @@ mkln:
                if [ ! -e bigloo-saw ]; then \
                   ln -s bigloo bigloo-saw; \
                fi) || exit -1; \
+               if [ ! -e gambit ]; then \
+                  ln -s bigloo gambit; \
+               fi || exit -1; \
             fi \
 	  done
 

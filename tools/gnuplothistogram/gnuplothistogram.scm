@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Fri Jun 20 09:26:29 2025 (serrano)                */
+;*    Last change :  Tue Jun 24 10:37:01 2025 (serrano)                */
 ;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -37,6 +37,7 @@
 (define *relative* #f)
 (define *relative-position* 'left)
 (define *errorbars* "errorbars lw 1")
+(define *force-errorbars* #unspecified)
 (define *logscale* #f)
 (define *xfontsize* "8")
 (define *yfontsize* "10")
@@ -57,7 +58,7 @@
    `#(- #(0)
 	#(,(- (/ 1 6)) ,(/ 1 6))
 	#(,(- (/ 1 6)) 0 ,(/ 1 6))
-	#(,(- (/ 2 6)) (- (/ 1 6)) (- (/ 1 6)) ,(/ 1 6))
+	#(,(- (/ 2 6)) ,(- (/ 1 6)) ,(/ 1 6) ,(/ 2 6))
 	#(,(- (/ 2 6)) ,(- (/ 1 6)) 0 ,(/ 1 6) ,(/ 2 6))
 	#(,(- (/ 3 6)) ,(- (/ 2 6)) ,(- (/ 1 6)) 0 ,(/ 1 6) ,(/ 2 6) ,(/ 3 6))))
 
@@ -158,6 +159,10 @@
        (set! *key* key))
       (("--min-threshold" ?threshold (help "min significant value"))
        (set! *min-threshold* (string->number threshold)))
+      (("--errorbars" (help "force error bars even for relative histographs"))
+       (set! *force-errorbars* #t))
+      (("--no-errorbars" (help "disable error bars"))
+       (set! *force-errorbars* #f))
       (else
        (set! *inputs* (append *inputs* (list else))))))
 
@@ -196,17 +201,25 @@
 			    "*** ERRRO: wrong benchmark entry " benchmark)
 			 (raise e))
 		      (let* ((val (assq benchmark (cdddr (car stats))))
-			     (base (car (median (threshold (caddr val))))))
+			     (base (median (threshold (caddr val)))))
 			 (display* benchmark ",  ")
 			 (printf "~(,  )\n"
 			    (map (lambda (stat)
-				    (let ((val (assq benchmark (cdddr stat))))
-				       (if (null? val)
+				    (let* ((val (assq benchmark (cdddr stat)))
+					   (med (median (threshold (caddr val)))))
+				       (cond
+					  ((null? val)
 					   (error (cadr stat)
 					      "Cannot find benchmark value"
-					      benchmark)
-					   (format "~(,)"
-					      (/ (car (median (threshold (caddr val)))) base)))))
+					      benchmark))
+					  (*force-errorbars*
+					   (format "~a, ~a, ~a"
+					      (/ (car med) (car base))
+					      (/ (cadr med) (cadr base))
+					      (/ (caddr med) (cadr base))))
+					  (else
+					   (format "~a"
+					      (/ (car (median (threshold (caddr val)))) base))))))
 			       (if (eq? *relative* 'avec)
 				   stats
 				   (cdr stats)))))))
@@ -219,18 +232,20 @@
 			       (map car
 				  (apply append
 				     (map cdddr stats))))))))
-      ;; first line with system names
-      (printf "#  ~( )\n" (map system-name stats))
       ;; following lines with benchmark values
       (if *relative*
-	  (relative-data stats benchmarks)
-	  (absolute-data stats benchmarks))))
+	  (begin
+	     (printf "# ~a / ~( )\n" (system-name (car stats)) (map system-name (cdr stats)))
+	     (relative-data stats benchmarks))
+	  (begin
+	     (printf "# ~( )\n" (map system-name stats))
+	     (absolute-data stats benchmarks)))))
 
 ;*---------------------------------------------------------------------*/
 ;*    output-plot ...                                                  */
 ;*---------------------------------------------------------------------*/
 (define (output-plot stats)
-
+   
    (define (absolute-plot stats)
       (let loop ((stats stats)
 		 (i 0))
@@ -242,7 +257,7 @@
 	 (when (pair? (cdr stats))
 	    (print ",\\")
 	    (loop (cdr stats) (+fx i 1)))))
-
+   
    (define (absolute-values stats)
       (let ((table (vector-ref *offset-tables* (length stats))))
 	 (let loop ((stats stats)
@@ -256,7 +271,7 @@
 	    (when (pair? (cdr stats))
 	       (print ",\\")
 	       (loop (cdr stats) (+fx i 1))))))
-
+   
    (define (relative-plot stats)
       (let loop ((stats (if (eq? *relative* 'avec) stats (cdr stats)))
 		 (i 0))
@@ -267,7 +282,18 @@
 	 (when (pair? (cdr stats))
 	    (print ",\\")
 	    (loop (cdr stats) (+fx i 1)))))
-
+   
+   (define (relative-plot-errorbars stats)
+      (let loop ((stats (if (eq? *relative* 'avec) stats (cdr stats)))
+		 (i 0))
+	 (printf "   '~a.csv' u ~a:~a:~a:xtic(1) title '~a' ls ~d"
+	    (basename *fout*) (+fx i 2) (+fx i 3) (+fx i 4)
+	    (system-name (car stats))
+	    (+fx i 1))
+	 (when (pair? (cdr stats))
+	    (print ",\\")
+	    (loop (cdr stats) (+fx i 3)))))
+   
    (define (relative-values stats)
       (let* ((stats (if (eq? *relative* 'avec) stats (cdr stats)))
 	     (table (vector-ref *offset-tables* (length stats))))
@@ -282,6 +308,21 @@
 	    (when (pair? (cdr stats))
 	       (print ",\\")
 	       (loop (cdr stats) (+fx i 1))))))
+   
+   (define (relative-values-errorbars stats)
+      (let* ((stats (if (eq? *relative* 'avec) stats (cdr stats)))
+	     (table (vector-ref *offset-tables* (length stats))))
+	 (let loop ((stats stats)
+		    (i 0))
+	    (printf "   '~a.csv' u ($0+~a):($~a+.15):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
+	       (basename *fout*)
+	       (vector-ref table (/fx i 3))
+	       (+fx i 2)
+	       (+fx i 2)
+	       *vfontsize*)
+	    (when (pair? (cdr stats))
+	       (print ",\\")
+	       (loop (cdr stats) (+fx i 3))))))
    
    (let ((times-length (length (caddr (car (stat-times (car stats))))))
 	 (proc (assq-get 'processor (stat-configuration (car stats)) "")))
@@ -329,29 +370,34 @@
 				    (symbol->string! *time-unit*))
 				 *yfontsize*)
 			      *xfontsize*)
-			   (if *relative* "" *errorbars*))
+			   (if (or
+				(and *relative* (not (eq? *force-errorbars* #t)))
+				(eq? *force-errorbars* #f))
+			       ""
+			       *errorbars*))
 			*format*)
 		     *size*)
 		  *key*)))
-
+	 
 	 ;; dummy print for grabbing GPVAL_Y_MAX
 	 (when (>fx *separator* 0)
 	    (print "set output '/dev/null'\nset terminal dumb\n")
 	    (print "plot \\")
-	    (if *relative*
-		(relative-plot stats)
-		(absolute-plot stats))
-
+	    (cond
+	       ((not *relative*) (absolute-plot stats))
+	       ((eq? *force-errorbars* #t) (relative-plot-errorbars stats))
+	       (else (relative-plot stats)))
+	    
 	    (when *values*
 	       (print ", \\")
-	       (if *relative*
-		   (relative-values stats)
-		   (absolute-plot stats)))
-	    
+	       (cond
+		  ((not *relative*) (absolute-plot stats))
+		  ((eq? *force-errorbars* #t) (relative-values-errorbars stats))
+		  (else (relative-values stats))))
 	    (print "\nreset\n"))
 	 
 	 (print s)
-
+	 
 	 (when (eq? *relative* 'sans)
 	    (printf "set arrow 1 from graph 0, first 1 to graph 1, first 1 nohead lc '~a' lw 2 dt '---' front\n" *base-color*)
 	    (printf "set label 1 '~a' font 'Verdana,10' at ~a,1 offset 0.1,0.4 left tc '~a' front\n\n"
@@ -363,7 +409,7 @@
 	 
 	 (when *logscale*
 	    (print "set logscale y\n"))
-
+	 
 	 (when (>fx *separator* 0)
 	    (printf "set arrow from ~a,~a to ~a,GPVAL_Y_MAX nohead ls 1000 dashtype 2\n\n"
 	       (- *separator* 0.5)
@@ -371,15 +417,17 @@
 	       (- *separator* 0.5)))
 	 
 	 (print "plot \\")
-	 (if *relative*
-	     (relative-plot stats)
-	     (absolute-plot stats))
-
+	 (cond
+	    ((not *relative*) (absolute-plot stats))
+	    ((eq? *force-errorbars* #t) (relative-plot-errorbars stats))
+	    (else (relative-plot stats)))
+	 
 	 (when *values*
 	    (print ", \\")
-	    (if *relative*
-		(relative-values stats)
-		(absolute-plot stats))))))
+	    (cond
+	       ((not *relative*) (absolute-plot stats))
+	       ((eq? *force-errorbars* #t) (relative-values-errorbars stats))
+	       (else (relative-values stats)))))))
 	 
 ;*---------------------------------------------------------------------*/
 ;*    read-stat ...                                                    */

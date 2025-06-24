@@ -4,8 +4,8 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Tue Jan 25 16:05:10 1994                          */
-#*    Last change :  Sat Sep  7 13:27:29 2024 (serrano)                */
-#*    Copyright   :  1994-2024 Manuel Serrano, see LICENSE file        */
+#*    Last change :  Tue Jun 24 13:46:25 2025 (serrano)                */
+#*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 #*    -------------------------------------------------------------    */
 #*    The Bigloo configuration file                                    */
 #*    -------------------------------------------------------------    */
@@ -42,11 +42,7 @@ jfile=bgljfile
 
 # Gambit
 gambit=
-gflags="-f -prelude \"(declare (ieee-scheme) (block) (not interrupts-enabled) (not safe) (extended-bindings) (standard-bindings) (inlining-limit 1000))\""
-
-# Gcc
-gambitcc=gcc
-gambitcflags="-O3 -fomit-frame-pointer -ffast-math"
+gflags=""
 
 #*---------------------------------------------------------------------*/
 #*    Private variables                                                */
@@ -154,8 +150,6 @@ while : ; do
       echo "" >&2
       echo "  --gambit=<gambit compiler>" >&2;
       echo "  --gflags=<gambit compiler>" >&2;
-      echo "  --gambitcc=<gambit C compiler>" >&2;
-      echo "  --gambitcflags=<gambit C compiler options>" >&2;
       echo "" >&2
       echo "  --afile=<bigloo afile>" >&2;
       echo "  --jfile=<bigloo jfile>" >&2;
@@ -274,8 +268,6 @@ if [ "$gambit " != " " ]; then
   echo "# Gambit" >> $mkmf
   echo "GAMBIT=$gambit" >> $mkmf
   echo "GFLAGS=$gflags" >> $mkmf
-  echo "GAMBITCC=$gambitcc" >> $mkmf
-  echo "GAMBITCFLAGS=$gambitcflags" >> $mkmf
 echo >> $mkmf
 fi
 echo "# Misc" >> $mkmf
@@ -324,8 +316,6 @@ if [ "$gambit " != " " ]; then
   echo "Gambit:"
   echo "  Gambit compiler..................... $gambit"
   echo "  Gambit options...................... $gflags"
-  echo "  Gambit C compiler................... $gambitcc"
-  echo "  Gambit C compiler options........... $gambitcflags"
 fi
 echo 
 echo "Misc:"
