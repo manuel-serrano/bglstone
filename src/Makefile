@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 14:54:21 2001                          */
-#*    Last change :  Tue Jun 24 13:47:27 2025 (serrano)                */
+#*    Last change :  Tue Jun 24 17:31:05 2025 (serrano)                */
 #*    Copyright   :  2001-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The Makefile that handles bglstone benchmarks                    */
@@ -200,7 +200,8 @@ cleanall:
 #*---------------------------------------------------------------------*/
 #*    runit                                                            */
 #*---------------------------------------------------------------------*/
-.PHONY: _base.runit bigloo.runit bigloo-jvm.runit bigloo-wasm.runit bigloo-saw.runit c.runit
+.PHONY: _base.runit bigloo.runit bigloo-jvm.runit bigloo-wasm.runit bigloo-saw.runit c.runit gambit.runit
+
 _base.runit:
 	$(MAKE) one-runit SYSTEM=_base SUFFIX=exe DIR=bigloo TITLE=Base COMPILER="`$(BIGLOO) -version`"
 bigloo.runit:
@@ -213,6 +214,8 @@ bigloo-saw.runit:
 	$(MAKE) one-runit SYSTEM=bigloo-saw SUFFIX=exe DIR=bigloo-saw TITLE=BiglooSAW COMPILER="`$(BIGLOO) -version`"
 c.runit:
 	$(MAKE) one-runit SYSTEM=c SUFFIX=exe DIR=c TITLE=C COMPILER="$(CC)"
+gambit.runit:
+	$(MAKE) one-runit SYSTEM=gambit SUFFIX=exe DIR=gambit TITLE=gambit COMPILER="`$(GAMBIT) -v | awk '{print $$1}'`"
 
 #*---------------------------------------------------------------------*/
 #*    one-runit                                                        */
@@ -252,10 +255,10 @@ mkln:
                fi || exit -1; \
                if [ ! -e bigloo-saw ]; then \
                   ln -s bigloo bigloo-saw; \
-               fi) || exit -1; \
+               fi || exit -1; \
                if [ ! -e gambit ]; then \
                   ln -s bigloo gambit; \
-               fi || exit -1; \
+               fi) || exit -1; \
             fi \
 	  done
 

@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Tue Jan 25 16:05:10 1994                          */
-#*    Last change :  Tue Jun 24 13:46:25 2025 (serrano)                */
+#*    Last change :  Tue Jun 24 17:26:17 2025 (serrano)                */
 #*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 #*    -------------------------------------------------------------    */
 #*    The Bigloo configuration file                                    */
@@ -116,6 +116,12 @@ while : ; do
 
     --bwasmflags=*)
       bwasmflags="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --gambit=*)
+      gambit="`echo $1 | sed 's/^[^=]*=//'`";;
+
+    --gflags=*)
+      gflags="`echo $1 | sed 's/^[^=]*=//'`";;
 
     --bgltools=*)
       bgltools="`echo $1 | sed 's/^[^=]*=//'`";;

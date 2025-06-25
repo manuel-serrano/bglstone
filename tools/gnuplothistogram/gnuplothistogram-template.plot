@@ -33,7 +33,7 @@ set grid ytics
 set xtics scale 0
 set datafile separator ","
 
-set yrange [0:*]
+set yrange @RANGE@
 
 set lmargin @LMARGIN@
 set rmargin @RMARGIN@

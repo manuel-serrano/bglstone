@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Wed Jan 17 14:34:35 2001                          */
-#*    Last change :  Tue Jun 24 13:42:58 2025 (serrano)                */
+#*    Last change :  Tue Jun 24 17:33:23 2025 (serrano)                */
 #*    Copyright   :  2001-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The standard Makefile to compile Gambit benchamrks.              */
@@ -15,20 +15,11 @@ FLAGS=$(GFLAGS) -exe -e "(load \"../../r7rs/gambit-module-macro.scm\")"
 
 compile: gambit.exe
 
-gambit.exe: .afile $(OBJECTS)
-	$(GAMBIT) $(FLAGS) $(OBJECTS) -o $@
+gambit.exe: $(OBJECTS:%.o=%.scm)
+	$(GAMBIT) -o $@ $(FLAGS) $(OBJECTS:%.o=%.scm)
 
 clean:
 	-@/bin/rm -f gambit.exe 2> /dev/null
 	-@/bin/rm -rf $(OBJECTS) 2> /dev/null
-	-@/bin/rm -f .afile 2> /dev/null
 
-.SUFFIXES:
-.SUFFIXES: .scm .o
-
-.afile: 
-	$(AFILE) -o .afile $(OBJECTS:%.o=%.scm)
-
-.scm.o:
-	$(GAMBIT) $(FLAGS) $*.scm -o $*.o -c
 

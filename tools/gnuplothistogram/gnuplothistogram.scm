@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Tue Jun 24 10:37:01 2025 (serrano)                */
+;*    Last change :  Tue Jun 24 17:17:55 2025 (serrano)                */
 ;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -53,6 +53,7 @@
 (define *bmargin* "0")
 (define *key* "under nobox")
 (define *min-threshold* 10)
+(define *range* "[0:*]")
 
 (define *offset-tables*
    `#(- #(0)
@@ -163,6 +164,8 @@
        (set! *force-errorbars* #t))
       (("--no-errorbars" (help "disable error bars"))
        (set! *force-errorbars* #f))
+      (("--range" ?range (help "set gnuplot range"))
+       (set! *range* range))
       (else
        (set! *inputs* (append *inputs* (list else))))))
 
@@ -338,46 +341,49 @@
       (set! *template* (pregexp-replace "@RMARGIN@" *template* *rmargin*))
       (set! *template* (pregexp-replace "@BMARGIN@" *template* *bmargin*))
       (let ((s (pregexp-replace*
-		  "@KEY@"
+		  "@RANGE@"
 		  (pregexp-replace*
-		     "@SIZE@"
+		     "@KEY@"
 		     (pregexp-replace*
-			"@FORMAT@"
-			(pregexp-replace
-			   "@ERRORBARS@"
+			"@SIZE@"
+			(pregexp-replace*
+			   "@FORMAT@"
 			   (pregexp-replace
-			      "@XTICS@"
+			      "@ERRORBARS@"
 			      (pregexp-replace
-				 "@YTICS@"
-				 (pregexp-replace*
-				    "@TIME-UNIT@"
+				 "@XTICS@"
+				 (pregexp-replace
+				    "@YTICS@"
 				    (pregexp-replace*
-				       "@PROCESSOR@"
+				       "@TIME-UNIT@"
 				       (pregexp-replace*
-					  "@YLABEL@"
+					  "@PROCESSOR@"
 					  (pregexp-replace*
-					     "@TITLE@"
-					     (pregexp-replace* "@BASENAME@" *template* (basename *fout*))
+					     "@YLABEL@"
+					     (pregexp-replace*
+						"@TITLE@"
+						(pregexp-replace* "@BASENAME@" *template* (basename *fout*))
+						(cond
+						   (*user-title* *user-title*)
+						   (*relative* *relative-title*)
+						   (else *absolute-title*)))
 					     (cond
-						(*user-title* *user-title*)
-						(*relative* *relative-title*)
-						(else *absolute-title*)))
-					  (cond
-					     (*user-ylabel* *user-ylabel*)
-					     (*relative* *relative-ylabel*)
-					     (else *absolute-ylabel*)))
-				       proc)
-				    (symbol->string! *time-unit*))
-				 *yfontsize*)
-			      *xfontsize*)
-			   (if (or
-				(and *relative* (not (eq? *force-errorbars* #t)))
-				(eq? *force-errorbars* #f))
-			       ""
-			       *errorbars*))
-			*format*)
-		     *size*)
-		  *key*)))
+						(*user-ylabel* *user-ylabel*)
+						(*relative* *relative-ylabel*)
+						(else *absolute-ylabel*)))
+					  proc)
+				       (symbol->string! *time-unit*))
+				    *yfontsize*)
+				 *xfontsize*)
+			      (if (or
+				   (and *relative* (not (eq? *force-errorbars* #t)))
+				   (eq? *force-errorbars* #f))
+				  ""
+				  *errorbars*))
+			   *format*)
+			*size*)
+		     *key*)
+		  *range*)))
 	 
 	 ;; dummy print for grabbing GPVAL_Y_MAX
 	 (when (>fx *separator* 0)
