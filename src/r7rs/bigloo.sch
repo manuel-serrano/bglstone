@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  manuel serrano                                    */
 ;*    Creation    :  Sun Nov  3 12:19:09 2024                          */
-;*    Last change :  Mon Jun 23 15:28:50 2025 (serrano)                */
+;*    Last change :  Wed Jun 25 10:00:39 2025 (serrano)                */
 ;*    Copyright   :  2024-25 manuel serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Commont script to be include in all r7rs tests                   */
@@ -87,6 +87,8 @@
    ;; use mini-eval instead of plain eval to avoid loading the eval
    ;; code inside the benchmark code
    (match-case expr
+      ((? number?)
+       (make-vector (/fx expr (bit-lsh 1 (bigloo-config 'ptr-alignment)))))
       ((make-vector ?size . ?init)
        (make-vector size (if (pair? init) (car init) #f)))
       ((make-string ?size ?char)
