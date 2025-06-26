@@ -47,7 +47,7 @@
 	      (loop 0)))))
 	      
 (define heap-reserve
-   (let ((v (getenv "BGLSTONE_FILLER")))
+   (let ((v (getenv "BGLSTONE_FILLER" #f)))
       (cond
 	 ((not v) #f)
 	 ((string->number v)
