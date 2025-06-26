@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Tue Jun 24 17:17:55 2025 (serrano)                */
+;*    Last change :  Thu Jun 26 09:16:20 2025 (serrano)                */
 ;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -292,7 +292,7 @@
 	 (printf "   '~a.csv' u ~a:~a:~a:xtic(1) title '~a' ls ~d"
 	    (basename *fout*) (+fx i 2) (+fx i 3) (+fx i 4)
 	    (system-name (car stats))
-	    (+fx i 1))
+	    (+fx (/fx i 3) 1))
 	 (when (pair? (cdr stats))
 	    (print ",\\")
 	    (loop (cdr stats) (+fx i 3)))))
