@@ -42,7 +42,7 @@
 	   (letrec ((loop (lambda (i)
 			     (cond
 				((= i lp) #t)
-				((char=? (string-ref lv i) (string-ref lp i)) (loop (+ i 1)))
+				((char=? (string-ref v i) (string-ref p i)) (loop (+ i 1)))
 				(else #f)))))
 	      (loop 0)))))
 	      
