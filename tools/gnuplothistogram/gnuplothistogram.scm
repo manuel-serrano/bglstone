@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Tue Jun 24 17:17:55 2025 (serrano)                */
+;*    Last change :  Tue Jul  1 11:36:12 2025 (serrano)                */
 ;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -417,9 +417,8 @@
 	    (print "set logscale y\n"))
 	 
 	 (when (>fx *separator* 0)
-	    (printf "set arrow from ~a,~a to ~a,GPVAL_Y_MAX nohead ls 1000 dashtype 2\n\n"
+	    (printf "set arrow from ~a,GPVAL_Y_MIN to ~a,GPVAL_Y_MAX nohead ls 1000 dashtype 2\n\n"
 	       (- *separator* 0.5)
-	       (if *logscale* "0.1" "0")
 	       (- *separator* 0.5)))
 	 
 	 (print "plot \\")
