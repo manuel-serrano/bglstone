@@ -35,9 +35,37 @@
 (define (hide a b)
    (car (list b)))
 
+(define (substring=? v p)
+   (let ((lv (string-length v))
+	 (lp (string-length p)))
+      (and (>= lv lp)
+	   (letrec ((loop (lambda (i)
+			     (cond
+				((= i lp) #t)
+				((char=? (string-ref v i) (string-ref p i)) (loop (+ i 1)))
+				(else #f)))))
+	      (loop 0)))))
+	      
 (define heap-reserve
-  (let ((n (string->number (or (getenv "HEAP_RESERVE_BYTES" #f) ""))))
-    (and n (make-vector (quotient n 8)))))
+   (let ((v (getenv "BGLSTONE_FILLER" #f)))
+      (cond
+	 ((not v) #f)
+	 ((string->number v)
+	  =>
+	  (lambda (n) (make-vector (quotient n 8))))
+	 ((substring=? v "(make-vector ")
+	  (make-vector
+	     (string->number
+		(substring v (string-length "(make-vector ")
+		   (- (string-length v) 1)))))
+	 ((substring=? v "(make-string ")
+	  (make-string
+	     (string->number
+		(substring v (string-length "(make-string ")
+		   (- (string-length v) 1)))))
+	 (else
+	  (print "error")
+	  (exit 1)))))
 
 (define (run-r7rs-benchmark name count thunk ok?)
   (print name "...")

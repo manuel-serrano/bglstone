@@ -292,7 +292,7 @@
 	 (printf "   '~a.csv' u ~a:~a:~a:xtic(1) title '~a' ls ~d"
 	    (basename *fout*) (+fx i 2) (+fx i 3) (+fx i 4)
 	    (system-name (car stats))
-	    (+fx i 1))
+	    (+fx (/fx i 3) 1))
 	 (when (pair? (cdr stats))
 	    (print ",\\")
 	    (loop (cdr stats) (+fx i 3)))))

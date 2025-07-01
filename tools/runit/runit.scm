@@ -3,8 +3,8 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jan  2 14:40:05 2001                          */
-;*    Last change :  Fri Oct  4 16:00:20 2024 (serrano)                */
-;*    Copyright   :  2001-24 Manuel Serrano                            */
+;*    Last change :  Thu Jun 26 14:02:24 2025 (serrano)                */
+;*    Copyright   :  2001-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    RUNIT: run (several times if needed) user command and measure    */
 ;*    how long they last.                                              */
@@ -104,14 +104,15 @@
 			(/ (string->real (read-of-strings)) (* 1024 1024)))))))
 	 (set! *mem* "---")))
    (unless (string? *os*)
-      (set! *os* (string-append
-		    (with-input-from-file "| uname -s"
-		       (lambda ()
-			  (read-of-strings)))
-		    " "
-		    (with-input-from-file "| uname -r"
-		       (lambda ()
-			  (read-of-strings)))))))
+      (set! *os*
+	 (string-append
+	    (with-input-from-file "| uname -s"
+	       (lambda ()
+		  (read-of-strings)))
+	    " "
+	    (with-input-from-file "| uname -r"
+	       (lambda ()
+		  (read-of-strings)))))))
 
 ;*---------------------------------------------------------------------*/
 ;*    mean ...                                                         */
