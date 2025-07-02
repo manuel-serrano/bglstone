@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Tue Jul  1 11:36:12 2025 (serrano)                */
+;*    Last change :  Wed Jul  2 15:38:41 2025 (serrano)                */
 ;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -94,6 +94,13 @@
       (with-output-to-file (string-append *fout* ".plot")
 	 (lambda ()
 	    (output-plot stats)))))
+
+;*---------------------------------------------------------------------*/
+;*    errorbars? ...                                                   */
+;*---------------------------------------------------------------------*/
+(define (errorbars?)
+   (or (eq? *force-errorbars* #t)
+       (and (not *relative*) (not (eq? *force-errorbars* #f)))))
 
 ;*---------------------------------------------------------------------*/
 ;*    parse-args ...                                                   */
@@ -215,14 +222,14 @@
 					   (error (cadr stat)
 					      "Cannot find benchmark value"
 					      benchmark))
-					  (*force-errorbars*
+					  ((errorbars?)
 					   (format "~a, ~a, ~a"
 					      (/ (car med) (car base))
 					      (/ (cadr med) (cadr base))
 					      (/ (caddr med) (cadr base))))
 					  (else
 					   (format "~a"
-					      (/ (car (median (threshold (caddr val)))) base))))))
+					      (/ (car (median (threshold (caddr val)))) (car base)))))))
 			       (if (eq? *relative* 'avec)
 				   stats
 				   (cdr stats)))))))
@@ -375,11 +382,9 @@
 				       (symbol->string! *time-unit*))
 				    *yfontsize*)
 				 *xfontsize*)
-			      (if (or
-				   (and *relative* (not (eq? *force-errorbars* #t)))
-				   (eq? *force-errorbars* #f))
-				  ""
-				  *errorbars*))
+			      (if (errorbars?)
+				  *errorbars*
+				  ""))
 			   *format*)
 			*size*)
 		     *key*)
@@ -391,14 +396,14 @@
 	    (print "plot \\")
 	    (cond
 	       ((not *relative*) (absolute-plot stats))
-	       ((eq? *force-errorbars* #t) (relative-plot-errorbars stats))
+	       ((errorbars?) (relative-plot-errorbars stats))
 	       (else (relative-plot stats)))
 	    
 	    (when *values*
 	       (print ", \\")
 	       (cond
 		  ((not *relative*) (absolute-plot stats))
-		  ((eq? *force-errorbars* #t) (relative-values-errorbars stats))
+		  ((errorbars?) (relative-values-errorbars stats))
 		  (else (relative-values stats))))
 	    (print "\nreset\n"))
 	 
@@ -424,14 +429,14 @@
 	 (print "plot \\")
 	 (cond
 	    ((not *relative*) (absolute-plot stats))
-	    ((eq? *force-errorbars* #t) (relative-plot-errorbars stats))
+	    ((errorbars?) (relative-plot-errorbars stats))
 	    (else (relative-plot stats)))
 	 
 	 (when *values*
 	    (print ", \\")
 	    (cond
 	       ((not *relative*) (absolute-plot stats))
-	       ((eq? *force-errorbars* #t) (relative-values-errorbars stats))
+	       ((errorbars?) (relative-values-errorbars stats))
 	       (else (relative-values stats)))))))
 	 
 ;*---------------------------------------------------------------------*/
