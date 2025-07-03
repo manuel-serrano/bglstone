@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Tue Jan 25 16:05:10 1994                          */
-#*    Last change :  Tue Jun 24 17:26:17 2025 (serrano)                */
+#*    Last change :  Wed Jul  2 06:48:32 2025 (serrano)                */
 #*    Copyright   :  1994-2025 Manuel Serrano, see LICENSE file        */
 #*    -------------------------------------------------------------    */
 #*    The Bigloo configuration file                                    */
@@ -133,9 +133,11 @@ while : ; do
       jfile="`echo $1 | sed 's/^[^=]*=//'`";;
  
     -*)
-      echo "*** ERROR: Illegal option \"$1\"" >&2
-      echo "" >&2
-      echo "" >&2
+      if [ " $1" != " --help" -a " $1" != " -h" ]; then
+        echo "*** ERROR: Illegal option \"$1\"" >&2
+        echo "" >&2
+        echo "" >&2
+      fi
       echo "Usage: configure [options]" >&2;
       echo "  --cfgname=<configuration name>" >&2;
       echo "  --suffix=<name suffix>" >&2;
