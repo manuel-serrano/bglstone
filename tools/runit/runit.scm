@@ -1,9 +1,9 @@
 ;*=====================================================================*/
-;*    serrano/prgm/project/bglstone/tools/runit/runit.scm              */
+;*    /tmp/runit.scm                                                   */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Tue Jan  2 14:40:05 2001                          */
-;*    Last change :  Thu Jun 26 14:02:24 2025 (serrano)                */
+;*    Last change :  Thu Jul  3 15:09:59 2025 (serrano)                */
 ;*    Copyright   :  2001-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    RUNIT: run (several times if needed) user command and measure    */
@@ -85,11 +85,16 @@
 	 (lambda ()
 	    (set! *machine* (read-of-strings)))))
    (unless (string? *proc*)
-      (with-input-from-file "| uname -p"
-	 (lambda ()
-	    (set! *proc* (read-of-strings))
-	    (when (string=? *proc* "unknown")
-	       (set! *proc* (read-proc-model))))))
+      (with-input-from-file "| sysctl machdep.cpu.brand_string 2> /dev/null | sed -e 's/[^ ]* //'"
+         (lambda ()
+	    (let ((proc (read-line)))
+	       (if (or (eof-object? proc) (equal? proc ""))
+		   (with-input-from-file "| uname -p"
+		      (lambda ()
+			 (set! *proc* (read-of-strings))
+			 (when (string=? *proc* "unknown")
+			    (set! *proc* (read-proc-model)))))
+		   (set! *proc* proc))))))
    (unless (string? *mhz*)
       (set! *mhz* (read-proc-mhz)))
    (unless (string? *mem*)
@@ -311,3 +316,4 @@
    (if (string? *fout*)
        (with-output-to-file *fout* doit)
        (doit)))
+
