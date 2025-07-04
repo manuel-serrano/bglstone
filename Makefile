@@ -3,7 +3,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Aug  5 11:50:34 2001                          */
-#*    Last change :  Wed Jan 29 07:36:19 2025 (serrano)                */
+#*    Last change :  Fri Jul  4 08:32:18 2025 (serrano)                */
 #*    Copyright   :  2001-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    The general Bglstone Makefile                                    */
@@ -123,7 +123,7 @@ tools:
 distrib:
 	$(MAKE) cleanall BENCH=$(BENCH) TARGETS="$(TARGETS)"
 	cleanup
-	(cd ..; tar cvfz $$HOME/prgm/distrib/bglstone.tar.gz bglstone)
+	(cd ..; tar --exclude='.git' -cvfz $$HOME/prgm/distrib/bglstone.tar.gz bglstone)
 
 #*---------------------------------------------------------------------*/
 #*    cleanning                                                        */
