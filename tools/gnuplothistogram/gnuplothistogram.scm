@@ -208,7 +208,7 @@
 		   (with-handler
 		      (lambda (e)
 			 (fprint (current-error-port)
-			    "*** ERRRO: wrong benchmark entry " benchmark)
+			    "*** ERROR: wrong benchmark entry " benchmark)
 			 (raise e))
 		      (let* ((val (assq benchmark (cdddr (car stats))))
 			     (base (median (threshold (caddr val)))))
@@ -223,10 +223,22 @@
 					      "Cannot find benchmark value"
 					      benchmark))
 					  ((errorbars?)
-					   (format "~a, ~a, ~a"
-					      (/ (car med) (car base))
-					      (/ (cadr med) (cadr base))
-					      (/ (caddr med) (cadr base))))
+					  	(let* ((X (threshold (caddr val))) ;; <--- dataset for this bar
+															(Y (threshold (caddr val))) ;; <--- dataset for base
+															(1/Y (inverse-distribution Y))
+															(mean-X (mean X))
+															(var-X (variance X))
+															(mean-1/Y (mean 1/Y))
+															(var-1/Y (variance 1/Y))
+															(mean-X/Y (* mean-X mean-1/Y))
+															(var-X/Y (+ (* var-X var-1/Y)
+																											(* var-X mean-1/Y mean-1/Y)
+																											(* var-1/Y mean-X mean-X)))
+															(stddev-X/Y (sqrt var-X/Y)))
+                (format "~a, ~a, ~a"
+                  mean-X/Y
+                  (- mean-X/Y stddev-X/Y)
+                  (+ mean-X/Y stddev-X/Y))))
 					  (else
 					   (format "~a"
 					      (/ (car (median (threshold (caddr val)))) (car base)))))))
@@ -524,15 +536,27 @@
       (list tm (vector-ref times 0) (vector-ref times (-fx (vector-length vec) 1)))))
 
 ;*---------------------------------------------------------------------*/
+;*    variance ...                                                     */
+;*---------------------------------------------------------------------*/
+(define (variance times)
+  (let* ((m (mean times))
+         (c (apply + (map (lambda (v) (* (- v m) (- v m))) times))))
+    (/ c (length times))))
+
+;*---------------------------------------------------------------------*/
 ;*    deviation ...                                                    */
 ;*---------------------------------------------------------------------*/
 (define (deviation times)
-   (let* ((m (mean times))
-	  (c (apply + (map (lambda (v) (* (- v m) (- v m))) times))))
-      (sqrt (/ c (length times)))))
+   (sqrt (variance times)))
 
 ;*---------------------------------------------------------------------*/
 ;*    threshold ...                                                    */
 ;*---------------------------------------------------------------------*/
 (define (threshold times)
    (map (lambda (t) (if (> t *min-threshold*) t 0)) times))
+
+;*---------------------------------------------------------------------*/
+;*    inverse-distribution ...                                         */
+;*---------------------------------------------------------------------*/
+(define (inverse-distribution times)
+   (map (lambda (y) (/ 1 y)) times))
