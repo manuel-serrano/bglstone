@@ -223,22 +223,14 @@
 					      "Cannot find benchmark value"
 					      benchmark))
 					  ((errorbars?)
-					  	(let* ((X (threshold (caddr val))) ;; <--- dataset for this bar
-															(Y (threshold (caddr val))) ;; <--- dataset for base
-															(1/Y (inverse-distribution Y))
-															(mean-X (mean X))
-															(var-X (variance X))
-															(mean-1/Y (mean 1/Y))
-															(var-1/Y (variance 1/Y))
-															(mean-X/Y (* mean-X mean-1/Y))
-															(var-X/Y (+ (* var-X var-1/Y)
-																											(* var-X mean-1/Y mean-1/Y)
-																											(* var-1/Y mean-X mean-X)))
-															(stddev-X/Y (sqrt var-X/Y)))
-                (format "~a, ~a, ~a"
-                  mean-X/Y
-                  (- mean-X/Y stddev-X/Y)
-                  (+ mean-X/Y stddev-X/Y))))
+					  	(let* ((bases (threshold (caddr (assq benchmark (cdddr (car stats))))))
+							        (times (threshold (caddr val)))
+							        (ratios (map (lambda (x y) (/ x y)) bases times))
+							        (mean-ratio (mean ratios))
+							        (stddev-ratio (deviation ratios))
+							        (lo-bar (- mean-ratio stddev-ratio))
+							        (hi-bar (+ mean-ratio stddev-ratio)))
+							(format "~a, ~a, ~a" mean-ratio lo-bar hi-bar)))
 					  (else
 					   (format "~a"
 					      (/ (car (median (threshold (caddr val)))) (car base)))))))
