@@ -225,7 +225,7 @@
 					  ((errorbars?)
 					  	(let* ((bases (threshold (caddr (assq benchmark (cdddr (car stats))))))
 							        (times (threshold (caddr val)))
-							        (ratios (map (lambda (x y) (/ x y)) bases times))
+							        (ratios (map (lambda (x y) (/ x y)) times bases))
 							        (mean-ratio (mean ratios))
 							        (stddev-ratio (deviation ratios))
 							        (lo-bar (- mean-ratio stddev-ratio))
