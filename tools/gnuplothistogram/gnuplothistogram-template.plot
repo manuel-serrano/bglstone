@@ -3,6 +3,7 @@ set terminal @FORMAT@ font "Verdana,12" @SIZE@
 
 set title '@TITLE@'
 set ylabel "@YLABEL@" offset 0,0
+set tmargin @TMARGIN
 
 set auto x
 

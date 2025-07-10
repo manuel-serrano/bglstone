@@ -51,6 +51,7 @@
 (define *lmargin* "6")
 (define *rmargin* "1")
 (define *bmargin* "0")
+(define *tmargin* "") ;; activate automatic tmargin
 (define *key* "under nobox")
 (define *min-threshold* 10)
 (define *range* "[0:*]")
@@ -163,6 +164,8 @@
        (set! *rmargin* rmargin))
       (("--bmargin" ?bmargin (help "bottom margin"))
        (set! *bmargin* bmargin))
+      (("--tmargin" ?tmargin (help "top margin"))
+       (set! *tmargin* tmargin))
       (("--key" ?key (help "gnuplot key configuration"))
        (set! *key* key))
       (("--min-threshold" ?threshold (help "min significant value"))
@@ -371,13 +374,16 @@
 					  "@PROCESSOR@"
 					  (pregexp-replace*
 					     "@YLABEL@"
-					     (pregexp-replace*
-						"@TITLE@"
-						(pregexp-replace* "@BASENAME@" *template* (basename *fout*))
-						(cond
-						   (*user-title* *user-title*)
-						   (*relative* *relative-title*)
-						   (else *absolute-title*)))
+						(pregexp-replace*
+						 "@TMARGIN"
+						  (pregexp-replace*
+						  	"@TITLE@"
+						  	(pregexp-replace* "@BASENAME@" *template* (basename *fout*))
+						  	(cond
+						  	  (*user-title* *user-title*)
+						  	  (*relative* *relative-title*)
+						  	  (else *absolute-title*)))
+						  *tmargin*)
 					     (cond
 						(*user-ylabel* *user-ylabel*)
 						(*relative* *relative-ylabel*)
