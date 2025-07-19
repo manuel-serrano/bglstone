@@ -229,10 +229,10 @@
 					  	(let* ((bases (threshold (caddr (assq benchmark (cdddr (car stats))))))
 							        (times (threshold (caddr val)))
 							        (ratios (map (lambda (x y) (/ x y)) times bases))
-							        (mean-ratio (mean ratios))
-							        (stddev-ratio (deviation ratios))
-							        (lo-bar (- mean-ratio stddev-ratio))
-							        (hi-bar (+ mean-ratio stddev-ratio)))
+							        (mean-ratio (geomean ratios))
+							        (stddev-ratio (geostddev ratios))
+							        (lo-bar (/ mean-ratio stddev-ratio))
+							        (hi-bar (* mean-ratio stddev-ratio)))
 							(format "~a, ~a, ~a" mean-ratio lo-bar hi-bar)))
 					  (else
 					   (format "~a"
@@ -558,3 +558,21 @@
 ;*---------------------------------------------------------------------*/
 (define (inverse-distribution times)
    (map (lambda (y) (/ 1 y)) times))
+
+;*---------------------------------------------------------------------*/
+;*    geomean ...                                                     */
+;*---------------------------------------------------------------------*/
+(define (geomean ratios)
+   (exp (/ (apply + (map log ratios)) (length ratios))))
+
+;*---------------------------------------------------------------------*/
+;*    geostddev ...                                                   */
+;*---------------------------------------------------------------------*/
+(define (geostddev ratios)
+   (let* ((lgm (log (geomean ratios)))
+          (log-diffs
+			(map
+				(lambda (v) (let ((lv (log v))) (* (- lv lgm) (- lv lgm))))
+				ratios))
+          (variance (/ (apply + log-diffs) (length ratios))))
+     (exp (sqrt variance))))
