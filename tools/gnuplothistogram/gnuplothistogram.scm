@@ -334,7 +334,7 @@
 	    (printf "   '~a.csv' u ($0+~a):($~a*1.1):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
 	       (basename *fout*)
 	       (vector-ref table (/fx i 3))
-	       (+fx i 2)
+	       (+fx i 4) ;; label above upper error bar
 	       (+fx i 2)
 	       *vfontsize*)
 	    (when (pair? (cdr stats))
