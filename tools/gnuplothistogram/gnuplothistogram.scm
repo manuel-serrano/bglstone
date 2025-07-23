@@ -432,7 +432,7 @@
 	    (print "set logscale y\n"))
 	 
 	 (when (>fx *separator* 0)
-	    (printf "set arrow from ~a,GPVAL_Y_MIN to ~a,GPVAL_Y_MAX nohead ls 1000 dashtype 2\n\n"
+	    (printf "set arrow from ~a,graph 0 to ~a,graph 1 nohead ls 1000 dashtype 2\n\n"
 	       (- *separator* 0.5)
 	       (- *separator* 0.5)))
 	 
