@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Wed Jul 30 12:39:06 2025 (serrano)                */
+;*    Last change :  Wed Jul 30 12:52:33 2025 (serrano)                */
 ;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -32,6 +32,8 @@
 (define *user-title* #f)
 (define *absolute-ylabel* "execution time (in @TIME-UNIT@)")
 (define *relative-ylabel* "relative time")
+(define *ylabel-offset* "0,0")
+(define *ylabel-font* "Verdana,10")
 (define *user-ylabel* #f)
 (define *time-unit* 'sec)
 (define *relative* #f)
@@ -136,6 +138,10 @@
        (set! *user-title* title))
       ((("-l" "--ylabel") ?label (help "Figure ylabel"))
        (set! *user-ylabel* label))
+      (("--ylabel-offset" ?offset (help "Figure ylabel offset"))
+       (set! *ylabel-offset* offset))
+      (("--ylabel-font" ?font (help "Figure ylabel font"))
+       (set! *ylabel-font* font))
       ((("-g" "--logscale") (help "Log scale"))
        (set! *logscale* #t))
       (("--x-fontsize" ?size (help "x font-size"))
@@ -284,7 +290,7 @@
       (let ((table (vector-ref *offset-tables* (length stats))))
 	 (let loop ((stats stats)
 		    (i 0))
-	    (printf "   '~a.csv' u ($0+~a):($~a*1.2):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
+	    (printf "   '~a.csv' u ($0+~a):($~a*1.3):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
 	       (basename *fout*)
 	       (vector-ref table i)
 	       (+fx i 2)
@@ -321,7 +327,7 @@
 	     (table (vector-ref *offset-tables* (length stats))))
 	 (let loop ((stats stats)
 		    (i 0))
-	    (printf "   '~a.csv' u ($0+~a):($~a*1.2):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
+	    (printf "   '~a.csv' u ($0+~a):($~a*1.3):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
 	       (basename *fout*)
 	       (vector-ref table i)
 	       (+fx i 2)
@@ -336,7 +342,7 @@
 	     (table (vector-ref *offset-tables* (length stats))))
 	 (let loop ((stats stats)
 		    (i 0))
-	    (printf "   '~a.csv' u ($0+~a):($~a*1.2):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
+	    (printf "   '~a.csv' u ($0+~a):($~a*1.3):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
 	       (basename *fout*)
 	       (vector-ref table (/fx i 3))
 	       (+fx i 4) ;; label above upper error bar
@@ -360,50 +366,56 @@
       (set! *template* (pregexp-replace "@RMARGIN@" *template* *rmargin*))
       (set! *template* (pregexp-replace "@BMARGIN@" *template* *bmargin*))
       (let ((s (pregexp-replace*
-		  "@RANGE@"
+		  "@YLABEL_FONT@"
 		  (pregexp-replace*
-		     "@KEY@"
+		     "@YLABEL_OFFSET@"
 		     (pregexp-replace*
-			"@SIZE@"
+			"@RANGE@"
 			(pregexp-replace*
-			   "@FORMAT@"
-			   (pregexp-replace
-			      "@ERRORBARS@"
-			      (pregexp-replace
-				 "@XTICS@"
+			   "@KEY@"
+			   (pregexp-replace*
+			      "@SIZE@"
+			      (pregexp-replace*
+				 "@FORMAT@"
 				 (pregexp-replace
-				    "@YTICS@"
-				    (pregexp-replace*
-				       "@TIME-UNIT@"
-				       (pregexp-replace*
-					  "@PROCESSOR@"
+				    "@ERRORBARS@"
+				    (pregexp-replace
+				       "@XTICS@"
+				       (pregexp-replace
+					  "@YTICS@"
 					  (pregexp-replace*
-					     "@YLABEL@"
+					     "@TIME-UNIT@"
+					     (pregexp-replace*
+						"@PROCESSOR@"
 						(pregexp-replace*
-						 "@TMARGIN"
-						  (pregexp-replace*
-						  	"@TITLE@"
-						  	(pregexp-replace* "@BASENAME@" *template* (basename *fout*))
-						  	(cond
-						  	  (*user-title* *user-title*)
-						  	  (*relative* *relative-title*)
-						  	  (else *absolute-title*)))
-						  *tmargin*)
-					     (cond
-						(*user-ylabel* *user-ylabel*)
-						(*relative* *relative-ylabel*)
-						(else *absolute-ylabel*)))
-					  proc)
-				       (symbol->string! *time-unit*))
-				    *yfontsize*)
-				 *xfontsize*)
-			      (if (errorbars?)
-				  *errorbars*
-				  ""))
-			   *format*)
-			*size*)
-		     *key*)
-		  *range*)))
+						   "@YLABEL@"
+						   (pregexp-replace*
+						      "@TMARGIN"
+						      (pregexp-replace*
+							 "@TITLE@"
+							 (pregexp-replace* "@BASENAME@" *template* (basename *fout*))
+							 (cond
+							    (*user-title* *user-title*)
+							    (*relative* *relative-title*)
+							    (else *absolute-title*)))
+						      *tmargin*)
+						   (cond
+						      (*user-ylabel* *user-ylabel*)
+						      (*relative* *relative-ylabel*)
+						      (else *absolute-ylabel*)))
+						proc)
+					     (symbol->string! *time-unit*))
+					  *yfontsize*)
+				       *xfontsize*)
+				    (if (errorbars?)
+					*errorbars*
+					""))
+				 *format*)
+			      *size*)
+			   *key*)
+			*range*)
+		     *ylabel-offset*)
+		  *ylabel-font*)))
 	 
 	 ;; dummy print for grabbing GPVAL_Y_MAX
 	 (when (>fx *separator* 0)

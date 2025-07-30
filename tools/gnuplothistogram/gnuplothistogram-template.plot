@@ -2,7 +2,7 @@ set output '@BASENAME@.@FORMAT@'
 set terminal @FORMAT@ font "Verdana,12" @SIZE@
 
 set title '@TITLE@'
-set ylabel "@YLABEL@" offset 0,0
+set ylabel "@YLABEL@" offset @YLABEL_OFFSET@ font "@YLABEL_FONT@"
 set tmargin @TMARGIN
 
 set auto x
