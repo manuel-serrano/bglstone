@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Fri Jul 11 15:29:35 2025 (serrano)                */
+;*    Last change :  Wed Jul 30 09:36:56 2025 (serrano)                */
 ;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -190,6 +190,11 @@
 ;*---------------------------------------------------------------------*/
 (define (output-csv stats)
 
+   (define (/safe x y default)
+      (if (= y 0)
+	  default
+	  (/ x y)))
+   
    (define (absolute-data stats benchmarks)
       (for-each (lambda (benchmark)
 		   (display* benchmark ",  ")
@@ -228,15 +233,15 @@
 					  ((errorbars?)
 					  	(let* ((bases (threshold (caddr (assq benchmark (cdddr (car stats))))))
 							        (times (threshold (caddr val)))
-							        (ratios (map (lambda (x y) (/ x y)) times bases))
+							        (ratios (map (lambda (x y) (/safe x y 0)) times bases))
 							        (mean-ratio (geomean ratios))
 							        (stddev-ratio (geostddev ratios))
-							        (lo-bar (/ mean-ratio stddev-ratio))
+							        (lo-bar (/safe mean-ratio stddev-ratio 0))
 							        (hi-bar (* mean-ratio stddev-ratio)))
 							(format "~a, ~a, ~a" mean-ratio lo-bar hi-bar)))
 					  (else
 					   (format "~a"
-					      (/ (car (median (threshold (caddr val)))) (car base)))))))
+					      (/safe (car (median (threshold (caddr val)))) (car base) 0))))))
 			       (if (eq? *relative* 'avec)
 				   stats
 				   (cdr stats)))))))
