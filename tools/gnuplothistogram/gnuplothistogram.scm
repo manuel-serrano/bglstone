@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Wed Jul 30 12:52:33 2025 (serrano)                */
+;*    Last change :  Thu Jul 31 07:59:45 2025 (serrano)                */
 ;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -290,7 +290,7 @@
       (let ((table (vector-ref *offset-tables* (length stats))))
 	 (let loop ((stats stats)
 		    (i 0))
-	    (printf "   '~a.csv' u ($0+~a):($~a*1.3):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
+	    (printf "   '~a.csv' u ($0+~a):($~a*1.01):(sprintf(\"%3.2f\",$~a)) with labels left font 'Verdana,~a' rotate by 90 notitle"
 	       (basename *fout*)
 	       (vector-ref table i)
 	       (+fx i 2)
@@ -327,7 +327,7 @@
 	     (table (vector-ref *offset-tables* (length stats))))
 	 (let loop ((stats stats)
 		    (i 0))
-	    (printf "   '~a.csv' u ($0+~a):($~a*1.3):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
+	    (printf "   '~a.csv' u ($0+~a):($~a*1.01):(sprintf(\"%3.2f\",$~a)) with labels left font 'Verdana,~a' rotate by 90 notitle"
 	       (basename *fout*)
 	       (vector-ref table i)
 	       (+fx i 2)
@@ -342,7 +342,7 @@
 	     (table (vector-ref *offset-tables* (length stats))))
 	 (let loop ((stats stats)
 		    (i 0))
-	    (printf "   '~a.csv' u ($0+~a):($~a*1.3):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,~a' rotate by 90 notitle"
+	    (printf "   '~a.csv' u ($0+~a):($~a*1.01):(sprintf(\"%3.2f\",$~a)) with labels left font 'Verdana,~a' rotate by 90 notitle"
 	       (basename *fout*)
 	       (vector-ref table (/fx i 3))
 	       (+fx i 4) ;; label above upper error bar
