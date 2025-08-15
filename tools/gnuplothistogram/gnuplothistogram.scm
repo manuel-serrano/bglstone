@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  Manuel Serrano                                    */
 ;*    Creation    :  Wed Sep 11 08:01:47 2024                          */
-;*    Last change :  Thu Jul 31 07:59:45 2025 (serrano)                */
+;*    Last change :  Fri Aug 15 17:52:09 2025 (serrano)                */
 ;*    Copyright   :  2024-25 Manuel Serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Generates a .csv and .plot files for gnuplot.                    */
@@ -57,6 +57,7 @@
 (define *key* "under nobox")
 (define *min-threshold* 10)
 (define *range* "[0:*]")
+(define *value-margin* "1.05")
 
 (define *offset-tables*
    `#(- #(0)
@@ -143,7 +144,8 @@
       (("--ylabel-font" ?font (help "Figure ylabel font"))
        (set! *ylabel-font* font))
       ((("-g" "--logscale") (help "Log scale"))
-       (set! *logscale* #t))
+       (set! *logscale* #t)
+       (set! *value-margin* "1.15"))
       (("--x-fontsize" ?size (help "x font-size"))
        (set! *xfontsize* size))
       (("--y-fontsize" ?size (help "y font-size"))
@@ -195,11 +197,16 @@
 ;*    output-csv ...                                                   */
 ;*---------------------------------------------------------------------*/
 (define (output-csv stats)
-
+   
    (define (/safe x y default)
-      (if (= y 0)
+      (if (or (= y 0) (and (flonum? y) (nanfl? y)))
 	  default
 	  (/ x y)))
+
+   (define (*safe x y default)
+      (if (and (flonum? y) (nanfl? y))
+	  default
+	  (* x y)))
    
    (define (absolute-data stats benchmarks)
       (for-each (lambda (benchmark)
@@ -216,7 +223,7 @@
 					   (median (threshold (caddr val))))))))
 			 stats)))
 	 benchmarks))
-
+   
    (define (relative-data stats benchmarks)
       (for-each (lambda (benchmark)
 		   (with-handler
@@ -237,14 +244,14 @@
 					      "Cannot find benchmark value"
 					      benchmark))
 					  ((errorbars?)
-					  	(let* ((bases (threshold (caddr (assq benchmark (cdddr (car stats))))))
-							        (times (threshold (caddr val)))
-							        (ratios (map (lambda (x y) (/safe x y 0)) times bases))
-							        (mean-ratio (geomean ratios))
-							        (stddev-ratio (geostddev ratios))
-							        (lo-bar (/safe mean-ratio stddev-ratio 0))
-							        (hi-bar (* mean-ratio stddev-ratio)))
-							(format "~a, ~a, ~a" mean-ratio lo-bar hi-bar)))
+					   (let* ((bases (threshold (caddr (assq benchmark (cdddr (car stats))))))
+						  (times (threshold (caddr val)))
+						  (ratios (map (lambda (x y) (/safe x y 0)) times bases))
+						  (mean-ratio (geomean ratios))
+						  (stddev-ratio (geostddev ratios))
+						  (lo-bar (/safe mean-ratio stddev-ratio 0))
+						  (hi-bar (*safe mean-ratio stddev-ratio 0)))
+					      (format "~a, ~a, ~a" mean-ratio lo-bar hi-bar)))
 					  (else
 					   (format "~a"
 					      (/safe (car (median (threshold (caddr val)))) (car base) 0))))))
@@ -290,9 +297,12 @@
       (let ((table (vector-ref *offset-tables* (length stats))))
 	 (let loop ((stats stats)
 		    (i 0))
-	    (printf "   '~a.csv' u ($0+~a):($~a*1.01):(sprintf(\"%3.2f\",$~a)) with labels left font 'Verdana,~a' rotate by 90 notitle"
+	    ;; the vertical position should be adjusted as the sprintf
+	    (printf "   '~a.csv' u ($0+~a):($~a*~a):($~a > 0 : sprintf(\"%3.2f\",$~a) : \"fail\") with labels left font 'Verdana,~a' rotate by 90 notitle"
 	       (basename *fout*)
 	       (vector-ref table i)
+	       (+fx i 2)
+	       *value-margin*
 	       (+fx i 2)
 	       (+fx i 2)
 	       *vfontsize*)
@@ -327,9 +337,12 @@
 	     (table (vector-ref *offset-tables* (length stats))))
 	 (let loop ((stats stats)
 		    (i 0))
-	    (printf "   '~a.csv' u ($0+~a):($~a*1.01):(sprintf(\"%3.2f\",$~a)) with labels left font 'Verdana,~a' rotate by 90 notitle"
+	    ;; the vertical position should be adjusted as the sprintf
+	    (printf "   '~a.csv' u ($0+~a):($~a*~a):($~a > 0 ? sprintf(\"%3.2f\",$~a) : \"fail\") with labels left font 'Verdana,~a' rotate by 90 notitle"
 	       (basename *fout*)
 	       (vector-ref table i)
+	       (+fx i 2)
+	       *value-margin*
 	       (+fx i 2)
 	       (+fx i 2)
 	       *vfontsize*)
@@ -342,10 +355,13 @@
 	     (table (vector-ref *offset-tables* (length stats))))
 	 (let loop ((stats stats)
 		    (i 0))
-	    (printf "   '~a.csv' u ($0+~a):($~a*1.01):(sprintf(\"%3.2f\",$~a)) with labels left font 'Verdana,~a' rotate by 90 notitle"
+	    ;; the vertical position should be adjusted as the sprintf
+	    (printf "   '~a.csv' u ($0+~a):($~a*~a):($~a > 0 ? sprintf(\"%3.2f\",$~a) : \"fail\") with labels left font 'Verdana,~a' rotate by 90 notitle"
 	       (basename *fout*)
 	       (vector-ref table (/fx i 3))
 	       (+fx i 4) ;; label above upper error bar
+	       *value-margin*
+	       (+fx i 2)
 	       (+fx i 2)
 	       *vfontsize*)
 	    (when (pair? (cdr stats))
@@ -577,19 +593,17 @@
    (map (lambda (y) (/ 1 y)) times))
 
 ;*---------------------------------------------------------------------*/
-;*    geomean ...                                                     */
+;*    geomean ...                                                      */
 ;*---------------------------------------------------------------------*/
 (define (geomean ratios)
    (exp (/ (apply + (map log ratios)) (length ratios))))
 
 ;*---------------------------------------------------------------------*/
-;*    geostddev ...                                                   */
+;*    geostddev ...                                                    */
 ;*---------------------------------------------------------------------*/
 (define (geostddev ratios)
    (let* ((lgm (log (geomean ratios)))
-          (log-diffs
-			(map
-				(lambda (v) (let ((lv (log v))) (* (- lv lgm) (- lv lgm))))
-				ratios))
+          (log-diffs (map (lambda (v) (let ((lv (log v))) (* (- lv lgm) (- lv lgm))))
+			ratios))
           (variance (/ (apply + log-diffs) (length ratios))))
      (exp (sqrt variance))))
